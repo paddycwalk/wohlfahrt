@@ -137,8 +137,15 @@ export function Header() {
 
   const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), []);
 
+  // Pfad ohne abschliessenden Slash vergleichen (trailingSlash: true liefert
+  // z. B. "/leistungen/"). Die Startseite bleibt "/".
+  const currentPath =
+    location.pathname.length > 1
+      ? location.pathname.replace(/\/$/, "")
+      : location.pathname;
+
   const lightPages = ["/impressum", "/datenschutz", "/haftungsausschluss"];
-  const isLightPage = lightPages.includes(location.pathname);
+  const isLightPage = lightPages.includes(currentPath);
   const darkHeader = (scrolled || isLightPage) && !menuOpen;
 
   return (
@@ -321,7 +328,7 @@ export function Header() {
                             {/* Nav text */}
                             <span
                               className={`text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-[Bebas_Neue] uppercase tracking-[0.04em] transition-all duration-300 leading-[1.1] ${
-                                location.pathname === item.path
+                                currentPath === item.path
                                   ? "text-accent"
                                   : "text-white/80 group-hover:text-white"
                               }`}

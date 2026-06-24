@@ -4,6 +4,9 @@ import ReactDOM from "react-dom";
 import "@/styles/index.css";
 import { SiteShell } from "@/site/components/templates/SiteShell";
 import { fontFaceCss, fontPreloads } from "@/site/config/fonts";
+import { getSiteSettings } from "@/site/content";
+import { SiteSettingsProvider } from "@/site/content/SiteSettingsProvider";
+import type { SiteSettings } from "@/site/content/types";
 import {
   SITE_URL,
   SITE_NAME,
@@ -18,7 +21,6 @@ import {
 // Die Vorschau soll NICHT von Suchmaschinen indexiert werden, damit nur die
 // echte Domain (FTP) in Google landet.
 const IS_PREVIEW = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
-
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -82,59 +84,54 @@ export const viewport: Viewport = {
   themeColor: "#c41e1e",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "@id": `${SITE_URL}/#business`,
-  name: SITE_NAME,
-  alternateName: "W&W Fliesen",
-  description: DEFAULT_DESCRIPTION,
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  image: `${SITE_URL}${OG_IMAGE}`,
-  telephone: "+49 7121 71082",
-  email: "info@fliesen-wohlfahrt.de",
-  foundingDate: "1954",
-  priceRange: "€€",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Hinterer Spielbach 4",
-    postalCode: "72793",
-    addressLocality: "Pfullingen",
-    addressRegion: "Baden-Württemberg",
-    addressCountry: "DE",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 48.4658,
-    longitude: 9.2256,
-  },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:00",
-      closes: "12:30",
+function buildJsonLd(s: SiteSettings) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": `${SITE_URL}/#business`,
+    name: SITE_NAME,
+    alternateName: "W&W Fliesen",
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.png`,
+    image: `${SITE_URL}${OG_IMAGE}`,
+    telephone: s.phoneHref,
+    email: s.email,
+    foundingDate: String(s.foundingYear),
+    priceRange: "€€",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: s.street,
+      postalCode: s.zip,
+      addressLocality: s.city,
+      addressRegion: s.region,
+      addressCountry: s.country,
     },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "14:00",
-      closes: "17:00",
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: s.geo.latitude,
+      longitude: s.geo.longitude,
     },
-  ],
-  areaServed: ["Pfullingen", "Reutlingen", "Tübingen", "Baden-Württemberg"],
-  sameAs: [
-    "https://www.facebook.com/FliesenWohlfahrt/",
-    "https://www.instagram.com/fliesen_wohlfahrt/",
-  ],
-};
+    openingHoursSpecification: s.openingHours.map((oh) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: oh.days,
+      opens: oh.opens,
+      closes: oh.closes,
+    })),
+    areaServed: ["Pfullingen", "Reutlingen", "Tübingen", "Baden-Württemberg"],
+    sameAs: [s.social.facebook, s.social.instagram].filter(Boolean),
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Globale Geschaeftsdaten zur Build-Zeit laden (Storyblok oder Defaults).
+  const settings = await getSiteSettings();
+  const jsonLd = buildJsonLd(settings);
+
   // Kritische Schriften vorab laden (React 19 dedupliziert automatisch und
   // hoistet die Preload-Hints in den <head>).
   fontPreloads.forEach((href) =>
@@ -163,7 +160,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body>
-        <SiteShell>{children}</SiteShell>
+        <SiteSettingsProvider settings={settings}>
+          <SiteShell>{children}</SiteShell>
+        </SiteSettingsProvider>
       </body>
     </html>
   );

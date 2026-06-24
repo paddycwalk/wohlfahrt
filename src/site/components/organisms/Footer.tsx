@@ -1,9 +1,17 @@
+"use client";
+
 import { Link } from "react-router";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { FacebookIcon, InstagramIcon } from "../atoms/BrandIcons";
 import { Logo } from "../atoms/Logo";
+import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
+import { formatOpeningHours } from "@/site/content/site";
 
 export function Footer() {
+  const s = useSiteSettings();
+  const openingHours = formatOpeningHours(s);
+  const year = new Date().getFullYear();
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-16">
@@ -12,28 +20,31 @@ export function Footer() {
           <div>
             <Logo className="brightness-0 invert mb-4" />
             <p className="text-sm text-primary-foreground/80 mb-4">
-              Ihr Experte für hochwertige Fliesen und professionelle Verlegung
-              seit über 67 Jahren.
+              {s.footerIntro}
             </p>
             <div className="flex gap-4">
-              <a
-                href="https://www.facebook.com/FliesenWohlfahrt/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Wohlfahrt & Wohlfahrt auf Facebook"
-                className="hover:text-accent transition-colors"
-              >
-                <FacebookIcon size={24} />
-              </a>
-              <a
-                href="https://www.instagram.com/fliesen_wohlfahrt/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Wohlfahrt & Wohlfahrt auf Instagram"
-                className="hover:text-accent transition-colors"
-              >
-                <InstagramIcon size={24} />
-              </a>
+              {s.social.facebook && (
+                <a
+                  href={s.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.companyName} auf Facebook`}
+                  className="hover:text-accent transition-colors"
+                >
+                  <FacebookIcon size={24} />
+                </a>
+              )}
+              {s.social.instagram && (
+                <a
+                  href={s.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.companyName} auf Instagram`}
+                  className="hover:text-accent transition-colors"
+                >
+                  <InstagramIcon size={24} />
+                </a>
+              )}
             </div>
           </div>
 
@@ -41,38 +52,16 @@ export function Footer() {
           <div>
             <h3 className="text-lg mb-4">Schnelllinks</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  to="/ueber-uns"
-                  className="hover:text-accent transition-colors"
-                >
-                  Über uns
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/leistungen"
-                  className="hover:text-accent transition-colors"
-                >
-                  Leistungen
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/produkte"
-                  className="hover:text-accent transition-colors"
-                >
-                  Produkte
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/karriere"
-                  className="hover:text-accent transition-colors"
-                >
-                  Karriere
-                </Link>
-              </li>
+              {s.footerQuickLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="hover:text-accent transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -83,26 +72,27 @@ export function Footer() {
               <li className="flex items-start gap-2">
                 <MapPin size={18} className="mt-1 flex-shrink-0" />
                 <span>
-                  Hinterer Spielbach 4<br />
-                  72793 Pfullingen
+                  {s.street}
+                  <br />
+                  {s.zip} {s.city}
                 </span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={18} className="flex-shrink-0" />
                 <a
-                  href="tel:+49712171082"
+                  href={`tel:${s.phoneHref}`}
                   className="hover:text-accent transition-colors"
                 >
-                  07121 / 71082
+                  {s.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={18} className="flex-shrink-0" />
                 <a
-                  href="mailto:info@fliesen-wohlfahrt.de"
+                  href={`mailto:${s.email}`}
                   className="hover:text-accent transition-colors"
                 >
-                  info@fliesen-wohlfahrt.de
+                  {s.email}
                 </a>
               </li>
             </ul>
@@ -112,34 +102,27 @@ export function Footer() {
           <div>
             <h3 className="text-lg mb-4">Öffnungszeiten</h3>
             <ul className="space-y-2 text-sm">
-              <li>Mo. – Fr.: 08:00 – 12:30 Uhr</li>
-              <li>Mo. – Fr.: 14:00 – 17:00 Uhr</li>
-              <li>Sa.: Nach Vereinbarung</li>
+              {openingHours.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
-          <p>&copy; 2026 Wohlfahrt & Wohlfahrt. Alle Rechte vorbehalten.</p>
+          <p>
+            &copy; {year} {s.companyName}. Alle Rechte vorbehalten.
+          </p>
           <div className="flex gap-6">
-            <Link
-              to="/impressum"
-              className="hover:text-accent transition-colors"
-            >
-              Impressum
-            </Link>
-            <Link
-              to="/datenschutz"
-              className="hover:text-accent transition-colors"
-            >
-              Datenschutz
-            </Link>
-            <Link
-              to="/haftungsausschluss"
-              className="hover:text-accent transition-colors"
-            >
-              Haftungsausschluss
-            </Link>
+            {s.legalNav.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="hover:text-accent transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

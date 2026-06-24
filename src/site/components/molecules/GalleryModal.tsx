@@ -92,7 +92,7 @@ export function GalleryModal({
           ref={closeButtonRef}
           onClick={onClose}
           aria-label="Galerie schließen"
-          className="absolute top-4 right-4 text-white hover:text-accent transition-colors z-10"
+          className="absolute top-4 right-4 text-white cursor-pointer hover:text-accent transition-colors z-10"
         >
           <X size={32} />
         </button>
@@ -103,7 +103,7 @@ export function GalleryModal({
             handlePrev();
           }}
           aria-label="Vorheriges Bild"
-          className="absolute left-4 text-white hover:text-accent transition-colors"
+          className="absolute left-4 text-white cursor-pointer hover:text-accent transition-colors"
         >
           <ChevronLeft size={48} />
         </button>
@@ -125,7 +125,7 @@ export function GalleryModal({
             handleNext();
           }}
           aria-label="Nächstes Bild"
-          className="absolute right-4 text-white hover:text-accent transition-colors"
+          className="absolute right-4 text-white cursor-pointer hover:text-accent transition-colors"
         >
           <ChevronRight size={48} />
         </button>

@@ -36,7 +36,7 @@ export function ScrollToTop() {
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
           aria-label="Nach oben scrollen"
-          className="fixed bottom-8 right-8 bg-accent text-accent-foreground p-4 shadow-lg z-50 hover:bg-accent/90 transition-colors"
+          className="fixed bottom-8 right-8 bg-accent text-accent-foreground p-4 shadow-lg z-50 cursor-pointer hover:bg-accent/90 transition-colors"
         >
           <ArrowUp size={24} />
         </motion.button>

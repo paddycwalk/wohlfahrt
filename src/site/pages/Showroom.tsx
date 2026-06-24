@@ -11,8 +11,14 @@ const showroomImage = asset(
 );
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
+import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
+import { formatOpeningHours } from "@/site/content/site";
 
 export function Showroom() {
+  const s = useSiteSettings();
+  const addressText = `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`;
+  const openingHoursText = formatOpeningHours(s).join("\n");
+
   return (
     <div className="overflow-hidden">
       {/* Hero */}
@@ -77,14 +83,14 @@ export function Showroom() {
                   {
                     icon: MapPin,
                     title: "Adresse",
-                    text: "Wohlfahrt & Wohlfahrt\nFliesen GmbH\nHinterer Spielbach 4\n72793 Pfullingen",
+                    text: addressText,
                   },
                   {
                     icon: Clock,
                     title: "Öffnungszeiten",
-                    text: "Mo. – Fr.: 08:00 – 12:30 Uhr\nMo. – Fr.: 14:00 – 17:00 Uhr\nSa.: Nach Vereinbarung",
+                    text: openingHoursText,
                   },
-                  { icon: Phone, title: "Telefon", text: "07121 / 71082" },
+                  { icon: Phone, title: "Telefon", text: s.phone },
                 ].map((item, i) => (
                   <motion.div
                     key={item.title}
@@ -118,7 +124,7 @@ export function Showroom() {
               className="lg:col-span-7 h-[500px] lg:h-[600px]"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2637.5!2d9.2252!3d48.4525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799ed6e5e6b1b1d%3A0x0!2sHinterer%20Spielbach%204%2C%2072793%20Pfullingen!5e0!3m2!1sde!2sde!4v1234567890"
+                src={s.mapEmbedUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

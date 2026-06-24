@@ -6,13 +6,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-export function Button({ variant = "primary", children, className = "", ...props }: ButtonProps) {
-  const baseStyles = "px-8 py-4 transition-all duration-300";
-  
+export function Button({
+  variant = "primary",
+  children,
+  className = "",
+  ...props
+}: ButtonProps) {
+  const baseStyles =
+    "px-8 py-4 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed";
+
   const variants = {
     primary: "bg-accent text-accent-foreground hover:bg-accent/90",
     secondary: "bg-primary text-primary-foreground hover:bg-primary/90",
-    outline: "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground",
+    outline:
+      "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground",
     ghost: "text-primary hover:bg-secondary",
   };
 
