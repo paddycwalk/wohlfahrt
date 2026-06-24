@@ -12,8 +12,9 @@ import {
   Zap,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { asset } from "../lib/asset";
 
-const aboutImage = "/assets/de9dae3e15181dc8a32cee214e691af8ea1217e1.webp";
+const aboutImage = asset("/assets/de9dae3e15181dc8a32cee214e691af8ea1217e1.webp");
 
 export function About() {
   const values = [

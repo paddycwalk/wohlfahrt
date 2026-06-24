@@ -9,6 +9,7 @@ import { ServiceCard } from "../components/molecules/ServiceCard";
 import { StatsCounter } from "../components/molecules/StatsCounter";
 import { SplitImageCard } from "../components/molecules/SplitImageCard";
 import { RevealText } from "../components/molecules/RevealText";
+import { asset } from "../lib/asset";
 import {
   Layers,
   Home as HomeIcon,
@@ -18,7 +19,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-const showroomImage = "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp";
+const showroomImage = asset("/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp");
 
 export function Home() {
   const heroRef = useRef(null);

@@ -134,21 +134,6 @@ export default function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Kritische, selbst gehostete Schriften vorab laden */}
-        <link
-          rel="preload"
-          href="/fonts/bebas-neue-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/montserrat-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         {/* Verbindungs-Latenz fuer externe Bilder reduzieren */}
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>

@@ -5,7 +5,8 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
 import { MapPin, Clock, Phone, ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-const showroomImage = "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp";
+import { asset } from "../lib/asset";
+const showroomImage = asset("/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp");
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
 
