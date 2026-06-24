@@ -1,0 +1,22 @@
+# EditorConfig — https://editorconfig.org
+# Einheitlicher Code-Stil über alle Editoren und Betriebssysteme hinweg.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Markdown: nachgestellte Leerzeichen können Zeilenumbrüche bedeuten
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefiles benötigen echte Tabs
+[Makefile]
+indent_style = tab
+
+[*.{yml,yaml}]
+indent_size = 2
