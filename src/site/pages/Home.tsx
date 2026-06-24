@@ -19,7 +19,9 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-const showroomImage = asset("/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp");
+const showroomImage = asset(
+  "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
+);
 
 export function Home() {
   const heroRef = useRef(null);

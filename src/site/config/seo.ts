@@ -15,6 +15,9 @@ export const DEFAULT_DESCRIPTION =
 export const OG_IMAGE = "/og-image.jpg";
 export const LOCALE = "de_DE";
 
+// Vorschau-Build (GitHub Pages) erkennen: dort ist ein Base-Path gesetzt.
+const IS_PREVIEW = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
+
 export type PageKey =
   | "home"
   | "about"
@@ -117,13 +120,22 @@ export function buildMetadata(key: PageKey): Metadata {
   const canonical = page.path;
   const title = page.title ?? DEFAULT_TITLE;
 
+  // Vorschau-Build (GitHub Pages) komplett auf noindex, damit nur die echte
+  // Domain (FTP) in Suchmaschinen landet.
+  let robots: Metadata["robots"];
+  if (IS_PREVIEW) {
+    robots = { index: false, follow: false };
+  } else if (page.noindex) {
+    robots = { index: false, follow: true };
+  } else {
+    robots = { index: true, follow: true };
+  }
+
   return {
     title,
     description: page.description,
     alternates: { canonical },
-    robots: page.noindex
-      ? { index: false, follow: true }
-      : { index: true, follow: true },
+    robots,
     openGraph: {
       type: "website",
       url: `${SITE_URL}${page.path}`,

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
+import ReactDOM from "react-dom";
 import "@/styles/index.css";
 import { SiteShell } from "@/site/components/templates/SiteShell";
+import { fontFaceCss, fontPreloads } from "@/site/config/fonts";
 import {
   SITE_URL,
   SITE_NAME,
@@ -11,6 +13,12 @@ import {
   OG_IMAGE,
   LOCALE,
 } from "@/site/config/seo";
+
+// Vorschau-Build (GitHub Pages) erkennen: dort ist ein Base-Path gesetzt.
+// Die Vorschau soll NICHT von Suchmaschinen indexiert werden, damit nur die
+// echte Domain (FTP) in Google landet.
+const IS_PREVIEW = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,17 +45,19 @@ export const metadata: Metadata = {
     "Ausstellung Fliesen",
   ],
   alternates: { canonical: "/" },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
+  robots: IS_PREVIEW
+    ? { index: false, follow: false }
+    : {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+          "max-video-preview": -1,
+        },
+      },
   openGraph: {
     type: "website",
     url: SITE_URL,
@@ -125,6 +135,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Kritische Schriften vorab laden (React 19 dedupliziert automatisch und
+  // hoistet die Preload-Hints in den <head>).
+  fontPreloads.forEach((href) =>
+    ReactDOM.preload(href, {
+      as: "font",
+      type: "font/woff2",
+      crossOrigin: "anonymous",
+    }),
+  );
+
   return (
     <html lang="de">
       <head>
@@ -133,6 +153,11 @@ export default function RootLayout({
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {/* Selbst gehostete @font-face-Regeln (Base-Path-bewusst) */}
+        <style
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: fontFaceCss }}
         />
         {/* Verbindungs-Latenz fuer externe Bilder reduzieren */}
         <link rel="preconnect" href="https://images.unsplash.com" />
