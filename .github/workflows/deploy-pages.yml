@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Wird vom Storyblok-Webhook ausgeloest (Story veroeffentlicht) -> Rebuild.
+  repository_dispatch:
+    types: [storyblok-publish]
 
 # Rechte fuer das Deployment auf GitHub Pages
 permissions:
@@ -36,6 +39,14 @@ jobs:
         env:
           # Repo-Name als Unterpfad -> https://<user>.github.io/wohlfahrt/
           NEXT_PUBLIC_BASE_PATH: /wohlfahrt
+          # Storyblok-Inhalte beim Build laden (published). Ohne Secret
+          # faellt der Build automatisch auf die lokalen Defaults zurueck.
+          STORYBLOK_TOKEN: ${{ secrets.STORYBLOK_TOKEN }}
+          STORYBLOK_REGION: ${{ secrets.STORYBLOK_REGION || 'eu' }}
+          STORYBLOK_VERSION: published
+          # Bridge-Token (oeffentlich) – optional, fuer den Visual Editor.
+          NEXT_PUBLIC_STORYBLOK_TOKEN: ${{ secrets.NEXT_PUBLIC_STORYBLOK_TOKEN }}
+          NEXT_PUBLIC_STORYBLOK_REGION: ${{ secrets.STORYBLOK_REGION || 'eu' }}
         run: npm run build
 
       - name: Jekyll deaktivieren (_next-Ordner nicht ignorieren)
