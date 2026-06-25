@@ -114,6 +114,29 @@ function editableOf(obj: unknown): string | undefined {
 }
 
 /**
+ * Wandelt nackte URLs (als reiner Text gepflegte Adressen) in echte
+ * `<a>`-Links um. Bereits vorhandene `<a>…</a>`-Elemente bleiben unberuehrt,
+ * ebenso URLs in Tag-Attributen (z.B. `href`/`src`). Satzzeichen am Ende
+ * bleiben ausserhalb des Links. Styling uebernimmt der `[&_a]`-Container.
+ */
+function linkifyHtml(html: string): string {
+  const URL_RE = /(?<!["'=])(https?:\/\/[^\s<>"')]+)/g;
+  // An vorhandenen Anker-Elementen splitten; ungerade Segmente sind Anker.
+  return html
+    .split(/(<a\b[^>]*>[\s\S]*?<\/a>)/gi)
+    .map((part, i) => {
+      if (i % 2 === 1) return part;
+      return part.replace(URL_RE, (url) => {
+        const trailing = /[.,;:)]+$/.exec(url)?.[0] ?? "";
+        const href = trailing ? url.slice(0, -trailing.length) : url;
+        const label = href.replace(/^https?:\/\//, "").replace(/\/$/, "");
+        return `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>${trailing}`;
+      });
+    })
+    .join("");
+}
+
+/**
  * Ein Storyblok-Richtext-Feld zur Build-Zeit in einen HTML-String rendern.
  * Gibt `null` zurueck, wenn das Feld leer ist – die Seite nutzt dann ihren
  * statischen JSX-Fallback. Der HTML-String stammt aus vertrauenswuerdigem,
@@ -131,7 +154,9 @@ function richTextToHtml(field: unknown): string | null {
   }
   try {
     const html = renderRichText(field as never);
-    return typeof html === "string" && html.trim() ? html : null;
+    return typeof html === "string" && html.trim()
+      ? linkifyHtml(html)
+      : null;
   } catch (err) {
     console.warn("[storyblok] richTextToHtml fiel auf null zurueck:", err);
     return null;

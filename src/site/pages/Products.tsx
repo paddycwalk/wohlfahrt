@@ -147,11 +147,12 @@ export function Products({
               transition={{ delay: 0.7 }}
               className="shrink-0"
             >
-              <Link to={content.bannerButtonLink}>
-                <Button
-                  variant="outline"
-                  className="group border border-white bg-transparent text-white hover:!bg-white hover:!text-accent text-sm px-8 py-4 h-12 flex items-center gap-3 transition-colors"
-                >
+              <Button
+                asChild
+                variant="outline"
+                className="group border border-white bg-transparent text-white hover:!bg-white hover:!text-accent text-sm px-8 py-4 h-12 flex items-center gap-3 transition-colors"
+              >
+                <Link to={content.bannerButtonLink}>
                   {content.bannerButtonLabel}
                   <motion.span
                     animate={{ x: [0, 4, 0] }}
@@ -163,8 +164,8 @@ export function Products({
                   >
                     <ArrowRight size={14} />
                   </motion.span>
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </motion.div>
           </div>
         </div>
@@ -232,14 +233,15 @@ export function Products({
             >
               {content.ctaText}
             </motion.p>
-            <Link to={content.ctaButtonLink}>
-              <Button
-                variant="primary"
-                className="text-sm flex items-center gap-2 mx-auto"
-              >
+            <Button
+              asChild
+              variant="primary"
+              className="text-sm flex items-center gap-2 mx-auto"
+            >
+              <Link to={content.ctaButtonLink}>
                 {content.ctaButtonLabel} <ArrowRight size={14} />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

@@ -25,7 +25,7 @@ export function Imprint({
 
             {content.bodyHtml ? (
               <div
-                className="prose prose-lg max-w-none space-y-6 text-muted-foreground"
+                className="prose prose-lg max-w-none space-y-6 text-muted-foreground [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:opacity-80"
                 // eslint-disable-next-line react/no-danger -- vertrauenswuerdiger CMS-Inhalt, zur Build-Zeit gerendert
                 dangerouslySetInnerHTML={{ __html: content.bodyHtml }}
               />
@@ -91,7 +91,17 @@ export function Imprint({
                 </section>
 
                 <section className="mt-8 pt-8 border-t border-border">
-                  <p className="text-sm">Quelle: http://www.e-recht24.de</p>
+                  <p className="text-sm">
+                    Quelle:{" "}
+                    <a
+                      href="https://www.e-recht24.de"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:underline"
+                    >
+                      www.e-recht24.de
+                    </a>
+                  </p>
                 </section>
               </div>
             )}

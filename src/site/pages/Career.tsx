@@ -107,7 +107,7 @@ export function Career({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="border-b border-border py-10 group"
+                className="border-b border-border py-10"
                 {...sbEditable(job.editable)}
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -117,21 +117,22 @@ export function Career({
                         {job.type}
                       </span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl mb-2 group-hover:text-accent transition-colors">
+                    <h3 className="text-2xl md:text-3xl mb-2">
                       {job.title}
                     </h3>
                     <p className="text-muted-foreground text-sm">
                       {job.description}
                     </p>
                   </div>
-                  <Link to={content.openingsButtonLink} className="shrink-0">
-                    <Button
-                      variant="primary"
-                      className="text-sm flex items-center gap-2"
-                    >
+                  <Button
+                    asChild
+                    variant="primary"
+                    className="shrink-0 text-sm flex items-center gap-2"
+                  >
+                    <Link to={content.openingsButtonLink}>
                       {content.openingsButtonLabel} <ArrowRight size={14} />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </motion.div>
             ))}
@@ -159,14 +160,15 @@ export function Career({
             <p className="text-muted-foreground mb-8">
               {content.initiativeText}
             </p>
-            <Link to={content.initiativeButtonLink}>
-              <Button
-                variant="primary"
-                className="text-sm flex items-center gap-2"
-              >
+            <Button
+              asChild
+              variant="primary"
+              className="text-sm flex items-center gap-2"
+            >
+              <Link to={content.initiativeButtonLink}>
                 {content.initiativeButtonLabel} <ArrowRight size={14} />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </div>
         <div className="bg-primary text-white p-12 md:p-20 flex items-center">
@@ -185,14 +187,15 @@ export function Career({
               {content.trainingTitle}
             </h2>
             <p className="text-white/70 mb-8">{content.trainingText}</p>
-            <Link to={content.trainingButtonLink}>
-              <Button
-                variant="primary"
-                className="text-sm flex items-center gap-2"
-              >
+            <Button
+              asChild
+              variant="primary"
+              className="text-sm flex items-center gap-2"
+            >
+              <Link to={content.trainingButtonLink}>
                 {content.trainingButtonLabel} <ArrowRight size={14} />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </section>

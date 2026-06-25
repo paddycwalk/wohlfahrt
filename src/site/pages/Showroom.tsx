@@ -178,14 +178,15 @@ export function Showroom({
             ))}
           </div>
           <div className="mt-16 text-center">
-            <Link to={content.featuresButtonLink}>
-              <Button
-                variant="primary"
-                className="text-sm flex items-center gap-2 mx-auto"
-              >
+            <Button
+              asChild
+              variant="primary"
+              className="text-sm flex items-center gap-2 mx-auto"
+            >
+              <Link to={content.featuresButtonLink}>
                 {content.featuresButtonLabel} <ArrowRight size={14} />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

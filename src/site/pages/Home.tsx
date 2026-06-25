@@ -116,22 +116,20 @@ export function Home({
                 transition={{ delay: 1.2, duration: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <Link to={content.heroCtaPrimary.link}>
-                  <Button
-                    variant="primary"
-                    className="text-sm px-8 py-4 flex items-center gap-2 h-14"
-                  >
+                <Button asChild variant="primary" className="text-sm px-8 py-4 flex items-center gap-2 h-14">
+                  <Link to={content.heroCtaPrimary.link}>
                     {content.heroCtaPrimary.label} <ArrowRight size={16} />
-                  </Button>
-                </Link>
-                <Link to={content.heroCtaSecondary.link}>
-                  <Button
-                    variant="outline"
-                    className="border border-white/30 bg-transparent text-white hover:!bg-[#c41e1e] hover:!text-white hover:!border-[#c41e1e] text-sm px-8 py-4 h-14 transition-colors"
-                  >
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border border-white/30 bg-transparent text-white hover:!bg-[#c41e1e] hover:!text-white hover:!border-[#c41e1e] text-sm px-8 py-4 h-14 transition-colors"
+                >
+                  <Link to={content.heroCtaSecondary.link}>
                     {content.heroCtaSecondary.label}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </motion.div>
             </div>
           </div>
@@ -228,11 +226,11 @@ export function Home({
             </div>
           ))}
         </div>
-        <Link to={content.traditionCta.link}>
-          <Button variant="primary" className="text-sm flex items-center gap-2">
+        <Button asChild variant="primary" className="text-sm flex items-center gap-2">
+          <Link to={content.traditionCta.link}>
             {content.traditionCta.label} <ArrowRight size={14} />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </SplitImageCard>
 
       {/* Full-width Image Statement */}
@@ -272,14 +270,15 @@ export function Home({
             transition={{ delay: 0.8 }}
             className="mt-12"
           >
-            <Link to={content.statementCta.link}>
-              <Button
-                variant="outline"
-                className="border border-white/40 bg-transparent text-white hover:!bg-[#c41e1e] hover:!text-white hover:!border-[#c41e1e] text-sm px-10 py-4 transition-colors"
-              >
+            <Button
+              asChild
+              variant="outline"
+              className="border border-white/40 bg-transparent text-white hover:!bg-[#c41e1e] hover:!text-white hover:!border-[#c41e1e] text-sm px-10 py-4 transition-colors"
+            >
+              <Link to={content.statementCta.link}>
                 {content.statementCta.label}
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </section>
@@ -294,14 +293,15 @@ export function Home({
         <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
           {content.showroomText}
         </p>
-        <Link to={content.showroomCta.link}>
-          <Button
-            variant="secondary"
-            className="text-sm flex items-center gap-2"
-          >
+        <Button
+          asChild
+          variant="secondary"
+          className="text-sm flex items-center gap-2"
+        >
+          <Link to={content.showroomCta.link}>
             {content.showroomCta.label} <ArrowRight size={14} />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </SplitImageCard>
 
       {/* CTA — Minimal, Powerful */}
@@ -329,14 +329,15 @@ export function Home({
                 <p className="text-white/70 text-lg mb-10 leading-relaxed">
                   {content.ctaText}
                 </p>
-                <Link to={content.ctaButton.link}>
-                  <Button
-                    variant="primary"
-                    className="text-sm px-10 py-5 flex items-center gap-3"
-                  >
+                <Button
+                  asChild
+                  variant="primary"
+                  className="text-sm px-10 py-5 flex items-center gap-3"
+                >
+                  <Link to={content.ctaButton.link}>
                     {content.ctaButton.label} <ArrowRight size={16} />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </motion.div>
             </div>
           </div>

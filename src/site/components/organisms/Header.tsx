@@ -96,14 +96,19 @@ export function Header() {
     if (!menuOpen) return;
 
     const overlay = overlayRef.current;
-    const getFocusable = () =>
-      overlay
+    const getFocusable = () => {
+      const overlayItems = overlay
         ? Array.from(
             overlay.querySelectorAll<HTMLElement>(
               'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
             ),
           ).filter((el) => el.offsetParent !== null)
         : [];
+      // Der Schliessen-/Menue-Button liegt im <header> (ausserhalb des Overlays),
+      // muss aber im Tab-Zyklus erreichbar sein.
+      const menuButton = menuButtonRef.current;
+      return menuButton ? [menuButton, ...overlayItems] : overlayItems;
+    };
 
     // Fokus initial in das Overlay setzen
     const focusables = getFocusable();

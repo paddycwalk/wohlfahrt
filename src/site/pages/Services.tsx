@@ -469,16 +469,17 @@ export function Services({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link to={content.ctaButtonLink}>
-              <Button
-                variant="primary"
-                className="text-sm px-10 py-4 flex items-center gap-2 h-14"
-              >
+            <Button
+              asChild
+              variant="primary"
+              className="text-sm px-10 py-4 flex items-center gap-2 h-14"
+            >
+              <Link to={content.ctaButtonLink}>
                 {content.ctaButtonLabel} <ArrowRight size={16} />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </section>

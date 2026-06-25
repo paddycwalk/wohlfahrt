@@ -17,9 +17,9 @@ export function NotFound() {
           <p className="text-lg text-muted-foreground mb-8">
             Die gesuchte Seite existiert leider nicht.
           </p>
-          <Link to="/">
-            <Button variant="primary">Zurück zur Startseite</Button>
-          </Link>
+          <Button asChild variant="primary">
+            <Link to="/">Zurück zur Startseite</Link>
+          </Button>
         </motion.div>
       </div>
     </div>

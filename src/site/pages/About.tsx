@@ -79,7 +79,7 @@ export function About({
       {/* Story — Editorial Two Column */}
       <section className="pt-16 md:pt-20 pb-24 md:pb-40">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-20">
             <div className="lg:col-span-4">
               <SectionHeader
                 label={content.storyLabel}

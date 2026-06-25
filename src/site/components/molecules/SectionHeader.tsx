@@ -16,7 +16,7 @@ export function SectionHeader({ title, subtitle, centered = false, children, lab
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8 }}
-      className={`mb-16 md:mb-24 ${centered ? "text-center" : ""}`}
+      className={`mb-8 md:mb-24 ${centered ? "text-center" : ""}`}
     >
       {label && (
         <motion.div

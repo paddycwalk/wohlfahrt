@@ -151,14 +151,15 @@ export function References({
                 transition={{ delay: 0.3 }}
               >
                 <p className="text-white/70 text-lg mb-10">{content.ctaText}</p>
-                <Link to={content.ctaButtonLink}>
-                  <Button
-                    variant="primary"
-                    className="text-sm px-10 py-5 flex items-center gap-3"
-                  >
+                <Button
+                  asChild
+                  variant="primary"
+                  className="text-sm px-10 py-5 flex items-center gap-3"
+                >
+                  <Link to={content.ctaButtonLink}>
                     {content.ctaButtonLabel} <ArrowRight size={16} />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </motion.div>
             </div>
           </div>

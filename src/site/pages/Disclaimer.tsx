@@ -25,7 +25,7 @@ export function Disclaimer({
 
             {content.bodyHtml ? (
               <div
-                className="prose prose-lg max-w-none space-y-6 text-muted-foreground"
+                className="prose prose-lg max-w-none space-y-6 text-muted-foreground [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:opacity-80"
                 // eslint-disable-next-line react/no-danger -- vertrauenswuerdiger CMS-Inhalt, zur Build-Zeit gerendert
                 dangerouslySetInnerHTML={{ __html: content.bodyHtml }}
               />

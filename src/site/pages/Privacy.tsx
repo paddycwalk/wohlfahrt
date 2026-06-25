@@ -7,6 +7,22 @@ import {
   type LegalContent,
 } from "../content/pages/legal";
 
+function ExternalLink({
+  href,
+  children,
+}: Readonly<{ href: string; children: string }>) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-accent hover:underline"
+    >
+      {children}
+    </a>
+  );
+}
+
 export function Privacy({
   content = defaultPrivacyContent,
 }: {
@@ -25,7 +41,7 @@ export function Privacy({
 
             {content.bodyHtml ? (
               <div
-                className="prose prose-lg max-w-none space-y-6 text-muted-foreground"
+                className="prose prose-lg max-w-none space-y-6 text-muted-foreground [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:opacity-80"
                 // eslint-disable-next-line react/no-danger -- vertrauenswuerdiger CMS-Inhalt, zur Build-Zeit gerendert
                 dangerouslySetInnerHTML={{ __html: content.bodyHtml }}
               />
@@ -68,8 +84,11 @@ export function Privacy({
                     California 94025, USA, integriert. Die Facebook-Plugins
                     erkennen Sie an dem Facebook-Logo oder dem „Like-Button"
                     („Gefällt mir") auf unserer Seite. Eine Übersicht über die
-                    Facebook-Plugins finden Sie hier:
-                    http://developers.facebook.com/docs/plugins/.
+                    Facebook-Plugins finden Sie hier:{" "}
+                    <ExternalLink href="http://developers.facebook.com/docs/plugins/">
+                      developers.facebook.com/docs/plugins
+                    </ExternalLink>
+                    .
                   </p>
                   <p>
                     Wenn Sie unsere Seiten besuchen, wird über das Plugin eine
@@ -84,8 +103,11 @@ export function Privacy({
                     darauf hin, dass wir als Anbieter der Seiten keine Kenntnis
                     vom Inhalt der übermittelten Daten sowie deren Nutzung durch
                     Facebook erhalten. Weitere Informationen hierzu finden Sie
-                    in der Datenschutzerklärung von Facebook unter
-                    http://de-de.facebook.com/policy.php.
+                    in der Datenschutzerklärung von Facebook unter{" "}
+                    <ExternalLink href="http://de-de.facebook.com/policy.php">
+                      de-de.facebook.com/policy.php
+                    </ExternalLink>
+                    .
                   </p>
                   <p>
                     Wenn Sie nicht wünschen, dass Facebook den Besuch unserer
@@ -137,7 +159,10 @@ export function Privacy({
                     IP-Adresse) an Google sowie die Verarbeitung dieser Daten
                     durch Google verhindern, indem sie das unter dem folgenden
                     Link verfügbare Browser-Plugin herunterladen und
-                    installieren: http://tools.google.com/dlpage/gaoptout?hl=de
+                    installieren:{" "}
+                    <ExternalLink href="http://tools.google.com/dlpage/gaoptout?hl=de">
+                      tools.google.com/dlpage/gaoptout
+                    </ExternalLink>
                   </p>
                 </section>
 
@@ -206,8 +231,10 @@ export function Privacy({
                   </p>
                   <p>
                     Weitere Informationen hierzu finden Sie in der
-                    Datenschutzerklärung von Instagram:
-                    http://instagram.com/about/legal/privacy/
+                    Datenschutzerklärung von Instagram:{" "}
+                    <ExternalLink href="http://instagram.com/about/legal/privacy/">
+                      instagram.com/about/legal/privacy
+                    </ExternalLink>
                   </p>
                 </section>
 
@@ -232,8 +259,10 @@ export function Privacy({
                   </p>
                   <p>
                     Weitere Informationen hierzu finden Sie in der
-                    Datenschutzerklärung von LinkedIn unter:
-                    https://www.linkedin.com/legal/privacy-policy
+                    Datenschutzerklärung von LinkedIn unter:{" "}
+                    <ExternalLink href="https://www.linkedin.com/legal/privacy-policy">
+                      linkedin.com/legal/privacy-policy
+                    </ExternalLink>
                   </p>
                 </section>
 
@@ -253,12 +282,19 @@ export function Privacy({
                     Seiten keine Kenntnis vom Inhalt der übermittelten Daten
                     sowie deren Nutzung durch Twitter erhalten. Weitere
                     Informationen hierzu finden Sie in der Datenschutzerklärung
-                    von Twitter unter http://twitter.com/privacy.
+                    von Twitter unter{" "}
+                    <ExternalLink href="http://twitter.com/privacy">
+                      twitter.com/privacy
+                    </ExternalLink>
+                    .
                   </p>
                   <p>
                     Ihre Datenschutzeinstellungen bei Twitter können Sie in den
-                    Konto-Einstellungen unter
-                    http://twitter.com/account/settings ändern.
+                    Konto-Einstellungen unter{" "}
+                    <ExternalLink href="http://twitter.com/account/settings">
+                      twitter.com/account/settings
+                    </ExternalLink>{" "}
+                    ändern.
                   </p>
                 </section>
 
@@ -279,7 +315,10 @@ export function Privacy({
                   <p>
                     Weitere Information zum Datenschutz und dem Xing
                     Share-Button finden Sie in der Datenschutzerklärung von Xing
-                    unter https://www.xing.com/app/share?op=data_protection
+                    unter{" "}
+                    <ExternalLink href="https://www.xing.com/app/share?op=data_protection">
+                      xing.com/app/share
+                    </ExternalLink>
                   </p>
                 </section>
 
