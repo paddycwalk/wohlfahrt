@@ -1,0 +1,167 @@
+/**
+ * Inhaltsmodell der Startseite (feldbasiert).
+ *
+ * Alle Texte/Bilder/Buttons der Startseite sind hier als Felder beschrieben.
+ * `defaultHomeContent` enthaelt die aktuellen Inhalte als lokalen Fallback –
+ * die Seite funktioniert damit auch ohne Storyblok. Sobald die Storyblok-Story
+ * "home" gepflegt ist, ueberlagern deren Werte die Defaults
+ * (siehe `getHomeContent` in `../index.ts`).
+ */
+
+export interface CtaLink {
+  label: string;
+  /** Interner Pfad, z. B. "/kontakt". */
+  link: string;
+}
+
+export interface StatItem {
+  value: number;
+  suffix: string;
+  label: string;
+  editable?: string;
+}
+
+/** Icon-Auswahl fuer Service-Karten (gemappt in der Komponente). */
+export type ServiceIcon = "layers" | "home" | "sparkles" | "award";
+
+export interface ServiceItem {
+  icon: ServiceIcon;
+  title: string;
+  description: string;
+  editable?: string;
+}
+
+export interface HomeContent {
+  // Hero
+  heroImage: string;
+  heroImageAlt: string;
+  heroLine1: string;
+  heroAccentWord: string;
+  heroLine2Suffix: string;
+  heroSubtitle: string;
+  heroCtaPrimary: CtaLink;
+  heroCtaSecondary: CtaLink;
+
+  // Stats
+  stats: StatItem[];
+
+  // Services
+  servicesLabel: string;
+  servicesTitle: string;
+  servicesIntro: string;
+  services: ServiceItem[];
+
+  // Split "Tradition"
+  traditionImage: string;
+  traditionImageAlt: string;
+  traditionTitle: string;
+  traditionText: string;
+  traditionItems: string[];
+  traditionCta: CtaLink;
+
+  // Full-width Statement
+  statementImage: string;
+  statementImageAlt: string;
+  statementEyebrow: string;
+  statementHeadline: string;
+  statementCta: CtaLink;
+
+  // Split "Showroom"
+  showroomImage: string;
+  showroomImageAlt: string;
+  showroomTitle: string;
+  showroomText: string;
+  showroomCta: CtaLink;
+
+  // Final CTA
+  ctaHeadlinePre: string;
+  ctaHeadlineAccent: string;
+  ctaText: string;
+  ctaButton: CtaLink;
+
+  /** Storyblok Click-to-Edit der Seiten-Story (nur im Editor gesetzt). */
+  editable?: string;
+}
+
+export const defaultHomeContent: HomeContent = {
+  heroImage:
+    "https://images.unsplash.com/photo-1765766600805-e75c44124d2c?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkYXJrJTIwYmF0hrob29tJTIwtillfyMgYXJ0JTIwZGVzaWduJTIwZmxvb3J8ZW58MXx8fHwxNzc1ODI0Mjc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+  heroImageAlt: "Luxury tiles",
+  heroLine1: "Fliesen",
+  heroAccentWord: "neu",
+  heroLine2Suffix: "gedacht",
+  heroSubtitle:
+    "Exklusive Fliesen, professionelle Verlegung und individuelle Gestaltung — Wohlfahrt & Wohlfahrt.",
+  heroCtaPrimary: { label: "Projekt starten", link: "/kontakt" },
+  heroCtaSecondary: { label: "Ausstellung", link: "/ausstellung" },
+
+  stats: [
+    { value: 67, suffix: "+", label: "Jahre Erfahrung" },
+    { value: 1000, suffix: "+", label: "Projekte" },
+    { value: 12, suffix: "+", label: "Mitarbeiter" },
+    { value: 500, suffix: "+", label: "Fliesenmuster" },
+  ],
+
+  servicesLabel: "Kompetenzen",
+  servicesTitle: "Was wir für Sie tun",
+  servicesIntro:
+    "Von der ersten Idee bis zum letzten Handgriff — wir vereinen Tradition mit Innovation und schaffen Räume, die begeistern.",
+  services: [
+    {
+      icon: "layers",
+      title: "Professionelle Verlegung",
+      description:
+        "Fachgerechte Verlegung aller Fliesenarten durch unsere erfahrenen Mitarbeiter.",
+    },
+    {
+      icon: "home",
+      title: "Komplettlösungen",
+      description:
+        "Von der Planung bis zur Fertigstellung — alles aus einer Hand.",
+    },
+    {
+      icon: "sparkles",
+      title: "Premium Materialien",
+      description: "Hochwertige Fliesen von führenden Herstellern.",
+    },
+    {
+      icon: "award",
+      title: "Über 67 Jahre Erfahrung",
+      description:
+        "Tradition trifft Innovation für höchste Qualitätsansprüche.",
+    },
+  ],
+
+  traditionImage:
+    "https://images.unsplash.com/photo-1636200534256-c08268363482?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjBoYW5kcyUyMGxheWluZyUyMHRpbGUlMjBmbG9vciUyMHByZWNpc2lvbnxlbnwxfHx8fDE3NzU4MjgzMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  traditionImageAlt: "Professionelle Fliesenverlegung",
+  traditionTitle: "Tradition trifft Moderne",
+  traditionText:
+    "Seit über 67 Jahren steht der Name Wohlfahrt & Wohlfahrt für Qualität und Zuverlässigkeit. Als familiengeführter Meisterbetrieb verbinden wir traditionelles Handwerk mit modernster Technik.",
+  traditionItems: [
+    "Meisterqualität seit 1954",
+    "Familiengeführter Betrieb",
+    "Modernste Verlegetechnik",
+  ],
+  traditionCta: { label: "Mehr über uns", link: "/ueber-uns" },
+
+  statementImage:
+    "https://images.unsplash.com/photo-1634135129561-23f88811b8a1?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBjb25jcmV0ZSUyMHRleHR1cmV8ZW58MXx8fHwxNzc1ODI0Mjc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+  statementImageAlt: "Architecture",
+  statementEyebrow: "Unser Versprechen",
+  statementHeadline: "Perfektion in jedem Detail",
+  statementCta: { label: "Leistungen entdecken", link: "/leistungen" },
+
+  showroomImage: "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
+  showroomImageAlt: "Wohlfahrt & Wohlfahrt Ausstellung",
+  showroomTitle: "Besuchen Sie unsere Ausstellung",
+  showroomText:
+    "Entdecken Sie Inspiration in unserer modernen Ausstellung. Erleben Sie die Vielfalt an Fliesen und Gestaltungsmöglichkeiten hautnah.",
+  showroomCta: { label: "Ausstellung entdecken", link: "/ausstellung" },
+
+  ctaHeadlinePre: "Bereit für",
+  ctaHeadlineAccent: "Ihr Projekt?",
+  ctaText:
+    "Lassen Sie uns gemeinsam Ihre Visionen verwirklichen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch.",
+  ctaButton: { label: "Kontakt aufnehmen", link: "/kontakt" },
+};

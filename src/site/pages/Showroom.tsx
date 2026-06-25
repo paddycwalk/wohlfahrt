@@ -6,26 +6,37 @@ import { RevealText } from "../components/molecules/RevealText";
 import { MapPin, Clock, Phone, ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { asset } from "../lib/asset";
-const showroomImage = asset(
-  "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
-);
+import { sbEditable } from "../lib/editable";
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
 import { formatOpeningHours } from "@/site/content/site";
+import {
+  defaultShowroomContent,
+  type ShowroomContent,
+} from "../content/pages/showroom";
 
-export function Showroom() {
+/** Relative Pfade ueber den Base-Path aufloesen, externe URLs unveraendert. */
+function resolveImage(src: string): string {
+  return src.startsWith("/") ? asset(src) : src;
+}
+
+export function Showroom({
+  content = defaultShowroomContent,
+}: {
+  content?: ShowroomContent;
+}) {
   const s = useSiteSettings();
   const addressText = `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`;
   const openingHoursText = formatOpeningHours(s).join("\n");
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" {...sbEditable(content.editable)}>
       {/* Hero */}
       <section className="relative h-[70vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src={showroomImage}
+            src={resolveImage(content.heroImage)}
             alt="Wohlfahrt & Wohlfahrt Ausstellung"
             className="w-full h-full object-cover"
             priority
@@ -37,12 +48,12 @@ export function Showroom() {
         <div className="relative z-10 container mx-auto px-4 pb-16 md:pb-24">
           <RevealText>
             <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4 text-[#ffffff]">
-              Inspiration
+              {content.heroEyebrow}
             </p>
           </RevealText>
           <RevealText delay={0.2}>
             <h1 className="text-[clamp(2.5rem,8vw,7rem)] leading-[0.9] text-white tracking-tight">
-              Ausstellung
+              {content.heroTitle}
             </h1>
           </RevealText>
         </div>
@@ -54,8 +65,8 @@ export function Showroom() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
             <div className="lg:col-span-5">
               <SectionHeader
-                label="Besuchen Sie uns"
-                title="Erleben Sie Qualität"
+                label={content.infoLabel}
+                title={content.infoTitle}
               />
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -63,9 +74,7 @@ export function Showroom() {
                 viewport={{ once: true }}
                 className="text-lg text-muted-foreground leading-relaxed mb-6"
               >
-                Besuchen Sie unsere großzügige Ausstellung und lassen Sie sich
-                von der Vielfalt an Fliesen und Gestaltungsmöglichkeiten
-                inspirieren.
+                {content.infoParagraph1}
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -74,8 +83,7 @@ export function Showroom() {
                 transition={{ delay: 0.2 }}
                 className="text-lg text-muted-foreground leading-relaxed mb-12"
               >
-                Jedes Jahr besuchen wir die Fliesenmesse in Bologna, um die
-                aktuellsten und schönsten Fliesen für Sie zu entdecken.
+                {content.infoParagraph2}
               </motion.p>
 
               <div className="space-y-8">
@@ -142,28 +150,12 @@ export function Showroom() {
       <section className="py-24 md:py-40 bg-primary text-white">
         <div className="container mx-auto px-4">
           <SectionHeader
-            label="Ihre Vorteile"
-            title="Was Sie erwartet"
+            label={content.featuresLabel}
+            title={content.featuresTitle}
             centered
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 mt-16">
-            {[
-              {
-                title: "Große Auswahl",
-                description:
-                  "Über 1000 verschiedene Fliesenmuster und Terrassenplatten für Innen- und Außenbereich",
-              },
-              {
-                title: "Persönliche Beratung",
-                description:
-                  "Fachkundige Beratung durch unsere erfahrenen Mitarbeiter",
-              },
-              {
-                title: "Inspiration",
-                description:
-                  "Musterbäder und Rauminszenierungen für neue Ideen",
-              },
-            ].map((feature, index) => (
+            {content.features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -171,6 +163,7 @@ export function Showroom() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
                 className={`p-10 md:p-12 group hover:bg-accent transition-all duration-500 cursor-default ${index < 2 ? "md:border-r border-white/10" : ""}`}
+                {...sbEditable(feature.editable)}
               >
                 <span className="text-5xl font-[Bebas_Neue] text-accent/40 group-hover:text-white/30 transition-colors leading-none block mb-6">
                   {String(index + 1).padStart(2, "0")}
@@ -185,12 +178,12 @@ export function Showroom() {
             ))}
           </div>
           <div className="mt-16 text-center">
-            <Link to="/kontakt">
+            <Link to={content.featuresButtonLink}>
               <Button
                 variant="primary"
                 className="text-sm flex items-center gap-2 mx-auto"
               >
-                Termin vereinbaren <ArrowRight size={14} />
+                {content.featuresButtonLabel} <ArrowRight size={14} />
               </Button>
             </Link>
           </div>

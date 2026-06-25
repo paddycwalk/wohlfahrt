@@ -12,7 +12,6 @@ import {
   Wrench,
   Shield,
   ArrowRight,
-  ArrowUpRight,
   Award,
   CheckCircle2,
   Star,
@@ -24,126 +23,50 @@ import {
   Wind,
   HardHat,
 } from "lucide-react";
+import { asset } from "../lib/asset";
+import {
+  defaultServicesContent,
+  type ServicesContent,
+  type ServiceShowcase as ServiceShowcaseData,
+  type ServiceShowcaseIcon,
+  type FeatureIcon,
+} from "../content/pages/services";
+import { sbEditable } from "../lib/editable";
 
-const heroImg =
-  "https://images.unsplash.com/photo-1758448018619-4cbe2250b9ad?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMHRpbGVzJTIwbW9kZXJuJTIwZGVzaWdufGVufDF8fHx8MTc3NTgzMDIxOHww&ixlib=rb-4.1.0&q=80&w=1080";
-const craftsmanImg =
-  "https://images.unsplash.com/photo-1723689675520-d93e0943cdb6?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjBsYXlpbmclMjBjZXJhbWljJTIwZmxvb3IlMjB0aWxlcyUyMHByZWNpc2lvbnxlbnwxfHx8fDE3NzU4MzAyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080";
-const marbleImg =
-  "https://images.unsplash.com/photo-1670608927660-70a18b893cd3?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJibGUlMjBzdG9uZSUyMHRleHR1cmUlMjBkYXJrJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzU4MzAyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080";
-const archImg =
-  "https://images.unsplash.com/photo-1774516534107-7756806d8f73?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBpbnRlcmlvciUyMGNvbmNyZXRlJTIwd2FsbHxlbnwxfHx8fDE3NzU4MzAyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080";
-const livingImg =
-  "https://images.unsplash.com/photo-1757262798677-ab4af4455a58?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsaXZpbmclMjByb29tJTIwdGlsZWQlMjBmbG9vciUyMGVsZWdhbnQlMjBpbnRlcmlvcnxlbnwxfHx8fDE3NzY4NTYzMjl8MA&ixlib=rb-4.1.0&q=80&w=1080";
+const showcaseIcons: Record<ServiceShowcaseIcon, typeof Building> = {
+  building: Building,
+  wrench: Wrench,
+  hardHat: HardHat,
+  hammer: Hammer,
+  sun: Sun,
+  flame: Flame,
+  droplet: Droplet,
+  accessibility: Accessibility,
+  wind: Wind,
+  shield: Shield,
+};
 
-const services = [
-  {
-    icon: Building,
-    title: "Neubauten",
-    description:
-      "Fliesenarbeiten in Neubauten — ob mit Architekt, Bauleiter oder in Eigenregie. Regional bekannt für Erfahrung und Know-how.",
-    image:
-      "https://images.unsplash.com/photo-1686358244570-631340cbbd22?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBuZXclMjBidWlsZGluZyUyMHNpdGUlMjBob3VzZXxlbnwxfHx8fDE3NzczNjQxNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    icon: Wrench,
-    title: "Sanierung",
-    description:
-      "Spezialisiert auf Sanierungen — auch im bewohnten Zustand. Schnell, flexibel und in enger Abstimmung mit allen Gewerken. Full-Service aus einer Hand.",
-    image: heroImg,
-  },
-  {
-    icon: HardHat,
-    title: "Reparatur",
-    description:
-      "Hohe Flexibilität bei kurzfristigen Einsätzen — vor allem bei Wasserschäden helfen wir schnell und zuverlässig.",
-    image: craftsmanImg,
-  },
-  {
-    icon: Hammer,
-    title: "Verlegung",
-    description:
-      "Perfekte Fliesenverlegung durch unser hochqualifiziertes Personal — kombiniert mit hochwertiger Bauchemie für langlebige Ergebnisse.",
-    image: livingImg,
-  },
-  {
-    icon: Sun,
-    title: "Balkon- & Terrassensanierung",
-    description:
-      "Im Außenbereich kommt es auf hochwertige Ausführung und die richtigen Materialien an — mit jahrzehntelangem Fachwissen auf aktuellem Stand der Technik.",
-    image:
-      "https://images.unsplash.com/photo-1762857995839-62cf8587f542?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZXJyYWNlJTIwYmFsY29ueSUyMHRpbGVzJTIwb3V0ZG9vcnxlbnwxfHx8fDE3NzczNjQxMzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    icon: Flame,
-    title: "Fliesenheizung",
-    description:
-      "Warme Füße ohne große Umbauten: Fliesenheizungen lassen sich unkompliziert unter Ihren Belag verlegen — programmierbar und energieeffizient.",
-    image:
-      "https://images.unsplash.com/photo-1614409938983-65f12e272ee4?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bmRlcmZsb29yJTIwaGVhdGluZyUyMHdhcm0lMjBmbG9vciUyMGluc3RhbGxhdGlvbnxlbnwxfHx8fDE3NzczNjQxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    icon: Droplet,
-    title: "Silikonverfugung",
-    description:
-      "Silikonfugen sind Wartungsfugen und müssen regelmäßig geprüft werden. Wir führen Neuverfugungen sowie Sanierungen rissiger Fugen aus.",
-    image: heroImg,
-  },
-  {
-    icon: Accessibility,
-    title: "Behindertengerechte Umbauten",
-    description:
-      "Barrierefreie Bäder und Wohnräume — durchdachte Lösungen für mehr Komfort und Sicherheit im Alltag.",
-    image:
-      "https://images.unsplash.com/photo-1756312178806-448bbb981d7e?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhY2Nlc3NpYmxlJTIwYmF0aHJvb20lMjBiYXJyaWVyJTIwZnJlZSUyMHNob3dlciUyMHdoZWVsY2hhaXJ8ZW58MXx8fHwxNzc3MzY0MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    icon: Wind,
-    title: "Bautrocknung",
-    description:
-      "Bautrocknungsgeräte zur Luftentfeuchtung — z. B. nach Wasserschäden — können bei uns gemietet werden. Auf Wunsch inklusive Auf- und Abbau.",
-    image: archImg,
-  },
-  {
-    icon: Shield,
-    title: "Bitumenabdichtungsarbeiten",
-    description:
-      "Bitumenabdichtungen führen wir in kleinerem Umfang aus — etwa im Rahmen von Balkonsanierungen.",
-    image: marbleImg,
-  },
-];
+const featureIcons: Record<FeatureIcon, typeof Award> = {
+  award: Award,
+  checkCircle: CheckCircle2,
+  star: Star,
+  phone: Phone,
+};
 
-const process = [
-  {
-    step: "01",
-    title: "Beratung",
-    desc: "Persönliches Gespräch, Besichtigung vor Ort und Materialauswahl in unserer Ausstellung.",
-  },
-  {
-    step: "02",
-    title: "Planung",
-    desc: "Detaillierte Planung mit Aufmaß, Verlegeplan und transparentem Festpreisangebot.",
-  },
-  {
-    step: "03",
-    title: "Ausführung",
-    desc: "Professionelle Umsetzung durch unser erfahrenes Meisterbetrieb-Team — sauber und termingerecht.",
-  },
-  {
-    step: "04",
-    title: "Abnahme",
-    desc: "Gemeinsame Endabnahme, Pflegehinweise und 5 Jahre Gewährleistung auf alle Arbeiten.",
-  },
-];
+/** Relative Pfade ueber den Base-Path aufloesen, externe URLs unveraendert. */
+function resolveImage(src: string): string {
+  return src.startsWith("/") ? asset(src) : src;
+}
 
 function ServiceShowcase({
   service,
   index,
 }: {
-  service: (typeof services)[0];
+  service: ServiceShowcaseData;
   index: number;
 }) {
   const isEven = index % 2 === 0;
+  const Icon = showcaseIcons[service.icon] ?? Building;
 
   return (
     <motion.div
@@ -152,6 +75,7 @@ function ServiceShowcase({
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.8 }}
       className={`grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[400px] lg:min-h-[500px] ${index > 0 ? "" : ""}`}
+      {...sbEditable(service.editable)}
     >
       {/* Image */}
       <motion.div
@@ -165,7 +89,7 @@ function ServiceShowcase({
         className={`relative h-[300px] lg:h-auto overflow-hidden ${!isEven ? "lg:order-2" : ""}`}
       >
         <ImageWithFallback
-          src={service.image}
+          src={resolveImage(service.image)}
           alt={service.title}
           className="w-full h-full object-cover absolute inset-0"
           width={1080}
@@ -191,7 +115,7 @@ function ServiceShowcase({
           className="p-8 md:p-12 lg:p-16 xl:p-20 max-w-xl"
         >
           <div className="w-12 h-12 border border-accent/30 flex items-center justify-center mb-6">
-            <service.icon size={22} className="text-accent" strokeWidth={1.5} />
+            <Icon size={22} className="text-accent" strokeWidth={1.5} />
           </div>
           <h3 className="text-3xl md:text-4xl tracking-tight mb-4">
             {service.title}
@@ -206,7 +130,11 @@ function ServiceShowcase({
   );
 }
 
-export function Services() {
+export function Services({
+  content = defaultServicesContent,
+}: {
+  content?: ServicesContent;
+}) {
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -215,8 +143,13 @@ export function Services() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  const features = content.features.map((f) => ({
+    ...f,
+    Icon: featureIcons[f.icon] ?? Award,
+  }));
+
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" {...sbEditable(content.editable)}>
       {/* Hero — Cinematic with diagonal text */}
       <section
         ref={heroRef}
@@ -224,8 +157,8 @@ export function Services() {
       >
         <motion.div className="absolute inset-0" style={{ scale: heroScale }}>
           <ImageWithFallback
-            src={heroImg}
-            alt="Luxury bathroom tiles"
+            src={resolveImage(content.heroImage)}
+            alt={content.heroImageAlt}
             className="w-full h-full object-cover"
             priority
             width={1920}
@@ -242,19 +175,25 @@ export function Services() {
             <div className="lg:col-span-8">
               <RevealText>
                 <p className="text-xs tracking-[0.4em] text-white uppercase mb-4">
-                  Unsere Leistungen
+                  {content.heroEyebrow}
                 </p>
               </RevealText>
-              <h1 className="sr-only">Handwerk mit Anspruch</h1>
+              <h1 className="sr-only">
+                {content.heroTitleLine1} {content.heroTitleLine2Pre}
+                {content.heroTitleLine2Accent}
+              </h1>
               <div aria-hidden="true">
                 <RevealText delay={0.2}>
                   <span className="block font-['Bebas_Neue',sans-serif] uppercase text-[clamp(2.5rem,8vw,8rem)] leading-[0.9] text-white tracking-tight">
-                    Handwerk
+                    {content.heroTitleLine1}
                   </span>
                 </RevealText>
                 <RevealText delay={0.3}>
                   <span className="block font-['Bebas_Neue',sans-serif] uppercase text-[clamp(2.5rem,8vw,8rem)] leading-[0.9] text-white tracking-tight">
-                    mit <span className="text-accent">Anspruch</span>
+                    {content.heroTitleLine2Pre}
+                    <span className="text-accent">
+                      {content.heroTitleLine2Accent}
+                    </span>
                   </span>
                 </RevealText>
               </div>
@@ -266,8 +205,7 @@ export function Services() {
                 transition={{ delay: 1, duration: 0.8 }}
                 className="text-white/60 text-lg max-w-sm"
               >
-                Qualitätsbewusst und termingerecht — von der Beratung bis zur
-                Abnahme.
+                {content.heroIntro}
               </motion.p>
             </div>
           </div>
@@ -294,14 +232,17 @@ export function Services() {
               >
                 <div className="w-8 h-px bg-accent" />
                 <span className="text-xs tracking-[0.3em] text-accent uppercase">
-                  Leistungsspektrum
+                  {content.introEyebrow}
                 </span>
               </motion.div>
               <RevealText>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[0.95]">
-                  Alles aus
-                  <br />
-                  einer Hand
+                  {content.introTitle.split("\n").map((line, i, arr) => (
+                    <span key={line}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
                 </h2>
               </RevealText>
             </div>
@@ -313,11 +254,7 @@ export function Services() {
                 transition={{ delay: 0.3 }}
                 className="text-muted-foreground text-lg leading-relaxed"
               >
-                Als Meisterbetrieb seit 1954 bieten wir das komplette Spektrum
-                rund um Fliesen und Badsanierung. Jedes Projekt wird von
-                erfahrenen Fachkräften geplant und umgesetzt — mit dem
-                Qualitätsanspruch, der unseren Namen seit drei Generationen
-                auszeichnet.
+                {content.introText}
               </motion.p>
             </div>
           </div>
@@ -326,7 +263,7 @@ export function Services() {
 
       {/* Services — Alternating Full-Width Image/Text Showcases */}
       <section>
-        {services.map((service, index) => (
+        {content.services.map((service, index) => (
           <ServiceShowcase
             key={service.title}
             service={service}
@@ -348,14 +285,21 @@ export function Services() {
               >
                 <div className="w-8 h-px bg-accent" />
                 <span className="text-xs tracking-[0.3em] text-accent uppercase">
-                  Ablauf
+                  {content.processEyebrow}
                 </span>
               </motion.div>
               <RevealText>
                 <h2 className="text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[0.95]">
-                  Ihr Weg zum
-                  <br />
-                  <span className="text-accent">perfekten</span> Ergebnis
+                  {content.processTitlePre.split("\n").map((line, i, arr) => (
+                    <span key={line || i}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
+                  <span className="text-accent">
+                    {content.processTitleAccent}
+                  </span>
+                  {content.processTitlePost}
                 </h2>
               </RevealText>
             </div>
@@ -365,7 +309,7 @@ export function Services() {
             {/* Vertical line */}
             <div className="hidden lg:block absolute left-[calc(50%-0.5px)] top-0 bottom-0 w-px bg-white/10" />
 
-            {process.map((item, index) => {
+            {content.process.map((item, index) => {
               const isEven = index % 2 === 0;
               return (
                 <motion.div
@@ -379,6 +323,7 @@ export function Services() {
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-16 md:mb-24 last:mb-0`}
+                  {...sbEditable(item.editable)}
                 >
                   {/* Dot on timeline */}
                   <div className="hidden lg:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 bg-accent z-10" />
@@ -433,9 +378,12 @@ export function Services() {
               </motion.div>
               <RevealText>
                 <h2 className="text-4xl md:text-6xl tracking-tight leading-[0.95] mb-8">
-                  Warum
-                  <br />
-                  Wohlfahrt & Wohlfahrt?
+                  {content.whyTitle.split("\n").map((line, i, arr) => (
+                    <span key={line}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
                 </h2>
               </RevealText>
               <motion.p
@@ -445,36 +393,13 @@ export function Services() {
                 transition={{ delay: 0.3 }}
                 className="text-muted-foreground text-lg leading-relaxed max-w-lg"
               >
-                Drei Generationen Erfahrung, über 12 qualifizierte Mitarbeiter
-                und ein unerschütterliches Engagement für Perfektion — das ist
-                unser Versprechen.
+                {content.whyText}
               </motion.p>
             </div>
 
             <div className="lg:col-span-5 lg:col-start-8">
               <div className="space-y-0">
-                {[
-                  {
-                    icon: Award,
-                    title: "Meisterqualität",
-                    desc: "Zertifizierter Meisterbetrieb seit 1954 mit höchsten Qualitätsstandards.",
-                  },
-                  {
-                    icon: CheckCircle2,
-                    title: "Festpreisgarantie",
-                    desc: "Transparente Kalkulation — keine versteckten Kosten, faire Preise.",
-                  },
-                  {
-                    icon: Star,
-                    title: "5 Jahre Gewährleistung",
-                    desc: "Verlängerte Garantie auf alle unsere Verlegearbeiten.",
-                  },
-                  {
-                    icon: Phone,
-                    title: "Persönliche Betreuung",
-                    desc: "Ein Ansprechpartner von der Beratung bis zur Abnahme.",
-                  },
-                ].map((feature, i) => (
+                {features.map((feature, i) => (
                   <motion.div
                     key={feature.title}
                     initial={{ opacity: 0, y: 30 }}
@@ -482,10 +407,11 @@ export function Services() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.6 }}
                     className="group py-8 border-b border-border first:border-t"
+                    {...sbEditable(feature.editable)}
                   >
                     <div className="flex items-start gap-5">
                       <div className="w-11 h-11 bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent transition-colors duration-500">
-                        <feature.icon
+                        <feature.Icon
                           size={18}
                           className="text-accent group-hover:text-white transition-colors duration-500"
                           strokeWidth={1.5}
@@ -518,7 +444,7 @@ export function Services() {
           className="absolute inset-0"
         >
           <ImageWithFallback
-            src={marbleImg}
+            src={resolveImage(content.ctaImage)}
             alt="Marble texture"
             className="w-full h-full object-cover"
             width={1920}
@@ -530,12 +456,12 @@ export function Services() {
         <div className="relative z-10 container mx-auto px-4 text-center">
           <RevealText>
             <p className="text-white/50 text-sm tracking-[0.3em] uppercase mb-6">
-              Jetzt starten
+              {content.ctaEyebrow}
             </p>
           </RevealText>
           <RevealText delay={0.2}>
             <h2 className="text-4xl md:text-6xl lg:text-7xl text-white tracking-tight max-w-4xl mx-auto leading-[0.95] mb-10">
-              Lassen Sie uns Ihr Projekt verwirklichen
+              {content.ctaHeadline}
             </h2>
           </RevealText>
           <motion.div
@@ -545,12 +471,12 @@ export function Services() {
             transition={{ delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link to="/kontakt">
+            <Link to={content.ctaButtonLink}>
               <Button
                 variant="primary"
                 className="text-sm px-10 py-4 flex items-center gap-2 h-14"
               >
-                Kontakt aufnehmen <ArrowRight size={16} />
+                {content.ctaButtonLabel} <ArrowRight size={16} />
               </Button>
             </Link>
           </motion.div>

@@ -9,47 +9,31 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
+import { asset } from "../lib/asset";
+import { sbEditable } from "../lib/editable";
+import {
+  defaultReferencesContent,
+  type ReferencesContent,
+  type ReferenceProject,
+} from "../content/pages/references";
 
-export function References() {
+/** Relative Pfade ueber den Base-Path aufloesen, externe URLs unveraendert. */
+function resolveImage(src: string): string {
+  return src.startsWith("/") ? asset(src) : src;
+}
+
+export function References({
+  content = defaultReferencesContent,
+}: {
+  content?: ReferencesContent;
+}) {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
-  const projects = [
-    {
-      title: "Badezimmer",
-      category: "Bad",
-      image:
-        "https://i0.wp.com/www.fliesen-wohlfahrt.de/wp-content/uploads/2021/02/badezimmer-fliesenleger-fliesen.jpeg?w=915&ssl=1",
-    },
-    {
-      title: "Badezimmer",
-      category: "Bad",
-      image:
-        "https://i0.wp.com/www.fliesen-wohlfahrt.de/wp-content/uploads/2021/02/DSC_0113-3.jpeg?w=915&ssl=1",
-    },
-    {
-      title: "Badezimmer",
-      category: "Bad",
-      image:
-        "https://i0.wp.com/www.fliesen-wohlfahrt.de/wp-content/uploads/2021/02/IMG-20201120-WA0007.jpeg?resize=1080%2C772&ssl=1",
-    },
-    {
-      title: "Badezimmer",
-      category: "Bad",
-      image:
-        "https://i0.wp.com/www.fliesen-wohlfahrt.de/wp-content/uploads/2021/02/e252c771-32a9-44d7-9ef2-fe6bdea5a1db-1.jpeg?w=1024&ssl=1",
-    },
-    {
-      title: "Badezimmer",
-      category: "Bad",
-      image:
-        "https://i0.wp.com/www.fliesen-wohlfahrt.de/wp-content/uploads/2021/02/IMG_20201125_103955.jpeg?resize=1080%2C772&ssl=1",
-    },
-  ];
-
-  const images = projects.map((p) => p.image);
+  const projects = content.projects;
+  const images = projects.map((p) => resolveImage(p.image));
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" {...sbEditable(content.editable)}>
       {/* Hero */}
       <section className="relative h-[70vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
@@ -60,7 +44,7 @@ export function References() {
             className="w-full h-full"
           >
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1625578622297-56606e41830f?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMGludGVyaW9yJTIwZGVzaWdufGVufDF8fHx8MTc3NTcyODQ2Nnww&ixlib=rb-4.1.0&q=80&w=1080"
+              src={resolveImage(content.heroImage)}
               alt="References"
               className="w-full h-full object-cover"
               priority
@@ -73,12 +57,12 @@ export function References() {
         <div className="relative z-10 container mx-auto px-4 pb-16 md:pb-24">
           <RevealText>
             <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4">
-              Referenzen
+              {content.heroEyebrow}
             </p>
           </RevealText>
           <RevealText delay={0.2}>
             <h1 className="text-[clamp(2.5rem,8vw,7rem)] leading-[0.9] text-white tracking-tight">
-              Unsere Projekte
+              {content.heroTitle}
             </h1>
           </RevealText>
         </div>
@@ -88,8 +72,8 @@ export function References() {
       <section className="py-24 md:py-40">
         <div className="container mx-auto px-4">
           <SectionHeader
-            label="Portfolio"
-            title="Qualität, die man sehen kann"
+            label={content.galleryLabel}
+            title={content.galleryTitle}
             centered
           />
 
@@ -153,9 +137,9 @@ export function References() {
             <div className="lg:col-span-7">
               <RevealText>
                 <h2 className="text-5xl md:text-7xl tracking-tight leading-[0.95]">
-                  Ihr Projekt
+                  {content.ctaTitlePre}
                   <br />
-                  <span className="text-accent">ist das nächste</span>
+                  <span className="text-accent">{content.ctaTitleAccent}</span>
                 </h2>
               </RevealText>
             </div>
@@ -166,16 +150,13 @@ export function References() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
-                <p className="text-white/70 text-lg mb-10">
-                  Über 1000 zufriedene Kunden vertrauen auf unsere Expertise.
-                  Werden Sie Teil unserer Erfolgsgeschichte.
-                </p>
-                <Link to="/kontakt">
+                <p className="text-white/70 text-lg mb-10">{content.ctaText}</p>
+                <Link to={content.ctaButtonLink}>
                   <Button
                     variant="primary"
                     className="text-sm px-10 py-5 flex items-center gap-3"
                   >
-                    Kontakt aufnehmen <ArrowRight size={16} />
+                    {content.ctaButtonLabel} <ArrowRight size={16} />
                   </Button>
                 </Link>
               </motion.div>
@@ -193,7 +174,7 @@ function GalleryItem({
   onClick,
   className = "",
 }: {
-  project: { title: string; category: string; image: string };
+  project: ReferenceProject;
   index: number;
   onClick: () => void;
   className?: string;
@@ -210,9 +191,10 @@ function GalleryItem({
       }}
       className={`group relative overflow-hidden cursor-pointer ${className}`}
       onClick={onClick}
+      {...sbEditable(project.editable)}
     >
       <ImageWithFallback
-        src={project.image}
+        src={resolveImage(project.image)}
         alt={project.title}
         className="w-full h-full object-cover absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105"
         width={1080}

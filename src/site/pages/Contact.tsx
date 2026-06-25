@@ -5,46 +5,58 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
 import { ContactForm } from "../components/molecules/ContactForm";
 import { MapPin, Phone, Mail, Clock, ArrowRight } from "lucide-react";
+import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
+import { formatOpeningHours } from "@/site/content/site";
+import {
+  defaultContactContent,
+  type ContactContent,
+} from "../content/pages/contact";
+import { sbEditable } from "../lib/editable";
 
-export function Contact() {
+export function Contact({
+  content = defaultContactContent,
+}: {
+  content?: ContactContent;
+}) {
+  const s = useSiteSettings();
   const contactInfo = [
     {
       icon: MapPin,
       title: "Adresse",
-      text: "Wohlfahrt & Wohlfahrt\nFliesen GmbH\nHinterer Spielbach 4\n72793 Pfullingen",
+      text: `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`,
     },
     {
       icon: Phone,
       title: "Telefon",
-      text: "07121 / 71082",
-      href: "tel:+49712171082",
+      text: s.phone,
+      href: `tel:${s.phoneHref}`,
     },
     {
       icon: Mail,
       title: "E-Mail",
-      text: "info@fliesen-wohlfahrt.de",
-      href: "mailto:info@fliesen-wohlfahrt.de",
+      text: s.email,
+      href: `mailto:${s.email}`,
     },
     {
       icon: Clock,
       title: "Öffnungszeiten",
-      text: "Mo. – Fr.: 08:00 – 12:30 Uhr\nMo. – Fr.: 14:00 – 17:00 Uhr\nSa.: Nach Vereinbarung",
+      text: formatOpeningHours(s).join("\n"),
     },
   ];
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" {...sbEditable(content.editable)}>
       {/* Hero */}
       <section className="bg-primary text-white py-24 md:py-40">
         <div className="container mx-auto px-4">
           <RevealText>
             <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4">
-              Kontakt
+              {content.heroEyebrow}
             </p>
           </RevealText>
           <RevealText delay={0.2}>
             <h1 className="text-[clamp(2.5rem,8vw,7rem)] leading-[0.9] tracking-tight max-w-4xl">
-              Lassen Sie uns sprechen
+              {content.heroTitle}
             </h1>
           </RevealText>
         </div>
@@ -57,8 +69,8 @@ export function Contact() {
             {/* Left — Info */}
             <div className="lg:col-span-5">
               <SectionHeader
-                label="Erreichbarkeit"
-                title="Kontaktieren Sie uns"
+                label={content.infoLabel}
+                title={content.infoTitle}
               />
               <div className="space-y-8 mt-12">
                 {contactInfo.map((item, i) => (
@@ -106,10 +118,10 @@ export function Contact() {
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-8 h-px bg-accent" />
                 <span className="text-xs tracking-[0.3em] text-accent uppercase">
-                  Nachricht
+                  {content.formEyebrow}
                 </span>
               </div>
-              <h2 className="text-3xl mb-8">Schreiben Sie uns</h2>
+              <h2 className="text-3xl mb-8">{content.formTitle}</h2>
               <ContactForm />
             </motion.div>
           </div>
@@ -125,7 +137,7 @@ export function Contact() {
         className="h-[500px]"
       >
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2637.5!2d9.2252!3d48.4525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799ed6e5e6b1b1d%3A0x0!2sHinterer%20Spielbach%204%2C%2072793%20Pfullingen!5e0!3m2!1sde!2sde!4v1234567890"
+          src={s.mapEmbedUrl}
           width="100%"
           height="100%"
           style={{ border: 0 }}
@@ -141,7 +153,7 @@ export function Contact() {
         <div className="container mx-auto px-4 text-center">
           <RevealText>
             <h2 className="text-4xl md:text-6xl tracking-tight mb-6">
-              Was unsere Kunden sagen
+              {content.reviewsTitle}
             </h2>
           </RevealText>
           <motion.p
@@ -151,16 +163,15 @@ export function Contact() {
             transition={{ delay: 0.3 }}
             className="text-white/60 text-lg mb-10 max-w-xl mx-auto"
           >
-            Überzeugen Sie sich von unserer Qualität anhand der Bewertungen
-            unserer Kunden.
+            {content.reviewsText}
           </motion.p>
           <a
-            href="https://www.google.com/search?q=wohlfahrt+wohlfahrt"
+            href={content.reviewsButtonLink}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-white text-sm tracking-[0.1em] uppercase hover:bg-accent/90 transition-all"
           >
-            Google Bewertungen <ArrowRight size={14} />
+            {content.reviewsButtonLabel} <ArrowRight size={14} />
           </a>
         </div>
       </section>

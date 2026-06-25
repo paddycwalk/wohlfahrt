@@ -29,9 +29,15 @@ const REGION = (process.env.STORYBLOK_REGION || "eu") as
 /** Ist Storyblok konfiguriert? */
 export const isStoryblokEnabled = Boolean(TOKEN);
 
-/** Content-Version: im Vorschau-/Editor-Kontext "draft", sonst "published". */
+/**
+ * Content-Version. Im Dev-Server (Visual Editor / Live-Vorschau) immer "draft",
+ * damit Storyblok die `_editable`-Metadaten mitliefert (Click-to-Edit). Im
+ * Production-Build gilt die Env-Variable bzw. "published".
+ */
 export const storyblokVersion: "draft" | "published" =
-  (process.env.STORYBLOK_VERSION as "draft" | "published") || "published";
+  process.env.NODE_ENV !== "production"
+    ? "draft"
+    : (process.env.STORYBLOK_VERSION as "draft" | "published") || "published";
 
 /** Storyblok-Client (nur initialisiert, wenn ein Token vorhanden ist). */
 export const storyblokClient: StoryblokClient | null = TOKEN

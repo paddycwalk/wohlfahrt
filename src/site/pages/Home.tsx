@@ -19,11 +19,28 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-const showroomImage = asset(
-  "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
-);
+import { defaultHomeContent } from "../content/pages/home";
+import type { HomeContent, ServiceIcon } from "../content/pages/home";
+import { sbEditable } from "../lib/editable";
 
-export function Home() {
+/** Icon-Schluessel aus dem CMS auf die lucide-Komponenten abbilden. */
+const serviceIcons: Record<ServiceIcon, typeof Layers> = {
+  layers: Layers,
+  home: HomeIcon,
+  sparkles: Sparkles,
+  award: Award,
+};
+
+/** Relativen Pfad Base-Path-bewusst aufloesen, externe URLs unveraendert lassen. */
+function resolveImage(src: string): string {
+  return src.startsWith("/") ? asset(src) : src;
+}
+
+export function Home({
+  content = defaultHomeContent,
+}: {
+  content?: HomeContent;
+}) {
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -32,34 +49,15 @@ export function Home() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const services = [
-    {
-      icon: Layers,
-      title: "Professionelle Verlegung",
-      description:
-        "Fachgerechte Verlegung aller Fliesenarten durch unsere erfahrenen Mitarbeiter.",
-    },
-    {
-      icon: HomeIcon,
-      title: "Komplettlösungen",
-      description:
-        "Von der Planung bis zur Fertigstellung — alles aus einer Hand.",
-    },
-    {
-      icon: Sparkles,
-      title: "Premium Materialien",
-      description: "Hochwertige Fliesen von führenden Herstellern.",
-    },
-    {
-      icon: Award,
-      title: "Über 67 Jahre Erfahrung",
-      description:
-        "Tradition trifft Innovation für höchste Qualitätsansprüche.",
-    },
-  ];
+  const services = content.services.map((s) => ({
+    icon: serviceIcons[s.icon] ?? Layers,
+    title: s.title,
+    description: s.description,
+    editable: s.editable,
+  }));
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" {...sbEditable(content.editable)}>
       {/* Hero — Cinematic Full-Screen */}
       <section
         ref={heroRef}
@@ -67,8 +65,8 @@ export function Home() {
       >
         <motion.div className="absolute inset-0" style={{ scale: heroScale }}>
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1765766600805-e75c44124d2c?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkYXJrJTIwYmF0hrob29tJTIwtillfyMgYXJ0JTIwZGVzaWduJTIwZmxvb3J8ZW58MXx8fHwxNzc1ODI0Mjc3fDA&ixlib=rb-4.1.0&q=80&w=1080"
-            alt="Luxury tiles"
+            src={resolveImage(content.heroImage)}
+            alt={content.heroImageAlt}
             className="w-full h-full object-cover"
             priority
             width={1920}
@@ -83,16 +81,22 @@ export function Home() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8">
-              <h1 className="sr-only">Fliesen neu gedacht</h1>
+              <h1 className="sr-only">
+                {content.heroLine1} {content.heroAccentWord}{" "}
+                {content.heroLine2Suffix}
+              </h1>
               <div aria-hidden="true">
                 <RevealText delay={0.4}>
                   <span className="block font-['Bebas_Neue',sans-serif] uppercase text-[clamp(3rem,10vw,9rem)] leading-[0.9] tracking-tight text-white mb-0">
-                    Fliesen
+                    {content.heroLine1}
                   </span>
                 </RevealText>
                 <RevealText delay={0.5}>
                   <span className="block font-['Bebas_Neue',sans-serif] uppercase text-[clamp(3rem,10vw,9rem)] leading-[0.9] tracking-tight text-white">
-                    <span className="text-accent">neu</span> gedacht
+                    <span className="text-accent">
+                      {content.heroAccentWord}
+                    </span>{" "}
+                    {content.heroLine2Suffix}
                   </span>
                 </RevealText>
               </div>
@@ -104,8 +108,7 @@ export function Home() {
                 transition={{ delay: 1, duration: 0.8 }}
                 className="text-white/70 text-lg mb-8 max-w-sm"
               >
-                Exklusive Fliesen, professionelle Verlegung und individuelle
-                Gestaltung — Wohlfahrt & Wohlfahrt.
+                {content.heroSubtitle}
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -113,20 +116,20 @@ export function Home() {
                 transition={{ delay: 1.2, duration: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <Link to="/kontakt">
+                <Link to={content.heroCtaPrimary.link}>
                   <Button
                     variant="primary"
                     className="text-sm px-8 py-4 flex items-center gap-2 h-14"
                   >
-                    Projekt starten <ArrowRight size={16} />
+                    {content.heroCtaPrimary.label} <ArrowRight size={16} />
                   </Button>
                 </Link>
-                <Link to="/ausstellung">
+                <Link to={content.heroCtaSecondary.link}>
                   <Button
                     variant="outline"
                     className="border border-white/30 bg-transparent text-white hover:!bg-[#c41e1e] hover:!text-white hover:!border-[#c41e1e] text-sm px-8 py-4 h-14 transition-colors"
                   >
-                    Ausstellung
+                    {content.heroCtaSecondary.label}
                   </Button>
                 </Link>
               </motion.div>
@@ -147,17 +150,17 @@ export function Home() {
       <section className="bg-primary text-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
-            {[
-              { end: 67, suffix: "+", label: "Jahre Erfahrung" },
-              { end: 1000, suffix: "+", label: "Projekte" },
-              { end: 12, suffix: "+", label: "Mitarbeiter" },
-              { end: 500, suffix: "+", label: "Fliesenmuster" },
-            ].map((stat, i) => (
+            {content.stats.map((stat, i) => (
               <div
                 key={stat.label}
                 className={`py-12 md:py-20 px-6 md:px-10 ${i < 3 ? "border-r border-white/10" : ""} ${i < 2 ? "border-b lg:border-b-0 border-white/10" : i === 2 ? "border-b lg:border-b-0 border-white/10" : ""}`}
+                {...sbEditable(stat.editable)}
               >
-                <StatsCounter {...stat} />
+                <StatsCounter
+                  end={stat.value}
+                  suffix={stat.suffix}
+                  label={stat.label}
+                />
               </div>
             ))}
           </div>
@@ -169,7 +172,10 @@ export function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-16">
             <div className="lg:col-span-5">
-              <SectionHeader label="Kompetenzen" title="Was wir für Sie tun" />
+              <SectionHeader
+                label={content.servicesLabel}
+                title={content.servicesTitle}
+              />
             </div>
             <div className="lg:col-span-5 lg:col-start-8 flex items-end pb-8">
               <motion.p
@@ -178,8 +184,7 @@ export function Home() {
                 viewport={{ once: true }}
                 className="text-muted-foreground text-lg"
               >
-                Von der ersten Idee bis zum letzten Handgriff — wir vereinen
-                Tradition mit Innovation und schaffen Räume, die begeistern.
+                {content.servicesIntro}
               </motion.p>
             </div>
           </div>
@@ -197,6 +202,7 @@ export function Home() {
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 style={{ marginTop: index % 2 === 1 ? "2rem" : "0" }}
+                {...sbEditable(service.editable)}
               >
                 <ServiceCard {...service} index={index} active={index === 0} />
               </motion.div>
@@ -207,30 +213,24 @@ export function Home() {
 
       {/* Split Section — Tradition (clip-path reveal) */}
       <SplitImageCard
-        image="https://images.unsplash.com/photo-1636200534256-c08268363482?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjBoYW5kcyUyMGxheWluZyUyMHRpbGUlMjBmbG9vciUyMHByZWNpc2lvbnxlbnwxfHx8fDE3NzU4MjgzMzR8MA&ixlib=rb-4.1.0&q=80&w=1080"
-        title="Tradition trifft Moderne"
-        imageAlt="Professionelle Fliesenverlegung"
+        image={resolveImage(content.traditionImage)}
+        title={content.traditionTitle}
+        imageAlt={content.traditionImageAlt}
       >
         <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-          Seit über 67 Jahren steht der Name Wohlfahrt & Wohlfahrt für Qualität
-          und Zuverlässigkeit. Als familiengeführter Meisterbetrieb verbinden
-          wir traditionelles Handwerk mit modernster Technik.
+          {content.traditionText}
         </p>
         <div className="space-y-4 mb-10">
-          {[
-            "Meisterqualität seit 1954",
-            "Familiengeführter Betrieb",
-            "Modernste Verlegetechnik",
-          ].map((item) => (
+          {content.traditionItems.map((item) => (
             <div key={item} className="flex items-center gap-3">
               <CheckCircle className="text-accent flex-shrink-0" size={18} />
               <span className="text-muted-foreground text-sm">{item}</span>
             </div>
           ))}
         </div>
-        <Link to="/ueber-uns">
+        <Link to={content.traditionCta.link}>
           <Button variant="primary" className="text-sm flex items-center gap-2">
-            Mehr über uns <ArrowRight size={14} />
+            {content.traditionCta.label} <ArrowRight size={14} />
           </Button>
         </Link>
       </SplitImageCard>
@@ -245,8 +245,8 @@ export function Home() {
           className="absolute inset-0"
         >
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1634135129561-23f88811b8a1?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBjb25jcmV0ZSUyMHRleHR1cmV8ZW58MXx8fHwxNzc1ODI0Mjc3fDA&ixlib=rb-4.1.0&q=80&w=1080"
-            alt="Architecture"
+            src={resolveImage(content.statementImage)}
+            alt={content.statementImageAlt}
             className="w-full h-full object-cover"
             width={1920}
             height={1080}
@@ -257,12 +257,12 @@ export function Home() {
         <div className="relative z-10 container mx-auto px-4 text-center">
           <RevealText>
             <p className="text-white/60 text-sm tracking-[0.3em] uppercase mb-6">
-              Unser Versprechen
+              {content.statementEyebrow}
             </p>
           </RevealText>
           <RevealText delay={0.2}>
             <h2 className="text-4xl md:text-7xl lg:text-8xl text-white tracking-tight max-w-5xl mx-auto leading-[0.95]">
-              Perfektion in jedem Detail
+              {content.statementHeadline}
             </h2>
           </RevealText>
           <motion.div
@@ -272,12 +272,12 @@ export function Home() {
             transition={{ delay: 0.8 }}
             className="mt-12"
           >
-            <Link to="/leistungen">
+            <Link to={content.statementCta.link}>
               <Button
                 variant="outline"
                 className="border border-white/40 bg-transparent text-white hover:!bg-[#c41e1e] hover:!text-white hover:!border-[#c41e1e] text-sm px-10 py-4 transition-colors"
               >
-                Leistungen entdecken
+                {content.statementCta.label}
               </Button>
             </Link>
           </motion.div>
@@ -286,21 +286,20 @@ export function Home() {
 
       {/* Showroom Split — Reversed */}
       <SplitImageCard
-        image={showroomImage}
-        title="Besuchen Sie unsere Ausstellung"
+        image={resolveImage(content.showroomImage)}
+        title={content.showroomTitle}
         reverse
-        imageAlt="Wohlfahrt & Wohlfahrt Ausstellung"
+        imageAlt={content.showroomImageAlt}
       >
         <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
-          Entdecken Sie Inspiration in unserer modernen Ausstellung. Erleben Sie
-          die Vielfalt an Fliesen und Gestaltungsmöglichkeiten hautnah.
+          {content.showroomText}
         </p>
-        <Link to="/ausstellung">
+        <Link to={content.showroomCta.link}>
           <Button
             variant="secondary"
             className="text-sm flex items-center gap-2"
           >
-            Ausstellung entdecken <ArrowRight size={14} />
+            {content.showroomCta.label} <ArrowRight size={14} />
           </Button>
         </Link>
       </SplitImageCard>
@@ -312,9 +311,11 @@ export function Home() {
             <div className="lg:col-span-7">
               <RevealText>
                 <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95]">
-                  Bereit für
+                  {content.ctaHeadlinePre}
                   <br />
-                  <span className="text-accent">Ihr Projekt?</span>
+                  <span className="text-accent">
+                    {content.ctaHeadlineAccent}
+                  </span>
                 </h2>
               </RevealText>
             </div>
@@ -326,16 +327,14 @@ export function Home() {
                 transition={{ delay: 0.3, duration: 0.6 }}
               >
                 <p className="text-white/70 text-lg mb-10 leading-relaxed">
-                  Lassen Sie uns gemeinsam Ihre Visionen verwirklichen.
-                  Kontaktieren Sie uns für ein unverbindliches
-                  Beratungsgespräch.
+                  {content.ctaText}
                 </p>
-                <Link to="/kontakt">
+                <Link to={content.ctaButton.link}>
                   <Button
                     variant="primary"
                     className="text-sm px-10 py-5 flex items-center gap-3"
                   >
-                    Kontakt aufnehmen <ArrowRight size={16} />
+                    {content.ctaButton.label} <ArrowRight size={16} />
                   </Button>
                 </Link>
               </motion.div>

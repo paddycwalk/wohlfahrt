@@ -6,6 +6,7 @@ import { SiteShell } from "@/site/components/templates/SiteShell";
 import { fontFaceCss, fontPreloads } from "@/site/config/fonts";
 import { getSiteSettings } from "@/site/content";
 import { SiteSettingsProvider } from "@/site/content/SiteSettingsProvider";
+import { StoryblokProvider } from "@/site/components/providers/StoryblokProvider";
 import type { SiteSettings } from "@/site/content/types";
 import {
   SITE_URL,
@@ -160,9 +161,11 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body>
-        <SiteSettingsProvider settings={settings}>
-          <SiteShell>{children}</SiteShell>
-        </SiteSettingsProvider>
+        <StoryblokProvider>
+          <SiteSettingsProvider settings={settings}>
+            <SiteShell>{children}</SiteShell>
+          </SiteSettingsProvider>
+        </StoryblokProvider>
       </body>
     </html>
   );
