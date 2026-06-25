@@ -246,3 +246,4 @@ der den Build + Deploy automatisch auslöst.
 - [ ] **Cookie-/Consent-Banner** für extern geladene Inhalte (z. B. Unsplash-Bilder) prüfen.
 - [ ] **Rechtstexte** (Impressum/Datenschutz) juristisch final prüfen.
 - [ ] `src/imports/` (Figma-Altlasten) aufräumen.
+      --test
