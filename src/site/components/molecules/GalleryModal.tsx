@@ -72,6 +72,26 @@ export function GalleryModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Alle Galeriebilder vorab laden (Nachbarn zuerst), damit Wischen/Blaettern
+  // sofort erscheint statt bei jedem Wechsel neu vom CDN zu laden. Der
+  // Image().src-Aufruf fuellt den HTTP-Cache – eine JS-Referenz ist nicht noetig.
+  useEffect(() => {
+    const seen = new Set<number>();
+    const preload = (i: number) => {
+      const n = ((i % images.length) + images.length) % images.length;
+      if (seen.has(n)) return;
+      seen.add(n);
+      const img = new Image();
+      img.decoding = "async";
+      img.src = images[n];
+    };
+    preload(currentIndex);
+    for (let d = 1; d < images.length; d++) {
+      preload(currentIndex + d);
+      preload(currentIndex - d);
+    }
+  }, [images, currentIndex]);
+
   const currentAlt =
     alts?.[index] ?? `Galeriebild ${index + 1} von ${images.length}`;
 
@@ -115,7 +135,18 @@ export function GalleryModal({
           transition={{ duration: 0.3 }}
           src={images[index]}
           alt={currentAlt}
-          className="max-h-[90vh] max-w-[90vw] object-contain"
+          decoding="async"
+          fetchPriority="high"
+          draggable={false}
+          drag={images.length > 1 ? "x" : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.25}
+          onDragEnd={(_e, info) => {
+            // Wischen: nach links -> naechstes Bild, nach rechts -> vorheriges.
+            if (info.offset.x < -80 || info.velocity.x < -500) handleNext();
+            else if (info.offset.x > 80 || info.velocity.x > 500) handlePrev();
+          }}
+          className="max-h-[90vh] max-w-[90vw] object-contain touch-pan-y select-none cursor-grab active:cursor-grabbing"
           onClick={(e) => e.stopPropagation()}
         />
 
