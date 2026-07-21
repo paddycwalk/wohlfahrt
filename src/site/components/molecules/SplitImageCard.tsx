@@ -7,6 +7,7 @@ interface SplitImageCardProps {
   title: string;
   children: ReactNode;
   reverse?: boolean;
+  mobileReverse?: boolean;
   imageAlt?: string;
 }
 
@@ -15,6 +16,7 @@ export function SplitImageCard({
   title,
   children,
   reverse = false,
+  mobileReverse = false,
   imageAlt = "",
 }: SplitImageCardProps) {
   return (
@@ -27,7 +29,7 @@ export function SplitImageCard({
           initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
           animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className={`relative overflow-hidden h-[56vh] min-h-[360px] lg:h-auto lg:min-h-0 ${reverse ? "lg:order-2 lg:col-span-7" : "lg:col-span-7"}`}
+          className={`relative overflow-hidden h-[56vh] min-h-[360px] lg:h-auto lg:min-h-0 ${mobileReverse ? "order-2" : "order-1"} ${reverse ? "lg:order-2 lg:col-span-7" : "lg:order-1 lg:col-span-7"}`}
         >
           <ImageWithFallback
             src={image}
@@ -42,7 +44,7 @@ export function SplitImageCard({
 
         {/* Content Side */}
         <div
-          className={`flex items-center ${reverse ? "lg:order-1 lg:col-span-5" : "lg:col-span-5"}`}
+          className={`flex items-center ${mobileReverse ? "order-1" : "order-2"} ${reverse ? "lg:order-1 lg:col-span-5" : "lg:order-2 lg:col-span-5"}`}
         >
           <motion.div
             initial={{ opacity: 0, y: 40 }}

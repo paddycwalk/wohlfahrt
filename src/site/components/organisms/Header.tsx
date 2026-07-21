@@ -377,11 +377,18 @@ export function Header() {
                           <p className="text-[10px] tracking-[0.3em] text-accent uppercase mb-3">
                             Adresse
                           </p>
-                          <p className="text-white/60 text-sm">
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                              "Hinterer Spielbach 4, 72793 Pfullingen",
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-white/60 text-sm hover:text-white transition-colors"
+                          >
                             Hinterer Spielbach 4
                             <br />
                             72793 Pfullingen
-                          </p>
+                          </a>
                         </div>
 
                         <div>

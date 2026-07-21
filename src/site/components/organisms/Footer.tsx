@@ -71,11 +71,18 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin size={18} className="mt-1 flex-shrink-0" />
-                <span>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    `${s.street}, ${s.zip} ${s.city}`,
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-accent transition-colors"
+                >
                   {s.street}
                   <br />
                   {s.zip} {s.city}
-                </span>
+                </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={18} className="flex-shrink-0" />

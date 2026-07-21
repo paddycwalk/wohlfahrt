@@ -181,7 +181,8 @@ function GalleryItem({
   className?: string;
 }) {
   return (
-    <motion.div
+    <motion.button
+      type="button"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -190,8 +191,9 @@ function GalleryItem({
         duration: 0.6,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className={`group relative overflow-hidden cursor-pointer ${className}`}
+      className={`group relative block w-full overflow-hidden text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${className}`}
       onClick={onClick}
+      aria-label={`${project.category}: ${project.title} vergrößern`}
       {...sbEditable(project.editable)}
     >
       <ImageWithFallback
@@ -208,6 +210,6 @@ function GalleryItem({
         </span>
         <h3 className="text-xl md:text-2xl text-white">{project.title}</h3>
       </div>
-    </motion.div>
+    </motion.button>
   );
 }

@@ -138,6 +138,24 @@
     color: #ffffff;
   }
 
+  /* Sichtbarer Fokus-Indikator als globaler Fallback fuer Tastaturnutzer (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Animationen fuer Nutzer mit "prefers-reduced-motion" reduzieren (WCAG 2.3.3 / 2.2.2) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   /**
   * Default typography styles for HTML elements (h1-h4, p, label, button, input).
   * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
@@ -147,8 +165,13 @@
     font-size: var(--font-size);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Bebas Neue', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Bebas Neue", sans-serif;
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }

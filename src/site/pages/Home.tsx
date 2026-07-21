@@ -296,6 +296,7 @@ export function Home({
         image={resolveImage(content.showroomImage)}
         title={content.showroomTitle}
         reverse
+        mobileReverse
         imageAlt={content.showroomImageAlt}
       >
         <p className="text-lg text-muted-foreground mb-10 leading-relaxed">

@@ -24,6 +24,10 @@ export function Contact({
       icon: MapPin,
       title: "Adresse",
       text: `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`,
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${s.street}, ${s.zip} ${s.city}`,
+      )}`,
+      external: true,
     },
     {
       icon: Phone,
@@ -92,6 +96,10 @@ export function Contact({
                       {item.href ? (
                         <a
                           href={item.href}
+                          target={item.external ? "_blank" : undefined}
+                          rel={
+                            item.external ? "noopener noreferrer" : undefined
+                          }
                           className="text-muted-foreground text-sm hover:text-accent transition-colors whitespace-pre-line"
                         >
                           {item.text}

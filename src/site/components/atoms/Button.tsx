@@ -24,7 +24,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex w-fit items-center justify-center px-8 py-4 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed";
+    "inline-flex w-fit items-center justify-center px-8 py-4 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2";
 
   const variants = {
     primary: "bg-accent text-accent-foreground hover:bg-accent/90",
