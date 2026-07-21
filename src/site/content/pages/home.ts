@@ -59,6 +59,14 @@ export interface HomeContent {
   traditionItems: string[];
   traditionCta: CtaLink;
 
+  // Tradition/Modern-Vergleich (Vorher-Nachher-Regler)
+  traditionOldImage: string;
+  traditionOldImageAlt: string;
+  traditionOldLabel: string;
+  traditionNewImage: string;
+  traditionNewImageAlt: string;
+  traditionNewLabel: string;
+
   // Full-width Statement
   statementImage: string;
   statementImageAlt: string;
@@ -144,6 +152,17 @@ export const defaultHomeContent: HomeContent = {
     "Modernste Verlegetechnik",
   ],
   traditionCta: { label: "Mehr über uns", link: "/ueber-uns" },
+
+  traditionOldImage:
+    "https://a.storyblok.com/f/293408914760698/1760x2200/83ca8f947b/csa-sable-beige120120-jardin-04-living.webp",
+  traditionOldImageAlt:
+    "Traditionell gestalteter Wohnraum mit dekorativen Fliesen",
+  traditionOldLabel: "Traditionell",
+  traditionNewImage:
+    "https://a.storyblok.com/f/293408914760698/2200x2200/3cace53a74/csa-mystic-beige8989-kry-living.webp",
+  traditionNewImageAlt:
+    "Moderner Wohnraum mit großformatigen Marmoroptik-Fliesen",
+  traditionNewLabel: "Modern",
 
   statementImage:
     "/assets/home-statement.webp",

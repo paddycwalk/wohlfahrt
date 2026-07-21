@@ -8,6 +8,7 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ServiceCard } from "../components/molecules/ServiceCard";
 import { StatsCounter } from "../components/molecules/StatsCounter";
 import { SplitImageCard } from "../components/molecules/SplitImageCard";
+import { BeforeAfterSlider } from "../components/molecules/BeforeAfterSlider";
 import { RevealText } from "../components/molecules/RevealText";
 import { asset } from "../lib/asset";
 import {
@@ -213,11 +214,21 @@ export function Home({
         </div>
       </section>
 
-      {/* Split Section — Tradition (clip-path reveal) */}
+      {/* Split Section — Tradition (Vorher/Nachher-Regler) */}
       <SplitImageCard
         image={resolveImage(content.traditionImage)}
         title={content.traditionTitle}
         imageAlt={content.traditionImageAlt}
+        imageSlot={
+          <BeforeAfterSlider
+            beforeImage={resolveImage(content.traditionOldImage)}
+            afterImage={resolveImage(content.traditionNewImage)}
+            beforeAlt={content.traditionOldImageAlt}
+            afterAlt={content.traditionNewImageAlt}
+            beforeLabel={content.traditionOldLabel}
+            afterLabel={content.traditionNewLabel}
+          />
+        }
       >
         <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
           {content.traditionText}

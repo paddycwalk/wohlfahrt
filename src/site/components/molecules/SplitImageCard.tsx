@@ -9,6 +9,8 @@ interface SplitImageCardProps {
   reverse?: boolean;
   mobileReverse?: boolean;
   imageAlt?: string;
+  /** Ersetzt das Standardbild (z. B. durch einen Vorher/Nachher-Regler). */
+  imageSlot?: ReactNode;
 }
 
 export function SplitImageCard({
@@ -18,6 +20,7 @@ export function SplitImageCard({
   reverse = false,
   mobileReverse = false,
   imageAlt = "",
+  imageSlot,
 }: SplitImageCardProps) {
   return (
     <section className="relative">
@@ -31,15 +34,19 @@ export function SplitImageCard({
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className={`relative overflow-hidden h-[56vh] min-h-[360px] lg:h-auto lg:min-h-0 ${mobileReverse ? "order-2" : "order-1"} ${reverse ? "lg:order-2 lg:col-span-7" : "lg:order-1 lg:col-span-7"}`}
         >
-          <ImageWithFallback
-            src={image}
-            alt={imageAlt || title}
-            className="w-full h-full object-cover absolute inset-0"
-            width={1600}
-            height={1200}
-          />
-          {/* Subtle grain overlay */}
-          <div className="absolute inset-0 mix-blend-overlay opacity-30 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter%20id%3D%22noise%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.9%22%20numOctaves%3D%224%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url(%23noise)%22%2F%3E%3C%2Fsvg%3E')]" />
+          {imageSlot ?? (
+            <>
+              <ImageWithFallback
+                src={image}
+                alt={imageAlt || title}
+                className="w-full h-full object-cover absolute inset-0"
+                width={1600}
+                height={1200}
+              />
+              {/* Subtle grain overlay */}
+              <div className="absolute inset-0 mix-blend-overlay opacity-30 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter%20id%3D%22noise%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.9%22%20numOctaves%3D%224%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url(%23noise)%22%2F%3E%3C%2Fsvg%3E')]" />
+            </>
+          )}
         </motion.div>
 
         {/* Content Side */}

@@ -5,20 +5,12 @@ import { Textarea } from "../atoms/Textarea";
 import { Button } from "../atoms/Button";
 import { toast } from "sonner";
 
-/**
- * Web3Forms Access Key.
- * Kostenlos erstellen unter https://web3forms.com (E-Mail-Adresse eintragen,
- * Key wird zugeschickt) und hier einsetzen. Der Key ist nicht geheim – er darf
- * im Frontend stehen; die Einsendungen gehen an die bei Web3Forms hinterlegte
- * E-Mail-Adresse.
- */
-const WEB3FORMS_ACCESS_KEY = "DEIN-ACCESS-KEY";
-
 const EMPTY_FORM = { name: "", email: "", phone: "", message: "" };
 
 export function ContactForm() {
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [consent, setConsent] = useState(false);
+  const [botcheck, setBotcheck] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
@@ -36,32 +28,32 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/contact/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: "Neue Anfrage über das Kontaktformular",
-          from_name: "Website Wohlfahrt & Wohlfahrt",
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
+          consent,
+          botcheck,
         }),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
 
-      if (result.success) {
+      if (response.ok && result.success) {
         toast.success("Vielen Dank! Wir werden uns bald bei Ihnen melden.");
         setFormData(EMPTY_FORM);
         setConsent(false);
       } else {
         toast.error(
-          "Das Senden ist fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an.",
+          result.error ||
+            "Das Senden ist fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an.",
         );
       }
     } catch {
@@ -77,10 +69,12 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Honeypot gegen Spam-Bots – fuer Menschen unsichtbar */}
       <input
-        type="checkbox"
+        type="text"
         name="botcheck"
         tabIndex={-1}
         autoComplete="off"
+        value={botcheck}
+        onChange={(e) => setBotcheck(e.target.value)}
         className="hidden"
         aria-hidden="true"
       />

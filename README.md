@@ -254,3 +254,8 @@ der den Build + Deploy automatisch auslöst.
 - [ ] **Team-Fotos** in Storyblok pflegen (Default ist ein Platzhalter,
       `/assets/team-placeholder.svg`).
 - [ ] **Rechtstexte** (Impressum/Datenschutz) juristisch final prüfen.
+
+- kasserver.com
+  MX (Postannahme): w00efa13.kasserver.com ← hierhin gehen eure Mails
+  SPF: include:spf.kasserver.com
+  Nameserver: ns5/ns6.kasserver.com
