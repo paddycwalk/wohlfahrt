@@ -1,8 +1,5 @@
-import {
-  isStoryblokEnabled,
-  storyblokClient,
-  storyblokVersion,
-} from "../lib/storyblok";
+import { isStoryblokEnabled, storyblokClient } from "../lib/storyblok";
+import { draftMode } from "next/headers";
 import { defaultSiteSettings } from "./site";
 import type { SiteSettings } from "./types";
 import { defaultHomeContent } from "./pages/home";
@@ -54,6 +51,28 @@ import {
 } from "./pages/legal";
 import type { LegalContent } from "./pages/legal";
 import { renderRichText } from "@storyblok/richtext";
+
+/**
+ * Ermittelt pro Anfrage, ob "draft" oder "published" geladen wird.
+ *
+ * - Dev-Server: immer "draft" (fuer die lokale Vorschau).
+ * - Produktion: "draft" nur, wenn der Next.js Draft-Mode aktiv ist (Storyblok
+ *   Visual Editor, aktiviert ueber /api/draft). Sonst die Env-Version bzw.
+ *   "published". Draft-Mode wird nur mit gesetztem Bypass-Cookie dynamisch –
+ *   normale Besucher bleiben auf der ISR-gecachten "published"-Fassung.
+ */
+async function resolveVersion(): Promise<"draft" | "published"> {
+  if (process.env.NODE_ENV !== "production") return "draft";
+  try {
+    const { isEnabled } = await draftMode();
+    if (isEnabled) return "draft";
+  } catch {
+    /* draftMode() ausserhalb eines Request-Kontexts -> published */
+  }
+  return (
+    (process.env.STORYBLOK_VERSION as "draft" | "published") || "published"
+  );
+}
 
 /** Storyblok-Asset-Feld (Objekt) auf eine URL-Zeichenkette reduzieren. */
 function assetUrl(field: unknown, fallback: string): string {
@@ -154,9 +173,7 @@ function richTextToHtml(field: unknown): string | null {
   }
   try {
     const html = renderRichText(field as never);
-    return typeof html === "string" && html.trim()
-      ? linkifyHtml(html)
-      : null;
+    return typeof html === "string" && html.trim() ? linkifyHtml(html) : null;
   } catch (err) {
     console.warn("[storyblok] richTextToHtml fiel auf null zurueck:", err);
     return null;
@@ -177,7 +194,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/settings", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (!c) return defaultSiteSettings;
@@ -239,7 +256,7 @@ export async function getHomeContent(): Promise<HomeContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/home", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     // Nur uebernehmen, wenn die Story unser feldbasiertes Schema nutzt.
@@ -326,7 +343,7 @@ export async function getAboutContent(): Promise<AboutContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/ueber-uns", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_about") return defaultAboutContent;
@@ -410,7 +427,7 @@ export async function getServicesContent(): Promise<ServicesContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/leistungen", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_services") return defaultServicesContent;
@@ -499,7 +516,7 @@ export async function getProductsContent(): Promise<ProductsContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/produkte", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_products") return defaultProductsContent;
@@ -556,7 +573,7 @@ export async function getReferencesContent(): Promise<ReferencesContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/referenzen", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_references") return defaultReferencesContent;
@@ -607,7 +624,7 @@ export async function getShowroomContent(): Promise<ShowroomContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/ausstellung", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_showroom") return defaultShowroomContent;
@@ -660,7 +677,7 @@ export async function getCareerContent(): Promise<CareerContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/karriere", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_career") return defaultCareerContent;
@@ -740,7 +757,7 @@ export async function getNewsContent(): Promise<NewsContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/aktuelles", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_news") return defaultNewsContent;
@@ -781,7 +798,7 @@ export async function getContactContent(): Promise<ContactContent> {
 
   try {
     const { data } = await storyblokClient.get("cdn/stories/kontakt", {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== "page_contact") return defaultContactContent;
@@ -821,7 +838,7 @@ async function getLegalContent(
 
   try {
     const { data } = await storyblokClient.get(`cdn/stories/${slug}`, {
-      version: storyblokVersion,
+      version: await resolveVersion(),
     });
     const c = data?.story?.content;
     if (c?.component !== component) return fallback;

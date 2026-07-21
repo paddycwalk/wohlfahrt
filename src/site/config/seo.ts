@@ -15,8 +15,10 @@ export const DEFAULT_DESCRIPTION =
 export const OG_IMAGE = "/og-image.jpg";
 export const LOCALE = "de_DE";
 
-// Vorschau-Build (GitHub Pages) erkennen: dort ist ein Base-Path gesetzt.
-const IS_PREVIEW = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
+// Nur Vercel-Vorschau-Deployments (Branch-/Preview-Builds) auf noindex.
+const IS_PREVIEW = process.env.VERCEL_ENV
+  ? process.env.VERCEL_ENV !== "production"
+  : false;
 
 export type PageKey =
   | "home"

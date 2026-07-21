@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "proxy": "local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem",
+    "dev:https": "next dev & local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem",
     "build": "next build",
-    "preview": "npx serve out -l 3000",
+    "start": "next start",
+    "preview": "next build && next start",
     "lint": "next lint"
   },
   "dependencies": {

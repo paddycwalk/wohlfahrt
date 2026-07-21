@@ -117,35 +117,47 @@ Jede Route unter `app/<name>/page.tsx` ist ein dünner Wrapper mit eigener
 
 ---
 
-## Statischer Build & FTP-Upload
+## Deployment (Vercel, SSR/ISR)
+
+Die Seite laeuft auf **Vercel** als server-gerenderte App mit **ISR**
+(Incremental Static Regeneration). Vorteil: der Storyblok Visual Editor zeigt
+eine echte Draft-Vorschau, und veroeffentlichte Aenderungen sind kurz darauf
+live – ohne Rebuild-Commit.
+
+### Einrichtung
+
+1. Repo bei Vercel importieren (Framework wird als **Next.js** erkannt).
+2. **Environment Variables** setzen (Production + Preview):
+   - `STORYBLOK_TOKEN`, `STORYBLOK_REGION`, `STORYBLOK_VERSION=published`
+   - `NEXT_PUBLIC_STORYBLOK_TOKEN`, `NEXT_PUBLIC_STORYBLOK_REGION` (Bridge)
+   - `STORYBLOK_REVALIDATE_SECRET` (frei waehlbares Geheimnis)
+3. **Domain** im Vercel-Projekt hinterlegen und die DNS-Eintraege beim
+   Registrar setzen. SSL kommt automatisch.
+
+### Live-Vorschau (Storyblok Visual Editor)
+
+- In Storyblok → **Settings → Visual Editor → Preview URL** die Vercel-Domain
+  eintragen (`https://DEINE-DOMAIN/`).
+- Beim Oeffnen einer Story haengt Storyblok `?_storyblok=…` an. Die
+  [`middleware.ts`](middleware.ts) leitet einmalig ueber
+  [`app/api/draft/route.ts`](app/api/draft/route.ts) und aktiviert den
+  Next.js Draft-Mode → die Vorschau rendert **draft**. Beim **Speichern** laedt
+  die Bridge neu und zeigt den neuen Stand.
+
+### Veroeffentlichen → live
+
+- In Storyblok → **Settings → Webhooks** einen Webhook „Story published"
+  anlegen mit URL:
+  `https://DEINE-DOMAIN/api/revalidate/?secret=DEIN_SECRET`
+- Der Handler [`app/api/revalidate/route.ts`](app/api/revalidate/route.ts) ruft
+  `revalidatePath("/", "layout")` auf → betroffene Seiten werden neu erzeugt,
+  die Aenderung ist in Sekunden live. Als Sicherheitsnetz revalidieren die
+  Seiten zusaetzlich stuendlich ([`revalidate = 3600`](app/layout.tsx)).
+
+### Lokal testen
 
 ```bash
-npm run build
-```
-
-Erzeugt den Ordner `out/` mit fertigem HTML, CSS, JS und allen Assets.
-Dank `trailingSlash: true` bekommt jede Route ihren eigenen Ordner mit
-`index.html` – dadurch funktionieren URLs wie `/kontakt/` **ohne** Server-Rewrites.
-
-**Upload:** Den **Inhalt** von `out/` (nicht den Ordner selbst) in das Web-Root
-des Hosters laden (meist `public_html/`, `htdocs/` oder `www/`):
-
-```
-out/index.html        →  public_html/index.html
-out/kontakt/          →  public_html/kontakt/
-out/_next/            →  public_html/_next/
-out/fonts/ …          →  public_html/fonts/ …
-```
-
-> ⚠️ Alle Pfade sind absolut ab dem Domain-Root (beginnen mit `/`). Die Seite muss
-> daher direkt unter der Domain liegen (`https://domain.de/`), **nicht** in einem
-> Unterordner. Für ein Unterverzeichnis müsste in `next.config.mjs` `basePath`
-> gesetzt werden.
-
-Vor dem Upload lokal testen:
-
-```bash
-npm run preview   # http://localhost:3000
+npm run build && npm start   # baut und startet den Produktionsserver
 ```
 
 ---

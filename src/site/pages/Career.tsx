@@ -117,9 +117,7 @@ export function Career({
                         {job.type}
                       </span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl mb-2">
-                      {job.title}
-                    </h3>
+                    <h3 className="text-2xl md:text-3xl mb-2">{job.title}</h3>
                     <p className="text-muted-foreground text-sm">
                       {job.description}
                     </p>

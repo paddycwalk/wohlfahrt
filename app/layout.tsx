@@ -18,10 +18,17 @@ import {
   LOCALE,
 } from "@/site/config/seo";
 
-// Vorschau-Build (GitHub Pages) erkennen: dort ist ein Base-Path gesetzt.
-// Die Vorschau soll NICHT von Suchmaschinen indexiert werden, damit nur die
-// echte Domain (FTP) in Google landet.
-const IS_PREVIEW = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
+// Vercel-Vorschau-Deployments (Branch-/Preview-Builds) NICHT indexieren –
+// nur die Produktions-Domain soll in Google landen. Lokal (kein VERCEL_ENV)
+// bleibt es indexierbar.
+const IS_PREVIEW = process.env.VERCEL_ENV
+  ? process.env.VERCEL_ENV !== "production"
+  : false;
+
+// ISR-Sicherheitsnetz: Seiten spaetestens stuendlich neu erzeugen, falls der
+// Publish-Webhook (/api/revalidate) einmal nicht greift. Gilt als Default fuer
+// alle Routen unter diesem Layout.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

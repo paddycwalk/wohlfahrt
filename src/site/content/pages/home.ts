@@ -85,8 +85,8 @@ export interface HomeContent {
 
 export const defaultHomeContent: HomeContent = {
   heroImage:
-    "https://images.unsplash.com/photo-1765766600805-e75c44124d2c?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkYXJrJTIwYmF0hrob29tJTIwtillfyMgYXJ0JTIwZGVzaWduJTIwZmxvb3J8ZW58MXx8fHwxNzc1ODI0Mjc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  heroImageAlt: "Luxury tiles",
+    "/assets/home-hero.webp",
+  heroImageAlt: "Edler Wohnbereich mit großformatigen Marmoroptik-Fliesen",
   heroLine1: "Fliesen",
   heroAccentWord: "neu",
   heroLine2Suffix: "gedacht",
@@ -133,8 +133,8 @@ export const defaultHomeContent: HomeContent = {
   ],
 
   traditionImage:
-    "https://images.unsplash.com/photo-1636200534256-c08268363482?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjBoYW5kcyUyMGxheWluZyUyMHRpbGUlMjBmbG9vciUyMHByZWNpc2lvbnxlbnwxfHx8fDE3NzU4MjgzMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  traditionImageAlt: "Professionelle Fliesenverlegung",
+    "/assets/home-tradition.webp",
+  traditionImageAlt: "Modernes Wohnzimmer mit warmen Holzoptik-Fliesen",
   traditionTitle: "Tradition trifft Moderne",
   traditionText:
     "Seit über 67 Jahren steht der Name Wohlfahrt & Wohlfahrt für Qualität und Zuverlässigkeit. Als familiengeführter Meisterbetrieb verbinden wir traditionelles Handwerk mit modernster Technik.",
@@ -146,8 +146,8 @@ export const defaultHomeContent: HomeContent = {
   traditionCta: { label: "Mehr über uns", link: "/ueber-uns" },
 
   statementImage:
-    "https://images.unsplash.com/photo-1634135129561-23f88811b8a1?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBjb25jcmV0ZSUyMHRleHR1cmV8ZW58MXx8fHwxNzc1ODI0Mjc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  statementImageAlt: "Architecture",
+    "/assets/home-statement.webp",
+  statementImageAlt: "Dunkle Feinsteinzeug-Oberfläche im Detail",
   statementEyebrow: "Unser Versprechen",
   statementHeadline: "Perfektion in jedem Detail",
   statementCta: { label: "Leistungen entdecken", link: "/leistungen" },

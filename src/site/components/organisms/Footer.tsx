@@ -113,7 +113,7 @@ export function Footer() {
           <p>
             &copy; {year} {s.companyName}. Alle Rechte vorbehalten.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-col items-center gap-2 md:flex-row md:gap-6">
             {s.legalNav.map((link) => (
               <Link
                 key={link.path}

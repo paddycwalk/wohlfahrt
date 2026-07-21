@@ -68,32 +68,32 @@ export const defaultProductsContent: ProductsContent = {
       description:
         "Hochwertige Wandfliesen in verschiedenen Formaten, Farben und Oberflächen",
       image:
-        "https://images.unsplash.com/photo-1685040339272-e387e49f712b?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMGNlcmFtaWMlMjB3YWxsJTIwdGlsZXMlMjBiYXRocm9vbSUyMHZlcnRpY2FsfGVufDF8fHx8MTc3NTgyOTEwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/produkt-wandfliesen.webp",
     },
     {
       title: "Bodenfliesen",
       description:
         "Robuste und elegante Bodenfliesen für Innen- und Außenbereiche",
       image:
-        "https://images.unsplash.com/photo-1593981663640-993a5134d8fd?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwc3RvbmUlMjBmbG9vciUyMHRpbGVzJTIwaGFsbHdheSUyMGludGVyaW9yfGVufDF8fHx8MTc3NTgyOTEwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/produkt-bodenfliesen.webp",
     },
     {
       title: "Großformatfliesen",
       description: "Moderne Großformatfliesen für ein nahtloses Design",
       image:
-        "https://images.unsplash.com/photo-1722153148937-c7abc6cd3361?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXJnZSUyMGZvcm1hdCUyMGNlcmFtaWMlMjBzbGFiJTIwbW9kZXJuJTIwYmF0aHJvb218ZW58MXx8fHwxNzc1ODI5MTA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/produkt-grossformat.webp",
     },
     {
       title: "Mosaik",
       description: "Kreative Mosaikfliesen für individuelle Akzente",
       image:
-        "https://images.unsplash.com/photo-1767306683428-e80b2b4e52c4?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3NhaWMlMjB0aWxlJTIwcGF0dGVybiUyMGRlY29yYXRpdmUlMjB3YWxsJTIwZGV0YWlsfGVufDF8fHx8MTc3NTgyOTEwOHww&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/produkt-mosaik.webp",
     },
     {
       title: "Feinsteinzeug",
       description: "Pflegeleichtes Feinsteinzeug in Holz- und Betonoptik",
       image:
-        "https://images.unsplash.com/photo-1769736438943-3c57cbd02c22?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29kJTIwZWZmZWN0JTIwcG9yY2VsYWluJTIwdGlsZSUyMGZsb29yJTIwbGl2aW5nJTIwcm9vbXxlbnwxfHx8fDE3NzU4MjkxMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/produkt-feinsteinzeug.webp",
     },
   ],
 

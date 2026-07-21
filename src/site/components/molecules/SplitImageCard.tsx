@@ -25,8 +25,7 @@ export function SplitImageCard({
         {/* Image Side */}
         <motion.div
           initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-          whileInView={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
-          viewport={{ once: true, margin: "-100px" }}
+          animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className={`relative overflow-hidden ${reverse ? "lg:order-2 lg:col-span-7" : "lg:col-span-7"}`}
         >

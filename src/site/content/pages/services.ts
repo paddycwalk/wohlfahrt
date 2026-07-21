@@ -83,19 +83,19 @@ export interface ServicesContent {
 }
 
 const heroImg =
-  "https://images.unsplash.com/photo-1758448018619-4cbe2250b9ad?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMHRpbGVzJTIwbW9kZXJuJTIwZGVzaWdufGVufDF8fHx8MTc3NTgzMDIxOHww&ixlib=rb-4.1.0&q=80&w=1080";
+  "/assets/leistung-bad.webp";
 const craftsmanImg =
-  "https://images.unsplash.com/photo-1723689675520-d93e0943cdb6?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjBsYXlpbmclMjBjZXJhbWljJTIwZmxvb3IlMjB0aWxlcyUyMHByZWNpc2lvbnxlbnwxfHx8fDE3NzU4MzAyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080";
+  "/assets/leistung-reparatur.webp";
 const marbleImg =
-  "https://images.unsplash.com/photo-1670608927660-70a18b893cd3?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJibGUlMjBzdG9uZSUyMHRleHR1cmUlMjBkYXJrJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzU4MzAyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080";
+  "/assets/leistung-marmor.webp";
 const archImg =
-  "https://images.unsplash.com/photo-1774516534107-7756806d8f73?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBpbnRlcmlvciUyMGNvbmNyZXRlJTIwd2FsbHxlbnwxfHx8fDE3NzU4MzAyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080";
+  "/assets/leistung-architektur.webp";
 const livingImg =
-  "https://images.unsplash.com/photo-1757262798677-ab4af4455a58?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsaXZpbmclMjByb29tJTIwdGlsZWQlMjBmbG9vciUyMGVsZWdhbnQlMjBpbnRlcmlvcnxlbnwxfHx8fDE3NzY4NTYzMjl8MA&ixlib=rb-4.1.0&q=80&w=1080";
+  "/assets/leistung-verlegung.webp";
 
 export const defaultServicesContent: ServicesContent = {
   heroImage: heroImg,
-  heroImageAlt: "Luxury bathroom tiles",
+  heroImageAlt: "Edles Badezimmer mit Natursteinoptik-Fliesen",
   heroEyebrow: "Unsere Leistungen",
   heroTitleLine1: "Handwerk",
   heroTitleLine2Pre: "mit ",
@@ -115,7 +115,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Fliesenarbeiten in Neubauten — ob mit Architekt, Bauleiter oder in Eigenregie. Regional bekannt für Erfahrung und Know-how.",
       image:
-        "https://images.unsplash.com/photo-1686358244570-631340cbbd22?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBuZXclMjBidWlsZGluZyUyMHNpdGUlMjBob3VzZXxlbnwxfHx8fDE3NzczNjQxNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/leistung-neubau.webp",
     },
     {
       icon: "wrench",
@@ -144,7 +144,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Im Außenbereich kommt es auf hochwertige Ausführung und die richtigen Materialien an — mit jahrzehntelangem Fachwissen auf aktuellem Stand der Technik.",
       image:
-        "https://images.unsplash.com/photo-1762857995839-62cf8587f542?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZXJyYWNlJTIwYmFsY29ueSUyMHRpbGVzJTIwb3V0ZG9vcnxlbnwxfHx8fDE3NzczNjQxMzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/leistung-terrasse.webp",
     },
     {
       icon: "flame",
@@ -152,7 +152,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Warme Füße ohne große Umbauten: Fliesenheizungen lassen sich unkompliziert unter Ihren Belag verlegen — programmierbar und energieeffizient.",
       image:
-        "https://images.unsplash.com/photo-1614409938983-65f12e272ee4?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bmRlcmZsb29yJTIwaGVhdGluZyUyMHdhcm0lMjBmbG9vciUyMGluc3RhbGxhdGlvbnxlbnwxfHx8fDE3NzczNjQxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/leistung-heizung.webp",
     },
     {
       icon: "droplet",
@@ -167,7 +167,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Barrierefreie Bäder und Wohnräume — durchdachte Lösungen für mehr Komfort und Sicherheit im Alltag.",
       image:
-        "https://images.unsplash.com/photo-1756312178806-448bbb981d7e?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhY2Nlc3NpYmxlJTIwYmF0aHJvb20lMjBiYXJyaWVyJTIwZnJlZSUyMHNob3dlciUyMHdoZWVsY2hhaXJ8ZW58MXx8fHwxNzc3MzY0MTY0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        "/assets/leistung-barrierefrei.webp",
     },
     {
       icon: "wind",

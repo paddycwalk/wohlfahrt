@@ -218,7 +218,7 @@ export function Header() {
             <button
               ref={menuButtonRef}
               onClick={toggleMenu}
-              className="relative z-[60] flex items-center gap-4 group cursor-pointer"
+              className="relative z-[60] ml-4 flex shrink-0 items-center gap-4 group cursor-pointer sm:ml-0"
               aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
               aria-expanded={menuOpen}
               aria-haspopup="dialog"

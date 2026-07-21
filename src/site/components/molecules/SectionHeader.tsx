@@ -9,7 +9,13 @@ interface SectionHeaderProps {
   label?: string;
 }
 
-export function SectionHeader({ title, subtitle, centered = false, children, label }: SectionHeaderProps) {
+export function SectionHeader({
+  title,
+  subtitle,
+  centered = false,
+  children,
+  label,
+}: SectionHeaderProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -27,7 +33,9 @@ export function SectionHeader({ title, subtitle, centered = false, children, lab
           className={`flex items-center gap-4 mb-6 ${centered ? "justify-center" : ""}`}
         >
           <div className="w-8 h-px bg-accent" />
-          <span className="text-xs tracking-[0.3em] text-accent uppercase">{label}</span>
+          <span className="text-xs tracking-[0.3em] text-accent uppercase">
+            {label}
+          </span>
           <div className="w-8 h-px bg-accent" />
         </motion.div>
       )}

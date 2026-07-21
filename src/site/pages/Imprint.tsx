@@ -57,11 +57,23 @@ export function Imprint({
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">Kontakt</h2>
                   <p>
-                    Telefon: 07121 / 71082
+                    Telefon:{" "}
+                    <a
+                      href="tel:+49712171082"
+                      className="text-accent hover:opacity-80 transition-opacity"
+                    >
+                      07121 / 71082
+                    </a>
                     <br />
                     Telefax: 07121 / 79703
                     <br />
-                    E-Mail: info@fliesen-wohlfahrt.de
+                    E-Mail:{" "}
+                    <a
+                      href="mailto:info@fliesen-wohlfahrt.de"
+                      className="text-accent hover:opacity-80 transition-opacity"
+                    >
+                      info@fliesen-wohlfahrt.de
+                    </a>
                   </p>
                 </section>
 

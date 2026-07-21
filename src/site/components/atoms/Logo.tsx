@@ -10,7 +10,7 @@ export function Logo({ className = "" }: LogoProps) {
     <ImageWithFallback
       src={asset("/logo.webp")}
       alt="Wohlfahrt & Wohlfahrt Logo"
-      className={`h-12 w-auto ${className}`}
+      className={`h-9 w-auto max-w-full object-contain sm:h-10 md:h-12 ${className}`}
       width={270}
       height={49}
     />

@@ -98,7 +98,12 @@ export function Showroom({
                     title: "Öffnungszeiten",
                     text: openingHoursText,
                   },
-                  { icon: Phone, title: "Telefon", text: s.phone },
+                  {
+                    icon: Phone,
+                    title: "Telefon",
+                    text: s.phone,
+                    href: `tel:${s.phoneHref}`,
+                  },
                 ].map((item, i) => (
                   <motion.div
                     key={item.title}
@@ -115,9 +120,18 @@ export function Showroom({
                       <h3 className="text-sm tracking-[0.15em] uppercase text-accent mb-1">
                         {item.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm whitespace-pre-line">
-                        {item.text}
-                      </p>
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          className="text-muted-foreground text-sm hover:text-accent transition-colors whitespace-pre-line"
+                        >
+                          {item.text}
+                        </a>
+                      ) : (
+                        <p className="text-muted-foreground text-sm whitespace-pre-line">
+                          {item.text}
+                        </p>
+                      )}
                     </div>
                   </motion.div>
                 ))}

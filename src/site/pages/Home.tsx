@@ -116,7 +116,11 @@ export function Home({
                 transition={{ delay: 1.2, duration: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <Button asChild variant="primary" className="text-sm px-8 py-4 flex items-center gap-2 h-14">
+                <Button
+                  asChild
+                  variant="primary"
+                  className="text-sm px-8 py-4 flex items-center gap-2 h-14"
+                >
                   <Link to={content.heroCtaPrimary.link}>
                     {content.heroCtaPrimary.label} <ArrowRight size={16} />
                   </Link>
@@ -226,7 +230,11 @@ export function Home({
             </div>
           ))}
         </div>
-        <Button asChild variant="primary" className="text-sm flex items-center gap-2">
+        <Button
+          asChild
+          variant="primary"
+          className="text-sm flex items-center gap-2"
+        >
           <Link to={content.traditionCta.link}>
             {content.traditionCta.label} <ArrowRight size={14} />
           </Link>
