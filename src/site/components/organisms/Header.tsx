@@ -157,8 +157,8 @@ export function Header() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
-            <Link to="/" className="relative z-[60]">
-              <div className="flex flex-col items-start gap-1">
+            <Link to="/" className="relative z-[60] min-w-0">
+              <div className="flex flex-col items-start gap-1 min-w-0">
                 <motion.div
                   initial={false}
                   animate={{
@@ -179,7 +179,7 @@ export function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: 0.3 }}
-                    className="text-[10px] tracking-[0.15em] uppercase text-accent font-bold"
+                    className="whitespace-nowrap text-[8px] tracking-[0.08em] sm:text-[10px] sm:tracking-[0.15em] uppercase text-accent font-bold leading-tight"
                   >
                     Wohlfahrt & Wohlfahrt Fliesen GmbH
                   </motion.span>
