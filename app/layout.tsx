@@ -159,8 +159,6 @@ export default async function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: fontFaceCss }}
         />
-        {/* Verbindungs-Latenz fuer externe Bilder reduzieren */}
-        <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body>
         <StoryblokProvider>

@@ -247,11 +247,10 @@ der den Build + Deploy automatisch auslöst.
 
 ## Bekannte Punkte / To-dos
 
-- [ ] **Storyblok-Space** anlegen und Inhalte gemäß Blueprint pflegen (s. o.).
-- [ ] **Rebuild-Webhook** (Storyblok → GitHub Action) für automatische Deploys.
 - [ ] **Kontaktformular** versendet noch nicht real (Mock) – Anbindung an einen
-      Dienst wie Web3Forms/Formspree oder `mailto:`-Fallback nötig.
-- [ ] **Cookie-/Consent-Banner** für extern geladene Inhalte (z. B. Unsplash-Bilder) prüfen.
+      Dienst wie Web3Forms/Formspree/Resend oder `mailto:`-Fallback nötig.
+- [ ] **Cookie-/Consent-Banner** für externe Einbettungen (z. B. Google-Maps-iframe
+      über `mapEmbedUrl`) prüfen.
+- [ ] **Team-Fotos** in Storyblok pflegen (Default ist ein Platzhalter,
+      `/assets/team-placeholder.svg`).
 - [ ] **Rechtstexte** (Impressum/Datenschutz) juristisch final prüfen.
-- [ ] `src/imports/` (Figma-Altlasten) aufräumen.
-      --test

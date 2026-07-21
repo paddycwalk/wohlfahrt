@@ -7,56 +7,47 @@ const navigation = [
   {
     name: "Startseite",
     path: "/",
-    image:
-      "https://images.unsplash.com/photo-1572742482459-e04d6cfdd6f3?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMG1hcmJsZSUyMHRpbGVzfGVufDF8fHx8MTc3NTgyNzIyMnww&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/home-hero.webp",
   },
   {
     name: "Über uns",
     path: "/ueber-uns",
-    image:
-      "https://images.unsplash.com/photo-1751037773857-9bdd4d55a54a?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBraXRjaGVuJTIwaGVycmluZ2JvbmUlMjB0aWxlc3xlbnwxfHx8fDE3NzU4MjcyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/de9dae3e15181dc8a32cee214e691af8ea1217e1.webp",
   },
   {
     name: "Leistungen",
     path: "/leistungen",
-    image:
-      "https://images.unsplash.com/photo-1770993189354-66f68ca11ef6?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwaW50ZXJpb3IlMjBmbG9vciUyMGRlc2lnbnxlbnwxfHx8fDE3NzU4MjcyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/leistung-bad.webp",
   },
   {
     name: "Ausstellung",
     path: "/ausstellung",
-    image:
-      "https://images.unsplash.com/photo-1656147173067-2022b4ab3cc6?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwc2hvd3Jvb20lMjBpbnRlcmlvciUyMHRpbGVzfGVufDF8fHx8MTc3NTgyNzIyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
   },
   {
     name: "Referenzen",
     path: "/referenzen",
-    image:
-      "https://images.unsplash.com/photo-1572742482459-e04d6cfdd6f3?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMG1hcmJsZSUyMHRpbGVzfGVufDF8fHx8MTc3NTgyNzIyMnww&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/referenzen-hero.webp",
   },
   {
     name: "Produkte",
     path: "/produkte",
-    image:
-      "https://images.unsplash.com/photo-1762380371803-113992341bec?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnRpc2FuJTIwbW9zYWljJTIwdGlsZSUyMHBhdHRlcm58ZW58MXx8fHwxNzc1ODI3MjI0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/produkt-wandfliesen.webp",
   },
   {
     name: "Aktuelles",
     path: "/aktuelles",
-    image:
-      "https://images.unsplash.com/photo-1751037773857-9bdd4d55a54a?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBraXRjaGVuJTIwaGVycmluZ2JvbmUlMjB0aWxlc3xlbnwxfHx8fDE3NzU4MjcyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/home-tradition.webp",
   },
   {
     name: "Karriere",
     path: "/karriere",
-    image:
-      "https://images.unsplash.com/photo-1770993189354-66f68ca11ef6?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwaW50ZXJpb3IlMjBmbG9vciUyMGRlc2lnbnxlbnwxfHx8fDE3NzU4MjcyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/leistung-verlegung.webp",
   },
   {
     name: "Kontakt",
     path: "/kontakt",
-    image:
-      "https://images.unsplash.com/photo-1656147173067-2022b4ab3cc6?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwc2hvd3Jvb20lMjBpbnRlcmlvciUyMHRpbGVzfGVufDF8fHx8MTc3NTgyNzIyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/assets/home-statement.webp",
   },
 ];
 
