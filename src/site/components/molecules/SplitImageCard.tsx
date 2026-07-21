@@ -27,7 +27,7 @@ export function SplitImageCard({
           initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
           animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className={`relative overflow-hidden ${reverse ? "lg:order-2 lg:col-span-7" : "lg:col-span-7"}`}
+          className={`relative overflow-hidden h-[56vh] min-h-[360px] lg:h-auto lg:min-h-0 ${reverse ? "lg:order-2 lg:col-span-7" : "lg:col-span-7"}`}
         >
           <ImageWithFallback
             src={image}
