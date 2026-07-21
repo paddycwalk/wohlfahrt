@@ -25,11 +25,6 @@ const IS_PREVIEW = process.env.VERCEL_ENV
   ? process.env.VERCEL_ENV !== "production"
   : false;
 
-// ISR-Sicherheitsnetz: Seiten spaetestens stuendlich neu erzeugen, falls der
-// Publish-Webhook (/api/revalidate) einmal nicht greift. Gilt als Default fuer
-// alle Routen unter diesem Layout.
-export const revalidate = 3600;
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {

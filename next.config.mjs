@@ -18,6 +18,15 @@ const nextConfig = {
       "react-router": "./src/site/lib/react-router-shim.tsx",
     },
   },
+  // Storyblok haengt im Visual Editor den full_slug der Story an die Preview-URL
+  // an. Die Startseite hat den Slug "home" -> Editor laedt /home. Da unsere
+  // Startseite aber auf "/" liegt, liefern wir /home intern die Wurzel aus.
+  async rewrites() {
+    return [
+      { source: "/home", destination: "/" },
+      { source: "/home/", destination: "/" },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -1,5 +1,5 @@
 import { isStoryblokEnabled, storyblokClient } from "../lib/storyblok";
-import { draftMode } from "next/headers";
+import { headers } from "next/headers";
 import { defaultSiteSettings } from "./site";
 import type { SiteSettings } from "./types";
 import { defaultHomeContent } from "./pages/home";
@@ -56,18 +56,21 @@ import { renderRichText } from "@storyblok/richtext";
  * Ermittelt pro Anfrage, ob "draft" oder "published" geladen wird.
  *
  * - Dev-Server: immer "draft" (fuer die lokale Vorschau).
- * - Produktion: "draft" nur, wenn der Next.js Draft-Mode aktiv ist (Storyblok
- *   Visual Editor, aktiviert ueber /api/draft). Sonst die Env-Version bzw.
- *   "published". Draft-Mode wird nur mit gesetztem Bypass-Cookie dynamisch –
- *   normale Besucher bleiben auf der ISR-gecachten "published"-Fassung.
+ * - Produktion: "draft" nur, wenn der interne Header `x-sb-preview` gesetzt ist
+ *   (von der Middleware bei vorhandenem `_storyblok`-Query gesetzt = Storyblok
+ *   Visual Editor). Sonst die Env-Version bzw. "published".
+ *
+ * Da hier `headers()` gelesen wird, werden die Seiten serverseitig dynamisch
+ * gerendert – veroeffentlichte Aenderungen sind dadurch ohne Rebuild sofort
+ * live, und die Editor-Vorschau funktioniert ohne Cookie (iframe-tauglich).
  */
 async function resolveVersion(): Promise<"draft" | "published"> {
   if (process.env.NODE_ENV !== "production") return "draft";
   try {
-    const { isEnabled } = await draftMode();
-    if (isEnabled) return "draft";
+    const h = await headers();
+    if (h.get("x-sb-preview") === "1") return "draft";
   } catch {
-    /* draftMode() ausserhalb eines Request-Kontexts -> published */
+    /* headers() ausserhalb eines Request-Kontexts -> published */
   }
   return (
     (process.env.STORYBLOK_VERSION as "draft" | "published") || "published"

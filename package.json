@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "trap 'kill 0' EXIT; local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem & next dev",
-    "dev:next": "next dev",
+    "dev": "next dev -p 3010 --experimental-https --experimental-https-key ./localhost-key.pem --experimental-https-cert ./localhost.pem",
+    "dev:http": "next dev",
     "proxy": "local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem",
     "build": "next build",
     "start": "next start",

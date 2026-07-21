@@ -117,12 +117,12 @@ Jede Route unter `app/<name>/page.tsx` ist ein dünner Wrapper mit eigener
 
 ---
 
-## Deployment (Vercel, SSR/ISR)
+## Deployment (Vercel, SSR)
 
-Die Seite laeuft auf **Vercel** als server-gerenderte App mit **ISR**
-(Incremental Static Regeneration). Vorteil: der Storyblok Visual Editor zeigt
-eine echte Draft-Vorschau, und veroeffentlichte Aenderungen sind kurz darauf
-live – ohne Rebuild-Commit.
+Die Seite laeuft auf **Vercel** als server-gerenderte App (dynamisches SSR).
+Vorteil: der Storyblok Visual Editor zeigt eine echte Draft-Vorschau, und
+veroeffentlichte Aenderungen sind **sofort** live – ohne Rebuild und ohne
+Commit.
 
 ### Einrichtung
 
@@ -130,7 +130,6 @@ live – ohne Rebuild-Commit.
 2. **Environment Variables** setzen (Production + Preview):
    - `STORYBLOK_TOKEN`, `STORYBLOK_REGION`, `STORYBLOK_VERSION=published`
    - `NEXT_PUBLIC_STORYBLOK_TOKEN`, `NEXT_PUBLIC_STORYBLOK_REGION` (Bridge)
-   - `STORYBLOK_REVALIDATE_SECRET` (frei waehlbares Geheimnis)
 3. **Domain** im Vercel-Projekt hinterlegen und die DNS-Eintraege beim
    Registrar setzen. SSL kommt automatisch.
 
@@ -139,20 +138,17 @@ live – ohne Rebuild-Commit.
 - In Storyblok → **Settings → Visual Editor → Preview URL** die Vercel-Domain
   eintragen (`https://DEINE-DOMAIN/`).
 - Beim Oeffnen einer Story haengt Storyblok `?_storyblok=…` an. Die
-  [`middleware.ts`](middleware.ts) leitet einmalig ueber
-  [`app/api/draft/route.ts`](app/api/draft/route.ts) und aktiviert den
-  Next.js Draft-Mode → die Vorschau rendert **draft**. Beim **Speichern** laedt
-  die Bridge neu und zeigt den neuen Stand.
+  [`middleware.ts`](middleware.ts) setzt daraufhin den internen Header
+  `x-sb-preview`, und die Content-Fetcher laden **draft** statt **published**
+  (siehe `resolveVersion` in [`src/site/content/index.ts`](src/site/content/index.ts)).
+  Bewusst **ohne** Draft-Mode-Cookie – im iframe blockieren Browser solche
+  Third-Party-Cookies (fuehrte zu einer Redirect-Schleife). Beim **Speichern**
+  laedt die Bridge neu und zeigt den neuen Stand.
 
 ### Veroeffentlichen → live
 
-- In Storyblok → **Settings → Webhooks** einen Webhook „Story published"
-  anlegen mit URL:
-  `https://DEINE-DOMAIN/api/revalidate/?secret=DEIN_SECRET`
-- Der Handler [`app/api/revalidate/route.ts`](app/api/revalidate/route.ts) ruft
-  `revalidatePath("/", "layout")` auf → betroffene Seiten werden neu erzeugt,
-  die Aenderung ist in Sekunden live. Als Sicherheitsnetz revalidieren die
-  Seiten zusaetzlich stuendlich ([`revalidate = 3600`](app/layout.tsx)).
+Da die Seiten pro Anfrage server-seitig gerendert werden, ist eine
+Veroeffentlichung **sofort** sichtbar – kein Webhook, kein Rebuild noetig.
 
 ### Lokal testen
 
