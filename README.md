@@ -25,11 +25,11 @@ und kann ohne Server (z. B. per FTP) auf jedes Webhosting geladen werden.
 
 | Bereich        | Technologie                                                                   |
 | -------------- | ----------------------------------------------------------------------------- |
-| Framework      | [Next.js 16](https://nextjs.org/) (App Router, `output: "export"`, Turbopack) |
+| Framework      | [Next.js 16](https://nextjs.org/) (App Router, SSR/ISR, Turbopack)            |
 | UI-Bibliothek  | [React 19](https://react.dev/)                                                |
 | Sprache        | [TypeScript 6](https://www.typescriptlang.org/)                               |
 | Styling        | [Tailwind CSS v4](https://tailwindcss.com/)                                   |
-| UI-Komponenten | [Radix UI](https://www.radix-ui.com/) / shadcn                                |
+| UI-Komponenten | Eigene Komponenten (Atomic Design) + [Radix Slot](https://www.radix-ui.com/) |
 | Animationen    | [Motion](https://motion.dev/)                                                 |
 | Icons          | [lucide-react](https://lucide.dev/) (+ eigene Brand-Icons)                    |
 | Schriften      | Bebas Neue & Montserrat (selbst gehostet, woff2)                              |

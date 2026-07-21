@@ -20,6 +20,13 @@ export const defaultNewsContent: NewsContent = {
   heroTitle: "Neuigkeiten",
   items: [
     {
+      date: "September 2025",
+      title: "Yannik Wohlfahrt ist die vierte Meistergeneration",
+      excerpt:
+        "Große Freude im 1954 gegründeten Familienbetrieb: Yannik Wohlfahrt hat im September 2025 seine Meisterprüfung im Fliesenlegerhandwerk erfolgreich abgelegt und führt damit als vierte Generation die Firmentradition fort. Für die Prüfung plante, baute und verflieste er eine voll funktionsfähige japanische Küche.",
+      category: "Unternehmen",
+    },
+    {
       date: "15. März 2026",
       title: "Neue Großformatfliesen eingetroffen",
       excerpt:
