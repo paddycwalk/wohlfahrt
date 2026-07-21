@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
+import { GalleryModal } from "../components/molecules/GalleryModal";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Images } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
 import { asset } from "../lib/asset";
@@ -13,6 +15,7 @@ import {
   defaultProductsContent,
   type ProductsContent,
   type ProductCategory,
+  type ProductSeries,
 } from "../content/pages/products";
 
 /** Relative Pfade ueber den Base-Path aufloesen, externe URLs unveraendert. */
@@ -26,6 +29,7 @@ export function Products({
   content?: ProductsContent;
 }) {
   const categories = content.categories;
+  const [activeSeries, setActiveSeries] = useState<ProductSeries | null>(null);
 
   return (
     <div className="overflow-hidden" {...sbEditable(content.editable)}>
@@ -215,6 +219,67 @@ export function Products({
         </div>
       </section>
 
+      {/* Kollektionen — Serien-Galerien */}
+      {content.collections.length > 0 && (
+        <section className="bg-secondary py-24 md:py-40">
+          <div className="container mx-auto px-4">
+            <SectionHeader
+              label={content.collectionsLabel}
+              title={content.collectionsTitle}
+            />
+            {content.collectionsIntro && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="text-lg text-muted-foreground max-w-2xl -mt-4 md:-mt-16 mb-16"
+              >
+                {content.collectionsIntro}
+              </motion.p>
+            )}
+
+            <div className="space-y-20">
+              {content.collections.map((group) => (
+                <div key={group.label} {...sbEditable(group.editable)}>
+                  <div className="flex items-baseline gap-4 mb-8">
+                    <h3 className="text-2xl md:text-3xl tracking-tight">
+                      {group.label}
+                    </h3>
+                    <span className="text-sm text-muted-foreground">
+                      {group.series.length}{" "}
+                      {group.series.length === 1 ? "Serie" : "Serien"}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {group.series.map((series, i) => (
+                      <SeriesCard
+                        key={`${group.label}-${series.title}`}
+                        series={series}
+                        index={i}
+                        onOpen={() => setActiveSeries(series)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeSeries && (
+        <GalleryModal
+          images={activeSeries.images.map(resolveImage)}
+          alts={activeSeries.images.map(
+            (_, i) =>
+              `${activeSeries.title} – Bild ${i + 1} von ${activeSeries.images.length}`,
+          )}
+          currentIndex={0}
+          onClose={() => setActiveSeries(null)}
+        />
+      )}
+
       {/* CTA */}
       <section className="py-24 md:py-40">
         <div className="container mx-auto px-4">
@@ -291,5 +356,52 @@ function ProductCard({
         </p>
       </div>
     </motion.div>
+  );
+}
+
+function SeriesCard({
+  series,
+  index,
+  onOpen,
+}: {
+  series: ProductSeries;
+  index: number;
+  onOpen: () => void;
+}) {
+  const cover = series.images[0];
+  return (
+    <motion.button
+      type="button"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        delay: (index % 4) * 0.06,
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      onClick={onOpen}
+      aria-label={`${series.title}: Galerie mit ${series.images.length} Bildern öffnen`}
+      className="group relative block w-full overflow-hidden text-left cursor-pointer aspect-[4/5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+      {...sbEditable(series.editable)}
+    >
+      <ImageWithFallback
+        src={resolveImage(cover)}
+        alt={series.title}
+        className="w-full h-full object-cover absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+        width={800}
+        height={1000}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+      <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <Images size={13} />
+        {series.images.length}
+      </div>
+      <div className="absolute inset-0 p-5 flex flex-col justify-end">
+        <h4 className="text-lg md:text-xl text-white leading-tight">
+          {series.title}
+        </h4>
+      </div>
+    </motion.button>
   );
 }

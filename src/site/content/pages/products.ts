@@ -3,12 +3,36 @@
  *
  * Hinweis: Das Kategorie-Layout ist fest auf 5 Kacheln ausgelegt
  * (Reihe 1: 2 Kacheln, Reihe 2: 3 Kacheln).
+ *
+ * Die Serien-Galerien (`collections`) werden aus den gelieferten Bildordnern
+ * generiert und liegen in `products-collections.ts` (regenerierbar).
  */
+
+import { productCollections } from "./products-collections";
 
 export interface ProductCategory {
   title: string;
   description: string;
   image: string;
+  /** Storyblok Click-to-Edit (nur im Editor gesetzt). */
+  editable?: string;
+}
+
+/** Eine Produktserie mit Bildergalerie (Ordnername + WebP-Bilder). */
+export interface ProductSeries {
+  /** Serien-/Ordnername, z. B. "Serie Loft" oder "HR Ambienti BERGSTONE". */
+  title: string;
+  /** Galeriebilder (WebP, Storyblok-CDN). Das erste Bild dient als Cover. */
+  images: string[];
+  /** Storyblok Click-to-Edit (nur im Editor gesetzt). */
+  editable?: string;
+}
+
+/** Eine Kollektions-Gruppe (z. B. "HR Ambienti", "Outdoor", "Indoor"). */
+export interface ProductCollectionGroup {
+  /** Gruppen-Ueberschrift. */
+  label: string;
+  series: ProductSeries[];
   /** Storyblok Click-to-Edit (nur im Editor gesetzt). */
   editable?: string;
 }
@@ -32,6 +56,12 @@ export interface ProductsContent {
   categoriesLabel: string;
   categoriesTitle: string;
   categories: ProductCategory[];
+
+  // Kollektionen (Serien-Galerien)
+  collectionsLabel: string;
+  collectionsTitle: string;
+  collectionsIntro: string;
+  collections: ProductCollectionGroup[];
 
   // CTA
   ctaTitle: string;
@@ -96,6 +126,12 @@ export const defaultProductsContent: ProductsContent = {
         "/assets/produkt-feinsteinzeug.webp",
     },
   ],
+
+  collectionsLabel: "Kollektionen",
+  collectionsTitle: "Serien im Detail",
+  collectionsIntro:
+    "Ausgewählte Serien aus unserem Sortiment — jede mit eigener Bildergalerie. Bild anklicken zum Vergrößern.",
+  collections: productCollections,
 
   ctaTitle: "Erleben Sie unsere Produkte live",
   ctaText:

@@ -28,7 +28,11 @@ import type {
   ServicesContent,
 } from "./pages/services";
 import { defaultProductsContent } from "./pages/products";
-import type { ProductCategory, ProductsContent } from "./pages/products";
+import type {
+  ProductCategory,
+  ProductCollectionGroup,
+  ProductsContent,
+} from "./pages/products";
 import { defaultReferencesContent } from "./pages/references";
 import type { ReferenceProject, ReferencesContent } from "./pages/references";
 import { defaultShowroomContent } from "./pages/showroom";
@@ -123,6 +127,23 @@ function textFrom(item: unknown): string {
 /** Eine Liste von text_item-Bloks (oder Strings) mit Fallback abbilden. */
 function textItems(field: unknown, fallback: string[]): string[] {
   if (Array.isArray(field) && field.length > 0) return field.map(textFrom);
+  return fallback;
+}
+
+/** Ein Multi-Asset-Feld auf eine Liste von URLs reduzieren (mit Fallback). */
+function multiAssetUrls(field: unknown, fallback: string[]): string[] {
+  if (Array.isArray(field) && field.length > 0) {
+    const urls = field
+      .map((a) => {
+        if (a && typeof a === "object" && "filename" in a) {
+          const f = (a as { filename?: string }).filename;
+          return typeof f === "string" ? f : "";
+        }
+        return typeof a === "string" ? a : "";
+      })
+      .filter(Boolean);
+    if (urls.length > 0) return urls;
+  }
   return fallback;
 }
 
@@ -537,6 +558,27 @@ export async function getProductsContent(): Promise<ProductsContent> {
           }))
         : d.categories;
 
+    const collections: ProductCollectionGroup[] =
+      Array.isArray(c.collections) && c.collections.length > 0
+        ? c.collections.map((g: Record<string, unknown>, gi: number) => ({
+            label:
+              typeof g.label === "string"
+                ? g.label
+                : d.collections[gi]?.label || "",
+            editable: editableOf(g),
+            series: (Array.isArray(g.series) ? g.series : []).map(
+              (s: Record<string, unknown>, si: number) => ({
+                title: typeof s.title === "string" ? s.title : "",
+                images: multiAssetUrls(
+                  s.gallery,
+                  d.collections[gi]?.series[si]?.images || [],
+                ),
+                editable: editableOf(s),
+              }),
+            ),
+          }))
+        : d.collections;
+
     return {
       ...d,
       editable: editableOf(c),
@@ -553,6 +595,10 @@ export async function getProductsContent(): Promise<ProductsContent> {
       categoriesLabel: c.categoriesLabel || d.categoriesLabel,
       categoriesTitle: c.categoriesTitle || d.categoriesTitle,
       categories,
+      collectionsLabel: c.collectionsLabel || d.collectionsLabel,
+      collectionsTitle: c.collectionsTitle || d.collectionsTitle,
+      collectionsIntro: c.collectionsIntro || d.collectionsIntro,
+      collections,
       ctaTitle: c.ctaTitle || d.ctaTitle,
       ctaText: c.ctaText || d.ctaText,
       ctaButtonLabel: c.ctaButtonLabel || d.ctaButtonLabel,

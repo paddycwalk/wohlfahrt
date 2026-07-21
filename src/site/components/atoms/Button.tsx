@@ -1,8 +1,8 @@
-import { motion } from "motion/react";
+import { motion, type HTMLMotionProps } from "motion/react";
 import { Slot } from "@radix-ui/react-slot";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ReactNode } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<"button"> {
   variant?: "primary" | "secondary" | "outline" | "ghost";
   children: ReactNode;
   /**

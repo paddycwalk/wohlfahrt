@@ -277,8 +277,11 @@ export function Header() {
             aria-label="Hauptmenü"
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            exit={{
+              clipPath: "inset(0 0 100% 0)",
+              transition: { duration: 0.42, ease: [0.76, 0, 0.24, 1] },
+            }}
+            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-40 bg-[#0a0a0a]"
           >
             {/* Grain overlay */}
@@ -304,8 +307,8 @@ export function Header() {
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -20 }}
                           transition={{
-                            delay: 0.2 + index * 0.05,
-                            duration: 0.6,
+                            delay: 0.12 + index * 0.03,
+                            duration: 0.4,
                             ease: [0.16, 1, 0.3, 1],
                           }}
                           className="border-b border-white/[0.07] first:border-t"
@@ -352,7 +355,7 @@ export function Header() {
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.7, duration: 0.6 }}
+                        transition={{ delay: 0.4, duration: 0.4 }}
                         className="space-y-8"
                       >
                         <div>
@@ -424,7 +427,7 @@ export function Header() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.9 }}
+                transition={{ delay: 0.5 }}
                 className="shrink-0 border-t border-white/[0.07] py-4"
               >
                 <div className="container mx-auto px-4 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
