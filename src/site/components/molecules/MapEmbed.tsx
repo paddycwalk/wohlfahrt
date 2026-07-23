@@ -113,7 +113,11 @@ export function MapEmbed({
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  delay: 0.15,
+                  duration: 0.6,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 className="w-full max-w-[260px] border border-white/10 bg-background/95 p-5 text-center shadow-2xl backdrop-blur-md md:max-w-[300px] md:p-6"
               >
                 <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center bg-accent">
@@ -126,7 +130,9 @@ export function MapEmbed({
                 <p className="mb-1.5 text-[11px] uppercase tracking-[0.3em] text-accent">
                   Standort
                 </p>
-                <h3 className="mb-2.5 text-xl text-foreground">Karte ansehen</h3>
+                <h3 className="mb-2.5 text-xl text-foreground">
+                  Karte ansehen
+                </h3>
 
                 {address && address.length > 0 && (
                   <p className="mb-2.5 whitespace-pre-line text-sm text-muted-foreground">

@@ -47,9 +47,7 @@ export function Imprint({
                   <h2 className="text-2xl text-foreground mb-4">
                     Vertreten durch
                   </h2>
-                  <p>
-                    Geschäftsführer: Uwe Wohlfahrt, Volker Wohlfahrt
-                  </p>
+                  <p>Geschäftsführer: Uwe Wohlfahrt, Volker Wohlfahrt</p>
                 </section>
 
                 <section>
