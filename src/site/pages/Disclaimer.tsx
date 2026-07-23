@@ -36,9 +36,9 @@ export function Disclaimer({
                     1. Haftung für Inhalte
                   </h2>
                   <p>
-                    Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene
+                    Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene
                     Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
-                    verantwortlich. Nach §§ 8 bis 10 TMG sind wir als
+                    verantwortlich. Nach §§ 8 bis 10 DDG sind wir als
                     Diensteanbieter jedoch nicht verpflichtet, übermittelte oder
                     gespeicherte fremde Informationen zu überwachen oder nach
                     Umständen zu forschen, die auf eine rechtswidrige Tätigkeit
@@ -117,9 +117,9 @@ export function Disclaimer({
 
                 <section className="mt-8 pt-8 border-t border-border">
                   <p className="text-sm">
-                    Stand: April 2026
+                    Stand: Juli 2026
                     <br />
-                    Wohlfahrt & Wohlfahrt GmbH
+                    Wohlfahrt & Wohlfahrt Fliesen GmbH
                   </p>
                 </section>
               </div>

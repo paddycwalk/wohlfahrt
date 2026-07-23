@@ -33,7 +33,7 @@ export function Imprint({
               <div className="prose prose-lg max-w-none space-y-6 text-muted-foreground">
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">
-                    Angaben gemäß § 5 TMG
+                    Angaben gemäß § 5 DDG
                   </h2>
                   <p>
                     Wohlfahrt & Wohlfahrt Fliesen GmbH
@@ -48,9 +48,7 @@ export function Imprint({
                     Vertreten durch
                   </h2>
                   <p>
-                    Uwe Wohlfahrt
-                    <br />
-                    Volker Wohlfahrt
+                    Geschäftsführer: Uwe Wohlfahrt, Volker Wohlfahrt
                   </p>
                 </section>
 
@@ -102,17 +100,29 @@ export function Imprint({
                   </p>
                 </section>
 
-                <section className="mt-8 pt-8 border-t border-border">
-                  <p className="text-sm">
-                    Quelle:{" "}
-                    <a
-                      href="https://www.e-recht24.de"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent hover:underline"
-                    >
-                      www.e-recht24.de
-                    </a>
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    Redaktionell verantwortlich
+                  </h2>
+                  <p>
+                    Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:
+                    <br />
+                    Uwe Wohlfahrt, Volker Wohlfahrt
+                    <br />
+                    Hinterer Spielbach 4<br />
+                    72793 Pfullingen
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    EU-Streitschlichtung
+                  </h2>
+                  <p>
+                    Wir sind nicht bereit und nicht verpflichtet, an
+                    Streitbeilegungsverfahren vor einer
+                    Verbraucherschlichtungsstelle teilzunehmen (§ 36
+                    Verbraucherstreitbeilegungsgesetz – VSBG).
                   </p>
                 </section>
               </div>

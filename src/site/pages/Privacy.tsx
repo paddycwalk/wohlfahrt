@@ -48,366 +48,329 @@ export function Privacy({
             ) : (
               <div className="prose prose-lg max-w-none space-y-6 text-muted-foreground">
                 <section>
-                  <h2 className="text-2xl text-foreground mb-4">Datenschutz</h2>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    1. Datenschutz auf einen Blick
+                  </h2>
                   <p>
-                    Die Betreiber dieser Seiten nehmen den Schutz Ihrer
-                    persönlichen Daten sehr ernst. Wir behandeln Ihre
-                    personenbezogenen Daten vertraulich und entsprechend der
-                    gesetzlichen Datenschutzvorschriften sowie dieser
-                    Datenschutzerklärung.
+                    Der Schutz Ihrer personenbezogenen Daten ist uns ein
+                    wichtiges Anliegen. Wir behandeln Ihre Daten vertraulich und
+                    entsprechend der gesetzlichen Datenschutzvorschriften
+                    (insbesondere DSGVO und BDSG) sowie dieser
+                    Datenschutzerklärung. Diese Erklärung informiert Sie
+                    darüber, welche personenbezogenen Daten wir beim Besuch
+                    dieser Website verarbeiten und zu welchem Zweck.
                   </p>
                   <p>
-                    Die Nutzung unserer Webseite ist in der Regel ohne Angabe
-                    personenbezogener Daten möglich. Soweit auf unseren Seiten
-                    personenbezogene Daten (beispielsweise Name, Anschrift oder
-                    E-Mail-Adressen) erhoben werden, erfolgt dies, soweit
-                    möglich, stets auf freiwilliger Basis. Diese Daten werden
-                    ohne Ihre ausdrückliche Zustimmung nicht an Dritte
-                    weitergegeben.
-                  </p>
-                  <p>
-                    Wir weisen darauf hin, dass die Datenübertragung im Internet
-                    (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken
-                    aufweisen kann. Ein lückenloser Schutz der Daten vor dem
-                    Zugriff durch Dritte ist nicht möglich.
+                    Personenbezogene Daten sind alle Daten, mit denen Sie
+                    persönlich identifiziert werden können (z. B. Name, Anschrift
+                    oder E-Mail-Adresse).
                   </p>
                 </section>
 
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von Facebook-Plugins
-                    (Like-Button)
+                    2. Verantwortliche Stelle
                   </h2>
                   <p>
-                    Auf unseren Seiten sind Plugins des sozialen Netzwerks
-                    Facebook, Anbieter Facebook Inc., 1 Hacker Way, Menlo Park,
-                    California 94025, USA, integriert. Die Facebook-Plugins
-                    erkennen Sie an dem Facebook-Logo oder dem „Like-Button"
-                    („Gefällt mir") auf unserer Seite. Eine Übersicht über die
-                    Facebook-Plugins finden Sie hier:{" "}
-                    <ExternalLink href="http://developers.facebook.com/docs/plugins/">
-                      developers.facebook.com/docs/plugins
+                    Verantwortlich für die Datenverarbeitung auf dieser Website
+                    im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:
+                  </p>
+                  <p>
+                    Wohlfahrt & Wohlfahrt Fliesen GmbH
+                    <br />
+                    Hinterer Spielbach 4<br />
+                    72793 Pfullingen
+                    <br />
+                    Telefon:{" "}
+                    <a
+                      href="tel:+49712171082"
+                      className="text-accent hover:opacity-80 transition-opacity"
+                    >
+                      07121 / 71082
+                    </a>
+                    <br />
+                    E-Mail:{" "}
+                    <a
+                      href="mailto:info@fliesen-wohlfahrt.de"
+                      className="text-accent hover:opacity-80 transition-opacity"
+                    >
+                      info@fliesen-wohlfahrt.de
+                    </a>
+                  </p>
+                  <p>
+                    Verantwortliche Stelle ist die natürliche oder juristische
+                    Person, die allein oder gemeinsam mit anderen über die Zwecke
+                    und Mittel der Verarbeitung von personenbezogenen Daten
+                    entscheidet.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    3. Hosting
+                  </h2>
+                  <p>
+                    Wir hosten die Inhalte unserer Website bei folgendem
+                    Anbieter:
+                  </p>
+                  <p>
+                    ALL-INKL.COM – Neue Medien Münnich, Inhaber: René Münnich,
+                    Hauptstraße 68, 02742 Friedersdorf (nachfolgend „All-Inkl").
+                  </p>
+                  <p>
+                    Wenn Sie unsere Website besuchen, erfasst All-Inkl
+                    verschiedene Logfiles inklusive Ihrer IP-Adressen. Die
+                    Erfassung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f
+                    DSGVO. Wir haben ein berechtigtes Interesse an einer möglichst
+                    zuverlässigen Darstellung unserer Website. Die Verwendung von
+                    All-Inkl erfolgt zum Zweck einer sicheren, schnellen und
+                    effizienten Bereitstellung unseres Online-Angebots durch
+                    einen professionellen Anbieter.
+                  </p>
+                  <p>
+                    Mit All-Inkl haben wir einen Vertrag über Auftragsverarbeitung
+                    (AVV) gemäß Art. 28 DSGVO geschlossen. Dieser stellt sicher,
+                    dass die personenbezogenen Daten unserer Websitebesucher nur
+                    nach unseren Weisungen und unter Einhaltung der DSGVO
+                    verarbeitet werden.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    4. Allgemeine Hinweise
+                  </h2>
+                  <h3 className="text-xl text-foreground mb-2">
+                    SSL- bzw. TLS-Verschlüsselung
+                  </h3>
+                  <p>
+                    Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der
+                    Übertragung vertraulicher Inhalte eine SSL- bzw.
+                    TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen
+                    Sie daran, dass die Adresszeile des Browsers von „http://" auf
+                    „https://" wechselt und am Schloss-Symbol in Ihrer
+                    Browserzeile. Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert
+                    ist, können die Daten, die Sie an uns übermitteln, nicht von
+                    Dritten mitgelesen werden.
+                  </p>
+                  <h3 className="text-xl text-foreground mb-2 mt-4">
+                    Speicherdauer
+                  </h3>
+                  <p>
+                    Soweit innerhalb dieser Datenschutzerklärung keine speziellere
+                    Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen
+                    Daten bei uns, bis der Zweck für die Datenverarbeitung
+                    entfällt. Wenn Sie ein berechtigtes Löschersuchen geltend
+                    machen oder eine Einwilligung zur Datenverarbeitung
+                    widerrufen, werden Ihre Daten gelöscht, sofern wir keine
+                    anderen rechtlich zulässigen Gründe für die Speicherung Ihrer
+                    personenbezogenen Daten haben (z. B. steuer- oder
+                    handelsrechtliche Aufbewahrungsfristen); im letztgenannten Fall
+                    erfolgt die Löschung nach Fortfall dieser Gründe.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    5. Ihre Rechte
+                  </h2>
+                  <p>
+                    Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen
+                    jederzeit das Recht auf:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li>
+                      unentgeltliche Auskunft über Ihre gespeicherten
+                      personenbezogenen Daten, deren Herkunft und Empfänger sowie
+                      den Zweck der Datenverarbeitung (Art. 15 DSGVO),
+                    </li>
+                    <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO),</li>
+                    <li>Löschung Ihrer Daten (Art. 17 DSGVO),</li>
+                    <li>
+                      Einschränkung der Datenverarbeitung (Art. 18 DSGVO),
+                    </li>
+                    <li>Datenübertragbarkeit (Art. 20 DSGVO),</li>
+                    <li>
+                      Widerspruch gegen die Verarbeitung (Art. 21 DSGVO) sowie
+                    </li>
+                    <li>
+                      Widerruf einer erteilten Einwilligung mit Wirkung für die
+                      Zukunft (Art. 7 Abs. 3 DSGVO).
+                    </li>
+                  </ul>
+                  <p>
+                    Hierzu sowie zu weiteren Fragen zum Thema personenbezogene
+                    Daten können Sie sich jederzeit an uns wenden.
+                  </p>
+                  <h3 className="text-xl text-foreground mb-2 mt-4">
+                    Beschwerderecht bei der Aufsichtsbehörde
+                  </h3>
+                  <p>
+                    Im Falle von Verstößen gegen die DSGVO steht den Betroffenen
+                    ein Beschwerderecht bei einer Aufsichtsbehörde zu,
+                    insbesondere in dem Mitgliedstaat ihres gewöhnlichen
+                    Aufenthalts, ihres Arbeitsplatzes oder des Orts des
+                    mutmaßlichen Verstoßes. Die für uns zuständige
+                    Aufsichtsbehörde ist der Landesbeauftragte für den Datenschutz
+                    und die Informationsfreiheit Baden-Württemberg (LfDI BW). Das
+                    Beschwerderecht besteht unbeschadet anderweitiger
+                    verwaltungsrechtlicher oder gerichtlicher Rechtsbehelfe.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    6. Server-Log-Files
+                  </h2>
+                  <p>
+                    Der Provider dieser Seiten erhebt und speichert automatisch
+                    Informationen in so genannten Server-Log-Files, die Ihr
+                    Browser automatisch an uns übermittelt. Dies sind:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li>Browsertyp und Browserversion</li>
+                    <li>verwendetes Betriebssystem</li>
+                    <li>Referrer-URL</li>
+                    <li>Hostname des zugreifenden Rechners</li>
+                    <li>Uhrzeit der Serveranfrage</li>
+                    <li>IP-Adresse</li>
+                  </ul>
+                  <p>
+                    Eine Zusammenführung dieser Daten mit anderen Datenquellen
+                    wird nicht vorgenommen. Die Erfassung dieser Daten erfolgt auf
+                    Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der
+                    Websitebetreiber hat ein berechtigtes Interesse an der
+                    technisch fehlerfreien Darstellung und der Optimierung seiner
+                    Website – hierzu müssen die Server-Log-Files erfasst werden.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    7. Kontaktformular und Kontaktaufnahme
+                  </h2>
+                  <p>
+                    Wenn Sie uns per Kontaktformular oder per E-Mail Anfragen
+                    zukommen lassen, werden Ihre Angaben aus dem Anfrageformular
+                    (Name, E-Mail-Adresse, ggf. Telefonnummer und Ihre Nachricht)
+                    inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks
+                    Bearbeitung der Anfrage und für den Fall von Anschlussfragen
+                    bei uns gespeichert. Für den Versand nutzen wir den
+                    E-Mail-Dienst unseres Providers All-Inkl. Diese Daten geben
+                    wir nicht ohne Ihre Einwilligung weiter.
+                  </p>
+                  <p>
+                    Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6
+                    Abs. 1 lit. a DSGVO, sofern Sie hierzu über die
+                    Einwilligungs-Checkbox eingewilligt haben. Sofern Ihre Anfrage
+                    auf die Durchführung vorvertraglicher Maßnahmen oder die
+                    Erfüllung eines Vertrags gerichtet ist, beruht die
+                    Verarbeitung zudem auf Art. 6 Abs. 1 lit. b DSGVO. Im Übrigen
+                    stützt sich die Verarbeitung auf unser berechtigtes Interesse
+                    an der effektiven Bearbeitung der an uns gerichteten Anfragen
+                    (Art. 6 Abs. 1 lit. f DSGVO). Die von Ihnen erteilte
+                    Einwilligung können Sie jederzeit widerrufen.
+                  </p>
+                  <p>
+                    Die von Ihnen im Kontaktformular eingegebenen Daten verbleiben
+                    bei uns, bis Sie uns zur Löschung auffordern, Ihre
+                    Einwilligung zur Speicherung widerrufen oder der Zweck für die
+                    Datenspeicherung entfällt (z. B. nach abgeschlossener
+                    Bearbeitung Ihrer Anfrage). Zwingende gesetzliche
+                    Bestimmungen – insbesondere Aufbewahrungsfristen – bleiben
+                    unberührt.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    8. Google Maps
+                  </h2>
+                  <p>
+                    Diese Website bindet auf der Kontakt- und Ausstellungsseite
+                    Kartenmaterial des Dienstes Google Maps ein. Anbieter ist die
+                    Google Ireland Limited („Google"), Gordon House, Barrow
+                    Street, Dublin 4, Irland.
+                  </p>
+                  <p>
+                    Zur Nutzung der Funktionen von Google Maps ist es notwendig,
+                    Ihre IP-Adresse zu speichern. Diese Informationen werden in der
+                    Regel an einen Server von Google in den USA übertragen und dort
+                    gespeichert. Der Anbieter dieser Seite hat keinen Einfluss auf
+                    diese Datenübertragung. Wenn Google Maps aktiviert ist, kann
+                    Google zum Zwecke der einheitlichen Darstellung der
+                    Schriftarten Google Fonts verwenden. Beim Aufruf von Google
+                    Maps lädt Ihr Browser die benötigten Web Fonts in Ihren
+                    Browsercache, um Texte und Schriftarten korrekt anzuzeigen.
+                  </p>
+                  <p>
+                    Die Nutzung von Google Maps erfolgt im Interesse einer
+                    ansprechenden Darstellung unserer Online-Angebote und einer
+                    leichten Auffindbarkeit der von uns auf der Website
+                    angegebenen Orte. Dies stellt ein berechtigtes Interesse im
+                    Sinne von Art. 6 Abs. 1 lit. f DSGVO dar.
+                  </p>
+                  <p>
+                    Die Datenübertragung in die USA wird auf die
+                    Standardvertragsklauseln der EU-Kommission gestützt. Google
+                    ist zudem unter dem EU-US Data Privacy Framework (DPF)
+                    zertifiziert. Weitere Informationen zum Umgang mit
+                    Nutzerdaten finden Sie in der Datenschutzerklärung von Google:{" "}
+                    <ExternalLink href="https://policies.google.com/privacy?hl=de">
+                      policies.google.com/privacy
                     </ExternalLink>
                     .
                   </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
+                    9. Soziale Medien
+                  </h2>
                   <p>
-                    Wenn Sie unsere Seiten besuchen, wird über das Plugin eine
-                    direkte Verbindung zwischen Ihrem Browser und dem
-                    Facebook-Server hergestellt. Facebook erhält dadurch die
-                    Information, dass Sie mit Ihrer IP-Adresse unsere Seite
-                    besucht haben. Wenn Sie den Facebook „Like-Button" anklicken
-                    während Sie in Ihrem Facebook-Account eingeloggt sind,
-                    können Sie die Inhalte unserer Seiten auf Ihrem
-                    Facebook-Profil verlinken. Dadurch kann Facebook den Besuch
-                    unserer Seiten Ihrem Benutzerkonto zuordnen. Wir weisen
-                    darauf hin, dass wir als Anbieter der Seiten keine Kenntnis
-                    vom Inhalt der übermittelten Daten sowie deren Nutzung durch
-                    Facebook erhalten. Weitere Informationen hierzu finden Sie
-                    in der Datenschutzerklärung von Facebook unter{" "}
-                    <ExternalLink href="http://de-de.facebook.com/policy.php">
-                      de-de.facebook.com/policy.php
-                    </ExternalLink>
-                    .
+                    Auf unserer Website verlinken wir auf unsere Profile bei
+                    Facebook und Instagram (jeweils Meta Platforms Ireland
+                    Limited, 4 Grand Canal Square, Dublin 2, Irland). Es handelt
+                    sich dabei ausschließlich um einfache Verlinkungen – es sind
+                    keine Social-Media-Plugins („Like"-Buttons o. Ä.) eingebunden,
+                    die bereits beim bloßen Laden unserer Seiten Daten an die
+                    Netzwerke übertragen.
                   </p>
                   <p>
-                    Wenn Sie nicht wünschen, dass Facebook den Besuch unserer
-                    Seiten Ihrem Facebook-Nutzerkonto zuordnen kann, loggen Sie
-                    sich bitte aus Ihrem Facebook-Benutzerkonto aus.
+                    Erst wenn Sie aktiv auf ein solches Symbol klicken, werden Sie
+                    zur jeweiligen Plattform weitergeleitet und es werden Daten an
+                    den Anbieter übermittelt. Auf die Datenverarbeitung durch die
+                    sozialen Netzwerke nach dem Verlassen unserer Website haben wir
+                    keinen Einfluss. Informationen dazu finden Sie in den
+                    Datenschutzhinweisen des jeweiligen Anbieters.
                   </p>
                 </section>
 
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von Google Analytics
+                    10. Cookies
                   </h2>
                   <p>
-                    Diese Website nutzt Funktionen des Webanalysedienstes Google
-                    Analytics. Anbieter ist die Google Inc. 1600 Amphitheatre
-                    Parkway Mountain View, CA 94043, USA. Google Analytics
-                    verwendet sog. „Cookies". Das sind Textdateien, die auf
-                    Ihrem Computer gespeichert werden und die eine Analyse der
-                    Benutzung der Website durch Sie ermöglichen. Die durch den
-                    Cookie erzeugten Informationen über Ihre Benutzung dieser
-                    Website werden in der Regel an einen Server von Google in
-                    den USA übertragen und dort gespeichert.
-                  </p>
-                  <p>
-                    Im Falle der Aktivierung der IP-Anonymisierung auf dieser
-                    Webseite wird Ihre IP-Adresse von Google jedoch innerhalb
-                    von Mitgliedstaaten der Europäischen Union oder in anderen
-                    Vertragsstaaten des Abkommens über den Europäischen
-                    Wirtschaftsraum zuvor gekürzt. Nur in Ausnahmefällen wird
-                    die volle IP-Adresse an einen Server von Google in den USA
-                    übertragen und dort gekürzt. Im Auftrag des Betreibers
-                    dieser Website wird Google diese Informationen benutzen, um
-                    Ihre Nutzung der Website auszuwerten, um Reports über die
-                    Websiteaktivitäten zusammenzustellen und um weitere mit der
-                    Websitenutzung und der Internetnutzung verbundene
-                    Dienstleistungen gegenüber dem Websitebetreiber zu
-                    erbringen. Die im Rahmen von Google Analytics von Ihrem
-                    Browser übermittelte IP-Adresse wird nicht mit anderen Daten
-                    von Google zusammengeführt.
-                  </p>
-                  <p>
-                    Sie können die Speicherung der Cookies durch eine
-                    entsprechende Einstellung Ihrer Browser-Software verhindern;
-                    wir weisen Sie jedoch darauf hin, dass Sie in diesem Fall
-                    gegebenenfalls nicht sämtliche Funktionen dieser Website
-                    vollumfänglich werden nutzen können. Sie können darüber
-                    hinaus die Erfassung der durch das Cookie erzeugten und auf
-                    Ihre Nutzung der Website bezogenen Daten (inkl. Ihrer
-                    IP-Adresse) an Google sowie die Verarbeitung dieser Daten
-                    durch Google verhindern, indem sie das unter dem folgenden
-                    Link verfügbare Browser-Plugin herunterladen und
-                    installieren:{" "}
-                    <ExternalLink href="http://tools.google.com/dlpage/gaoptout?hl=de">
-                      tools.google.com/dlpage/gaoptout
-                    </ExternalLink>
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von Google +1
-                  </h2>
-                  <p>
-                    Unsere Seiten nutzen Funktionen von Google +1. Anbieter ist
-                    die Google Inc. 1600 Amphitheatre Parkway Mountain View, CA
-                    94043, USA.
-                  </p>
-                  <p>
-                    Erfassung und Weitergabe von Informationen: Mithilfe der
-                    Google +1-Schaltfläche können Sie Informationen weltweit
-                    veröffentlichen. über die Google +1-Schaltfläche erhalten
-                    Sie und andere Nutzer personalisierte Inhalte von Google und
-                    unseren Partnern. Google speichert sowohl die Information,
-                    dass Sie für einen Inhalt +1 gegeben haben, als auch
-                    Informationen über die Seite, die Sie beim Klicken auf +1
-                    angesehen haben. Ihre +1 können als Hinweise zusammen mit
-                    Ihrem Profilnamen und Ihrem Foto in Google-Diensten, wie
-                    etwa in Suchergebnissen oder in Ihrem Google-Profil, oder an
-                    anderen Stellen auf Websites und Anzeigen im Internet
-                    eingeblendet werden. Google zeichnet Informationen über Ihre
-                    +1-Aktivitäten auf, um die Google-Dienste für Sie und andere
-                    zu verbessern. Um die Google +1-Schaltfläche verwenden zu
-                    können, benötigen Sie ein weltweit sichtbares, öffentliches
-                    Google-Profil, das zumindest den für das Profil gewählten
-                    Namen enthalten muss. Dieser Name wird in allen
-                    Google-Diensten verwendet. In manchen Fällen kann dieser
-                    Name auch einen anderen Namen ersetzen, den Sie beim Teilen
-                    von Inhalten über Ihr Google-Konto verwendet haben. Die
-                    Identität Ihres Google-Profils kann Nutzern angezeigt
-                    werden, die Ihre E-Mail-Adresse kennen oder über andere
-                    identifizierende Informationen von Ihnen verfügen.
-                  </p>
-                  <p>
-                    Verwendung der erfassten Informationen: Neben den oben
-                    erläuterten Verwendungszwecken werden die von Ihnen
-                    bereitgestellten Informationen gemäß den geltenden
-                    Google-Datenschutzbestimmungen genutzt. Google
-                    veröffentlicht möglicherweise zusammengefasste Statistiken
-                    über die +1-Aktivitäten der Nutzer bzw. gibt diese an Nutzer
-                    und Partner weiter, wie etwa Publisher, Inserenten oder
-                    verbundene Websites.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von Instagram
-                  </h2>
-                  <p>
-                    Auf unseren Seiten sind Funktionen des Dienstes Instagram
-                    eingebunden. Diese Funktionen werden angeboten durch die
-                    Instagram Inc., 1601 Willow Road, Menlo Park, CA, 94025, USA
-                    integriert. Wenn Sie in Ihrem Instagram – Account eingeloggt
-                    sind können Sie durch Anklicken des Instagram – Buttons die
-                    Inhalte unserer Seiten mit Ihrem Instagram – Profil
-                    verlinken. Dadurch kann Instagram den Besuch unserer Seiten
-                    Ihrem Benutzerkonto zuordnen. Wir weisen darauf hin, dass
-                    wir als Anbieter der Seiten keine Kenntnis vom Inhalt der
-                    übermittelten Daten sowie deren Nutzung durch Instagram
-                    erhalten.
-                  </p>
-                  <p>
-                    Weitere Informationen hierzu finden Sie in der
-                    Datenschutzerklärung von Instagram:{" "}
-                    <ExternalLink href="http://instagram.com/about/legal/privacy/">
-                      instagram.com/about/legal/privacy
-                    </ExternalLink>
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von LinkedIn
-                  </h2>
-                  <p>
-                    Unsere Website nutzt Funktionen des Netzwerks LinkedIn.
-                    Anbieter ist die LinkedIn Corporation, 2029 Stierlin Court,
-                    Mountain View, CA 94043, USA. Bei jedem Abruf einer unserer
-                    Seiten, die Funktionen von LinkedIn enthält, wird eine
-                    Verbindung zu Servern von LinkedIn aufbaut. LinkedIn wird
-                    darüber informiert, dass Sie unsere Internetseiten mit Ihrer
-                    IP-Adresse besucht haben. Wenn Sie den „Recommend-Button"
-                    von LinkedIn anklicken und in Ihrem Account bei LinkedIn
-                    eingeloggt sind, ist es LinkedIn möglich, Ihren Besuch auf
-                    unserer Internetseite Ihnen und Ihrem Benutzerkonto
-                    zuzuordnen. Wir weisen darauf hin, dass wir als Anbieter der
-                    Seiten keine Kenntnis vom Inhalt der übermittelten Daten
-                    sowie deren Nutzung durch LinkedIn haben.
-                  </p>
-                  <p>
-                    Weitere Informationen hierzu finden Sie in der
-                    Datenschutzerklärung von LinkedIn unter:{" "}
-                    <ExternalLink href="https://www.linkedin.com/legal/privacy-policy">
-                      linkedin.com/legal/privacy-policy
-                    </ExternalLink>
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von Twitter
-                  </h2>
-                  <p>
-                    Auf unseren Seiten sind Funktionen des Dienstes Twitter
-                    eingebunden. Diese Funktionen werden angeboten durch die
-                    Twitter Inc., 1355 Market Street, Suite 900, San Francisco,
-                    CA 94103, USA. Durch das Benutzen von Twitter und der
-                    Funktion „Re-Tweet" werden die von Ihnen besuchten Webseiten
-                    mit Ihrem Twitter-Account verknüpft und anderen Nutzern
-                    bekannt gegeben. Dabei werden auch Daten an Twitter
-                    übertragen. Wir weisen darauf hin, dass wir als Anbieter der
-                    Seiten keine Kenntnis vom Inhalt der übermittelten Daten
-                    sowie deren Nutzung durch Twitter erhalten. Weitere
-                    Informationen hierzu finden Sie in der Datenschutzerklärung
-                    von Twitter unter{" "}
-                    <ExternalLink href="http://twitter.com/privacy">
-                      twitter.com/privacy
-                    </ExternalLink>
-                    .
-                  </p>
-                  <p>
-                    Ihre Datenschutzeinstellungen bei Twitter können Sie in den
-                    Konto-Einstellungen unter{" "}
-                    <ExternalLink href="http://twitter.com/account/settings">
-                      twitter.com/account/settings
-                    </ExternalLink>{" "}
-                    ändern.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Datenschutzerklärung für die Nutzung von Xing
-                  </h2>
-                  <p>
-                    Unsere Webseite nutzt Funktionen des Netzwerks XING.
-                    Anbieter ist die XING AG, Dammtorstraße 29-32, 20354
-                    Hamburg, Deutschland. Bei jedem Abruf einer unserer Seiten,
-                    die Funktionen von Xing enthält, wird eine Verbindung zu
-                    Servern von Xing hergestellt. Eine Speicherung von
-                    personenbezogenen Daten erfolgt dabei nach unserer Kenntnis
-                    nicht. Insbesondere werden keine IP-Adressen gespeichert
-                    oder das Nutzungsverhalten ausgewertet.
-                  </p>
-                  <p>
-                    Weitere Information zum Datenschutz und dem Xing
-                    Share-Button finden Sie in der Datenschutzerklärung von Xing
-                    unter{" "}
-                    <ExternalLink href="https://www.xing.com/app/share?op=data_protection">
-                      xing.com/app/share
-                    </ExternalLink>
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Auskunft, Löschung, Sperrung
-                  </h2>
-                  <p>
-                    Sie haben jederzeit das Recht auf unentgeltliche Auskunft
-                    über Ihre gespeicherten personenbezogenen Daten, deren
-                    Herkunft und Empfänger und den Zweck der Datenverarbeitung
-                    sowie ein Recht auf Berichtigung, Sperrung oder Löschung
-                    dieser Daten. Hierzu sowie zu weiteren Fragen zum Thema
-                    personenbezogene Daten können Sie sich jederzeit unter der
-                    im Impressum angegebenen Adresse an uns wenden.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">Cookies</h2>
-                  <p>
-                    Die Internetseiten verwenden teilweise so genannte Cookies.
-                    Cookies richten auf Ihrem Rechner keinen Schaden an und
-                    enthalten keine Viren. Cookies dienen dazu, unser Angebot
-                    nutzerfreundlicher, effektiver und sicherer zu machen.
-                    Cookies sind kleine Textdateien, die auf Ihrem Rechner
-                    abgelegt werden und die Ihr Browser speichert.
-                  </p>
-                  <p>
-                    Die meisten der von uns verwendeten Cookies sind so genannte
-                    „Session-Cookies". Sie werden nach Ende Ihres Besuchs
-                    automatisch gelöscht. Andere Cookies bleiben auf Ihrem
-                    Endgerät gespeichert, bis Sie diese löschen. Diese Cookies
-                    ermöglichen es uns, Ihren Browser beim nächsten Besuch
-                    wiederzuerkennen.
+                    Unsere Website verwendet keine Cookies zu Analyse-, Tracking-
+                    oder Marketingzwecken. Es kommen ausschließlich technisch
+                    notwendige Cookies zum Einsatz, sofern diese für den Betrieb
+                    der Seite erforderlich sind (Rechtsgrundlage: Art. 6 Abs. 1
+                    lit. f DSGVO bzw. § 25 Abs. 2 TDDDG). Beim Aufruf
+                    eingebetteter Inhalte Dritter (z. B. Google Maps) können durch
+                    den jeweiligen Anbieter Cookies gesetzt werden.
                   </p>
                   <p>
                     Sie können Ihren Browser so einstellen, dass Sie über das
                     Setzen von Cookies informiert werden und Cookies nur im
-                    Einzelfall erlauben, die Annahme von Cookies für bestimmte
-                    Fälle oder generell ausschließen sowie das automatische
-                    Löschen der Cookies beim Schließen des Browser aktivieren.
-                    Bei der Deaktivierung von Cookies kann die Funktionalität
-                    dieser Website eingeschränkt sein.
+                    Einzelfall erlauben oder generell ausschließen. Bei der
+                    Deaktivierung von Cookies kann die Funktionalität dieser
+                    Website eingeschränkt sein.
                   </p>
                 </section>
 
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">
-                    Server-Log-Files
-                  </h2>
-                  <p>
-                    Der Provider der Seiten erhebt und speichert automatisch
-                    Informationen in so genannten Server-Log Files, die Ihr
-                    Browser automatisch an uns übermittelt. Dies sind:
-                  </p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li>Browsertyp/ Browserversion</li>
-                    <li>verwendetes Betriebssystem</li>
-                    <li>Referrer URL</li>
-                    <li>Hostname des zugreifenden Rechners</li>
-                    <li>Uhrzeit der Serveranfrage</li>
-                  </ul>
-                  <p>
-                    Diese Daten sind nicht bestimmten Personen zuordenbar. Eine
-                    Zusammenführung dieser Daten mit anderen Datenquellen wird
-                    nicht vorgenommen. Wir behalten uns vor, diese Daten
-                    nachträglich zu prüfen, wenn uns konkrete Anhaltspunkte für
-                    eine rechtswidrige Nutzung bekannt werden.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Kontaktformular
-                  </h2>
-                  <p>
-                    Wenn Sie uns per Kontaktformular Anfragen zukommen lassen,
-                    werden Ihre Angaben aus dem Anfrageformular inklusive der
-                    von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung
-                    der Anfrage und für den Fall von Anschlussfragen bei uns
-                    gespeichert. Diese Daten geben wir nicht ohne Ihre
-                    Einwilligung weiter.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Widerspruch Werbe-Mails
+                    11. Widerspruch gegen Werbe-Mails
                   </h2>
                   <p>
                     Der Nutzung von im Rahmen der Impressumspflicht
@@ -420,27 +383,8 @@ export function Privacy({
                   </p>
                 </section>
 
-                <section>
-                  <h2 className="text-2xl text-foreground mb-4">
-                    Newsletterdaten
-                  </h2>
-                  <p>
-                    Wenn Sie den auf der Webseite angebotenen Newsletter
-                    beziehen möchten, benötigen wir von Ihnen eine
-                    E-Mail-Adresse sowie Informationen, welche uns die
-                    Überprüfung gestatten, dass Sie der Inhaber der angegebenen
-                    E-Mail-Adresse sind und mit dem Empfang des Newsletters
-                    einverstanden sind. Weitere Daten werden nicht erhoben.
-                    Diese Daten verwenden wir ausschließlich für den Versand der
-                    angeforderten Informationen und geben sie nicht an Dritte
-                    weiter.
-                  </p>
-                  <p>
-                    Die erteilte Einwilligung zur Speicherung der Daten, der
-                    E-Mail-Adresse sowie deren Nutzung zum Versand des
-                    Newsletters können Sie jederzeit widerrufen, etwa über den
-                    „Austragen"-Link im Newsletter.
-                  </p>
+                <section className="mt-8 pt-8 border-t border-border">
+                  <p className="text-sm">Stand: Juli 2026</p>
                 </section>
               </div>
             )}

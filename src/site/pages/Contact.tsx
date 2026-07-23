@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
 import { ContactForm } from "../components/molecules/ContactForm";
+import { MapEmbed } from "../components/molecules/MapEmbed";
 import { MapPin, Phone, Mail, Clock, ArrowRight } from "lucide-react";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
 import { formatOpeningHours } from "@/site/content/site";
@@ -144,15 +145,9 @@ export function Contact({
         transition={{ duration: 0.8 }}
         className="h-[500px]"
       >
-        <iframe
-          src={s.mapEmbedUrl}
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Google Maps"
+        <MapEmbed
+          embedUrl={s.mapEmbedUrl}
+          address={[s.street, `${s.zip} ${s.city}`]}
         />
       </motion.div>
 
