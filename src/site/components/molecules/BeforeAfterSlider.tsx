@@ -45,7 +45,6 @@ export function BeforeAfterSlider({
   const onPointerDown = (e: React.PointerEvent) => {
     setDragging(true);
     e.currentTarget.setPointerCapture(e.pointerId);
-    updateFromClientX(e.clientX);
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (dragging) updateFromClientX(e.clientX);
@@ -71,13 +70,7 @@ export function BeforeAfterSlider({
   return (
     <div
       ref={containerRef}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={endDrag}
-      onPointerCancel={endDrag}
-      className={`absolute inset-0 overflow-hidden select-none touch-pan-y ${
-        dragging ? "cursor-grabbing" : "cursor-ew-resize"
-      }`}
+      className="absolute inset-0 overflow-hidden select-none"
     >
       {/* Basisebene: modern (rechte Seite) */}
       <img
@@ -111,27 +104,35 @@ export function BeforeAfterSlider({
         {afterLabel}
       </span>
 
-      {/* Trennlinie */}
+      {/* Ziehbarer Bereich: nur Linie + Griff reagieren auf Zeiger/Touch */}
       <div
-        className="pointer-events-none absolute top-0 bottom-0 w-0.5 bg-white/90 shadow-[0_0_12px_rgba(0,0,0,0.5)]"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        className={`absolute top-0 bottom-0 w-11 touch-none ${
+          dragging ? "cursor-grabbing" : "cursor-ew-resize"
+        }`}
         style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
-      />
-
-      {/* Griff */}
-      <button
-        type="button"
-        role="slider"
-        aria-label="Vergleich traditionell/modern verschieben"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(pos)}
-        aria-valuetext={`${Math.round(pos)}% traditionell`}
-        onKeyDown={onKeyDown}
-        className="absolute top-1/2 grid place-items-center w-11 h-11 rounded-full bg-white text-primary shadow-lg cursor-grab active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-        style={{ left: `${pos}%`, transform: "translate(-50%, -50%)" }}
       >
-        <MoveHorizontal size={20} />
-      </button>
+        {/* Trennlinie */}
+        <div className="pointer-events-none absolute top-0 bottom-0 left-1/2 w-0.5 -translate-x-1/2 bg-white/90 shadow-[0_0_12px_rgba(0,0,0,0.5)]" />
+
+        {/* Griff */}
+        <button
+          type="button"
+          role="slider"
+          aria-label="Vergleich traditionell/modern verschieben"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(pos)}
+          aria-valuetext={`${Math.round(pos)}% traditionell`}
+          onKeyDown={onKeyDown}
+          className="absolute top-1/2 left-1/2 grid place-items-center w-11 h-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white text-primary shadow-lg cursor-grab active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+        >
+          <MoveHorizontal size={20} />
+        </button>
+      </div>
     </div>
   );
 }
