@@ -75,7 +75,7 @@ export function BeforeAfterSlider({
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
-      className={`absolute inset-0 overflow-hidden select-none touch-none ${
+      className={`absolute inset-0 overflow-hidden select-none touch-pan-y ${
         dragging ? "cursor-grabbing" : "cursor-ew-resize"
       }`}
     >

@@ -263,7 +263,7 @@ export function About({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="p-10 group hover:bg-accent transition-all duration-500 cursor-default border-b border-r border-border"
+                className="p-10 group hover:bg-accent transition-colors duration-500 cursor-default border-b border-r border-border"
                 {...sbEditable(value.editable)}
               >
                 <value.Icon

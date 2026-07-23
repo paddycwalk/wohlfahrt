@@ -26,6 +26,5 @@ export const defaultContactContent: ContactContent = {
   reviewsText:
     "Überzeugen Sie sich von unserer Qualität anhand der Bewertungen unserer Kunden.",
   reviewsButtonLabel: "Google Bewertungen",
-  reviewsButtonLink:
-    "https://www.google.com/search?q=Fliesen+Wohlfahrt+Pfullingen",
+  reviewsButtonLink: "https://g.page/FliesenWohlfahrt/review",
 };

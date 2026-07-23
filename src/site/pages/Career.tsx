@@ -71,7 +71,7 @@ export function Career({
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className={`p-10 group hover:bg-accent transition-all duration-500 cursor-default ${index < 3 ? "md:border-r border-border" : ""}`}
+                  className={`p-10 group hover:bg-accent transition-colors duration-500 cursor-default ${index < 3 ? "md:border-r border-border" : ""}`}
                   {...sbEditable(benefit.editable)}
                 >
                   <Icon

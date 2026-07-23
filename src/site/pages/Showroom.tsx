@@ -184,7 +184,7 @@ export function Showroom({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className={`p-10 md:p-12 group hover:bg-accent transition-all duration-500 cursor-default ${index < 2 ? "md:border-r border-white/10" : ""}`}
+                className={`p-10 md:p-12 group hover:bg-accent transition-colors duration-500 cursor-default ${index < 2 ? "md:border-r border-white/10" : ""}`}
                 {...sbEditable(feature.editable)}
               >
                 <span className="text-5xl font-[Bebas_Neue] text-accent/40 group-hover:text-white/30 transition-colors leading-none block mb-6">
