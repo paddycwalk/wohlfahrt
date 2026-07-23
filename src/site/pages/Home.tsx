@@ -145,7 +145,7 @@ export function Home({
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-0 left-8 md:left-12 w-px h-24 bg-gradient-to-b from-transparent to-accent origin-top z-10"
+          className="absolute bottom-0 right-8 md:right-auto md:left-12 w-px h-24 bg-gradient-to-b from-transparent to-accent origin-top z-10"
         />
       </section>
 
