@@ -5,6 +5,8 @@ export type NewsItem = {
   title: string;
   excerpt: string;
   category: string;
+  /** Beitragsbild (z. B. das passende Foto aus dem Instagram-Post). */
+  image?: string;
   editable?: string;
 };
 
@@ -25,6 +27,7 @@ export const defaultNewsContent: NewsContent = {
       excerpt:
         "Mit der Verlegung moderner 80 × 80 cm Bodenfliesen im Großformat ist ein Raum entstanden, der Eleganz und Funktionalität vereint. Die großzügigen Formate sorgen für ein ruhiges, harmonisches Gesamtbild und verleihen dem Raum eine hochwertige, zeitlose Ausstrahlung.",
       category: "Referenzen",
+      image: "/assets/news-grossformat.webp",
     },
     {
       date: "6. Juli 2026",
@@ -32,6 +35,7 @@ export const defaultNewsContent: NewsContent = {
       excerpt:
         "Aus Alt mach Neu: Mit viel Präzision und handwerklichem Können durften wir die Fliesenarbeiten bei der Sanierung der WC-Anlagen im Friedrich-Schiller-Gymnasium ausführen. Entstanden sind moderne, hochwertige und langlebige Sanitärbereiche, die Funktionalität und ansprechendes Design verbinden.",
       category: "Referenzen",
+      image: "/assets/news-wc-gymnasium.webp",
     },
     {
       date: "9. Juni 2026",
@@ -39,6 +43,7 @@ export const defaultNewsContent: NewsContent = {
       excerpt:
         "Holzoptikfliesen verbinden die warme Ausstrahlung von Holz mit der Pflegeleichtigkeit von Keramik: täuschend echte Optik, langlebig, unempfindlich gegen Feuchtigkeit und ideal für Fußbodenheizungen – perfekt für Wohnräume und Bäder.",
       category: "Produkte",
+      image: "/assets/news-holzoptik.webp",
     },
     {
       date: "September 2025",
@@ -46,6 +51,7 @@ export const defaultNewsContent: NewsContent = {
       excerpt:
         "Große Freude im 1954 gegründeten Familienbetrieb: Yannik Wohlfahrt hat im September 2025 seine Meisterprüfung im Fliesenlegerhandwerk erfolgreich abgelegt und führt damit als vierte Generation die Firmentradition fort. Für die Prüfung plante, baute und verflieste er eine voll funktionsfähige japanische Küche.",
       category: "Unternehmen",
+      image: "/assets/news-yannik-meister.webp",
     },
   ],
 };

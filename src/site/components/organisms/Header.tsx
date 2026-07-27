@@ -2,62 +2,18 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useLocation } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { Logo } from "../atoms/Logo";
-
-const navigation = [
-  {
-    name: "Startseite",
-    path: "/",
-    image: "/assets/home-hero.webp",
-  },
-  {
-    name: "Über uns",
-    path: "/ueber-uns",
-    image: "/assets/de9dae3e15181dc8a32cee214e691af8ea1217e1.webp",
-  },
-  {
-    name: "Leistungen",
-    path: "/leistungen",
-    image: "/assets/leistung-bad.webp",
-  },
-  {
-    name: "Ausstellung",
-    path: "/ausstellung",
-    image: "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
-  },
-  {
-    name: "Referenzen",
-    path: "/referenzen",
-    image: "/assets/referenzen-hero.webp",
-  },
-  {
-    name: "Produkte",
-    path: "/produkte",
-    image: "/assets/produkt-wandfliesen.webp",
-  },
-  {
-    name: "Aktuelles",
-    path: "/aktuelles",
-    image: "/assets/home-tradition.webp",
-  },
-  {
-    name: "Karriere",
-    path: "/karriere",
-    image: "/assets/leistung-verlegung.webp",
-  },
-  {
-    name: "Kontakt",
-    path: "/kontakt",
-    image: "/assets/home-statement.webp",
-  },
-];
+import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
 
 export function Header() {
+  const s = useSiteSettings();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const location = useLocation();
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const navScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollMore, setCanScrollMore] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -131,6 +87,28 @@ export function Header() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
+  // Scroll-Hinweis: zeigt an, ob im Menue noch nach unten gescrollt werden kann.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const el = navScrollRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const remaining = el.scrollHeight - el.scrollTop - el.clientHeight;
+      setCanScrollMore(remaining > 8);
+    };
+
+    // Nach dem Oeffnen-Transition messen
+    const raf = requestAnimationFrame(update);
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [menuOpen]);
+
   const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), []);
 
   // Pfad ohne abschliessenden Slash vergleichen (trailingSlash: true liefert
@@ -181,7 +159,7 @@ export function Header() {
                     transition={{ duration: 0.3 }}
                     className="whitespace-nowrap text-[8px] tracking-[0.08em] sm:text-[10px] sm:tracking-[0.15em] uppercase text-accent font-bold leading-tight"
                   >
-                    Wohlfahrt & Wohlfahrt Fliesen GmbH
+                    {s.legalName}
                   </motion.span>
                 )}
               </div>
@@ -295,12 +273,15 @@ export function Header() {
               <div className="h-20 md:h-24 shrink-0" />
 
               {/* Navigation */}
-              <div className="flex-1 flex lg:items-center items-start overflow-y-auto py-6 lg:py-0">
+              <div
+                ref={navScrollRef}
+                className="relative flex-1 flex lg:items-center items-start overflow-y-auto py-6 lg:py-0"
+              >
                 <div className="container mx-auto px-4 md:px-8 w-full my-auto">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0">
                     {/* Main Nav Links */}
                     <nav className="lg:col-span-8 xl:col-span-7">
-                      {navigation.map((item, index) => (
+                      {s.mainNav.map((item, index) => (
                         <motion.div
                           key={item.path}
                           initial={{ opacity: 0, x: -40 }}
@@ -317,6 +298,14 @@ export function Header() {
                         >
                           <Link
                             to={item.path}
+                            onClick={(e) => {
+                              // Auf der aktuellen Seite navigiert der Link nicht –
+                              // ein erneuter Klick schliesst stattdessen das Flyout.
+                              if (currentPath === item.path) {
+                                e.preventDefault();
+                                setMenuOpen(false);
+                              }
+                            }}
                             className="group flex items-center gap-4 md:gap-8 py-3 md:py-4 transition-all duration-300 hover:pl-4"
                           >
                             {/* Index number */}
@@ -363,16 +352,16 @@ export function Header() {
                             Kontakt
                           </p>
                           <a
-                            href="tel:+49712171082"
+                            href={`tel:${s.phoneHref}`}
                             className="text-white/60 text-sm hover:text-white transition-colors block mb-1"
                           >
-                            07121 / 71082
+                            {s.phone}
                           </a>
                           <a
-                            href="mailto:info@fliesen-wohlfahrt.de"
+                            href={`mailto:${s.email}`}
                             className="text-white/60 text-sm hover:text-white transition-colors block"
                           >
-                            info@fliesen-wohlfahrt.de
+                            {s.email}
                           </a>
                         </div>
 
@@ -382,15 +371,15 @@ export function Header() {
                           </p>
                           <a
                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                              "Hinterer Spielbach 4, 72793 Pfullingen",
+                              `${s.street}, ${s.zip} ${s.city}`,
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-white/60 text-sm hover:text-white transition-colors"
                           >
-                            Hinterer Spielbach 4
+                            {s.street}
                             <br />
-                            72793 Pfullingen
+                            {s.zip} {s.city}
                           </a>
                         </div>
 
@@ -399,22 +388,26 @@ export function Header() {
                             Social
                           </p>
                           <div className="flex gap-6">
-                            <a
-                              href="https://www.facebook.com/FliesenWohlfahrt/"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-white/40 text-xs tracking-[0.2em] uppercase hover:text-accent transition-colors"
-                            >
-                              Facebook
-                            </a>
-                            <a
-                              href="https://www.instagram.com/fliesen_wohlfahrt/"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-white/40 text-xs tracking-[0.2em] uppercase hover:text-accent transition-colors"
-                            >
-                              Instagram
-                            </a>
+                            {s.social.facebook && (
+                              <a
+                                href={s.social.facebook}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/40 text-xs tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                              >
+                                Facebook
+                              </a>
+                            )}
+                            {s.social.instagram && (
+                              <a
+                                href={s.social.instagram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/40 text-xs tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                              >
+                                Instagram
+                              </a>
+                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -422,6 +415,41 @@ export function Header() {
                   </div>
                 </div>
               </div>
+
+              {/* Scroll-Hinweis */}
+              <AnimatePresence>
+                {canScrollMore && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="pointer-events-none absolute inset-x-0 bottom-16 z-20 flex justify-center"
+                    aria-hidden="true"
+                  >
+                    <motion.span
+                      animate={{ y: [0, 6, 0] }}
+                      transition={{
+                        duration: 1.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="flex items-center gap-2 text-[9px] tracking-[0.3em] uppercase text-white/30"
+                    >
+                      Scrollen
+                      <svg
+                        className="w-3 h-3"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      >
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </motion.span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Bottom Bar */}
               <motion.div
@@ -432,27 +460,18 @@ export function Header() {
               >
                 <div className="container mx-auto px-4 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
                   <span className="text-white/20 text-[10px] tracking-[0.2em] uppercase">
-                    &copy; 2026 Wohlfahrt & Wohlfahrt
+                    {new Date().getFullYear()} {s.companyName}
                   </span>
                   <div className="flex gap-6">
-                    <Link
-                      to="/impressum"
-                      className="text-white/30 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
-                    >
-                      Impressum
-                    </Link>
-                    <Link
-                      to="/datenschutz"
-                      className="text-white/30 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
-                    >
-                      Datenschutz
-                    </Link>
-                    <Link
-                      to="/haftungsausschluss"
-                      className="text-white/30 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
-                    >
-                      Haftungsausschluss
-                    </Link>
+                    {s.legalNav.map((link) => (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className="text-white/30 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </motion.div>

@@ -41,19 +41,29 @@ export function News({
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.5 }}
-                className="border-b border-border py-10 md:py-12"
+                className="group border-b border-border py-10 md:py-12"
                 {...sbEditable(item.editable)}
               >
-                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
-                  <div className="flex items-center gap-4 md:w-48 shrink-0">
-                    <span className="text-xs tracking-[0.15em] text-accent uppercase px-3 py-1 border border-accent/30">
-                      {item.category}
-                    </span>
-                  </div>
+                <div className="flex flex-col md:flex-row md:items-start gap-6 md:gap-10">
+                  {item.image && (
+                    <div className="w-full md:w-56 shrink-0 overflow-hidden aspect-[4/3]">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                      />
+                    </div>
+                  )}
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground mb-2 tracking-[0.1em]">
-                      {item.date}
-                    </p>
+                    <div className="flex items-center gap-4 mb-3">
+                      <span className="text-xs tracking-[0.15em] text-accent uppercase px-3 py-1 border border-accent/30">
+                        {item.category}
+                      </span>
+                      <p className="text-xs text-muted-foreground tracking-[0.1em]">
+                        {item.date}
+                      </p>
+                    </div>
                     <h3 className="text-2xl md:text-3xl mb-3">{item.title}</h3>
                     <p className="text-muted-foreground text-sm">
                       {item.excerpt}

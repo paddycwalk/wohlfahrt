@@ -821,13 +821,22 @@ export async function getNewsContent(): Promise<NewsContent> {
 
     const items: NewsItem[] =
       Array.isArray(c.items) && c.items.length > 0
-        ? c.items.map((it: Record<string, unknown>) => ({
-            date: typeof it.date === "string" ? it.date : "",
-            title: typeof it.title === "string" ? it.title : "",
-            excerpt: typeof it.excerpt === "string" ? it.excerpt : "",
-            category: typeof it.category === "string" ? it.category : "",
-            editable: editableOf(it),
-          }))
+        ? c.items.map((it: Record<string, unknown>, i: number) => {
+            const title = typeof it.title === "string" ? it.title : "";
+            // Fallback-Bild aus den Defaults, falls in Storyblok (noch) keins gesetzt ist.
+            const fallback =
+              d.items.find((di) => di.title === title)?.image ??
+              d.items[i]?.image;
+            return {
+              date: typeof it.date === "string" ? it.date : "",
+              title,
+              excerpt: typeof it.excerpt === "string" ? it.excerpt : "",
+              category: typeof it.category === "string" ? it.category : "",
+              image:
+                assetUrl(it.image ?? it.cover, "") || fallback || undefined,
+              editable: editableOf(it),
+            };
+          })
         : d.items;
 
     return {

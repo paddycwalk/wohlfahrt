@@ -118,7 +118,7 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
           <p>
-            &copy; {year} {s.companyName}. Alle Rechte vorbehalten.
+            {year} {s.companyName}
           </p>
           <div className="flex flex-col items-center gap-2 md:flex-row md:gap-6">
             {s.legalNav.map((link) => (
