@@ -12,7 +12,8 @@ export const DEFAULT_TITLE =
   "W&W – Fliesen neu gedacht | Meisterbetrieb seit 1954";
 export const DEFAULT_DESCRIPTION =
   "Exklusive Fliesen, professionelle Verlegung und individuelle Gestaltung — Wohlfahrt & Wohlfahrt. Meisterbetrieb seit 1954 in Pfullingen.";
-export const OG_IMAGE = "/og-image.jpg";
+export const OG_IMAGE =
+  "https://a.storyblok.com/f/293408914760698/015bf0cbe8/og-image.jpg";
 export const LOCALE = "de_DE";
 
 // Nur Vercel-Vorschau-Deployments (Branch-/Preview-Builds) auf noindex.

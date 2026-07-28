@@ -93,7 +93,7 @@ export interface HomeContent {
 
 export const defaultHomeContent: HomeContent = {
   heroImage:
-    "/assets/home-hero.webp",
+    "https://a.storyblok.com/f/293408914760698/fcc7765c74/home-hero.webp",
   heroImageAlt: "Edler Wohnbereich mit großformatigen Marmoroptik-Fliesen",
   heroLine1: "Fliesen",
   heroAccentWord: "neu",
@@ -141,7 +141,7 @@ export const defaultHomeContent: HomeContent = {
   ],
 
   traditionImage:
-    "/assets/home-tradition.webp",
+    "https://a.storyblok.com/f/293408914760698/295d5a15d5/home-tradition.webp",
   traditionImageAlt: "Modernes Wohnzimmer mit warmen Holzoptik-Fliesen",
   traditionTitle: "Tradition trifft Moderne",
   traditionText:
@@ -165,13 +165,14 @@ export const defaultHomeContent: HomeContent = {
   traditionNewLabel: "Modern",
 
   statementImage:
-    "/assets/home-statement.webp",
+    "https://a.storyblok.com/f/293408914760698/1ea2b06624/home-statement.webp",
   statementImageAlt: "Dunkle Feinsteinzeug-Oberfläche im Detail",
   statementEyebrow: "Unser Versprechen",
   statementHeadline: "Perfektion in jedem Detail",
   statementCta: { label: "Leistungen entdecken", link: "/leistungen" },
 
-  showroomImage: "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
+  showroomImage:
+    "https://a.storyblok.com/f/293408914760698/7e8eeaba90/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
   showroomImageAlt: "Wohlfahrt & Wohlfahrt Ausstellung",
   showroomTitle: "Besuchen Sie unsere Ausstellung",
   showroomText:

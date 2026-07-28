@@ -23,7 +23,8 @@ export type ShowroomContent = {
 };
 
 export const defaultShowroomContent: ShowroomContent = {
-  heroImage: "/assets/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
+  heroImage:
+    "https://a.storyblok.com/f/293408914760698/7e8eeaba90/c933bf73ff901e67a7958cdfebb4d489a28ca49e.webp",
   heroEyebrow: "Inspiration",
   heroTitle: "Ausstellung",
   infoLabel: "Besuchen Sie uns",

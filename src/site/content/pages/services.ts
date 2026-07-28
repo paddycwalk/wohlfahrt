@@ -83,15 +83,15 @@ export interface ServicesContent {
 }
 
 const heroImg =
-  "/assets/leistung-bad.webp";
+  "https://a.storyblok.com/f/293408914760698/8543daeaf9/leistung-bad.webp";
 const craftsmanImg =
-  "/assets/leistung-reparatur.webp";
+  "https://a.storyblok.com/f/293408914760698/5579b5595a/leistung-reparatur.webp";
 const marbleImg =
-  "/assets/leistung-marmor.webp";
+  "https://a.storyblok.com/f/293408914760698/2900d8d258/leistung-marmor.webp";
 const archImg =
-  "/assets/leistung-architektur.webp";
+  "https://a.storyblok.com/f/293408914760698/f01be8c375/leistung-architektur.webp";
 const livingImg =
-  "/assets/leistung-verlegung.webp";
+  "https://a.storyblok.com/f/293408914760698/d689b7188d/leistung-verlegung.webp";
 
 export const defaultServicesContent: ServicesContent = {
   heroImage: heroImg,
@@ -115,7 +115,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Fliesenarbeiten in Neubauten — ob mit Architekt, Bauleiter oder in Eigenregie. Regional bekannt für Erfahrung und Know-how.",
       image:
-        "/assets/leistung-neubau.webp",
+        "https://a.storyblok.com/f/293408914760698/e5a272d805/leistung-neubau.webp",
     },
     {
       icon: "wrench",
@@ -144,7 +144,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Im Außenbereich kommt es auf hochwertige Ausführung und die richtigen Materialien an — mit jahrzehntelangem Fachwissen auf aktuellem Stand der Technik.",
       image:
-        "/assets/leistung-terrasse.webp",
+        "https://a.storyblok.com/f/293408914760698/5567117af2/leistung-terrasse.webp",
     },
     {
       icon: "flame",
@@ -152,7 +152,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Warme Füße ohne große Umbauten: Fliesenheizungen lassen sich unkompliziert unter Ihren Belag verlegen — programmierbar und energieeffizient.",
       image:
-        "/assets/leistung-heizung.webp",
+        "https://a.storyblok.com/f/293408914760698/9d533a53d8/leistung-heizung.webp",
     },
     {
       icon: "droplet",
@@ -167,7 +167,7 @@ export const defaultServicesContent: ServicesContent = {
       description:
         "Barrierefreie Bäder und Wohnräume — durchdachte Lösungen für mehr Komfort und Sicherheit im Alltag.",
       image:
-        "/assets/leistung-barrierefrei.webp",
+        "https://a.storyblok.com/f/293408914760698/729e737d25/leistung-barrierefrei.webp",
     },
     {
       icon: "wind",

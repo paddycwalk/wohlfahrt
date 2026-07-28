@@ -98,32 +98,32 @@ export const defaultProductsContent: ProductsContent = {
       description:
         "Hochwertige Wandfliesen in verschiedenen Formaten, Farben und Oberflächen",
       image:
-        "/assets/produkt-wandfliesen.webp",
+        "https://a.storyblok.com/f/293408914760698/e5b8fc4f67/produkt-wandfliesen.webp",
     },
     {
       title: "Bodenfliesen",
       description:
         "Robuste und elegante Bodenfliesen für Innen- und Außenbereiche",
       image:
-        "/assets/produkt-bodenfliesen.webp",
+        "https://a.storyblok.com/f/293408914760698/d782c57e8b/produkt-bodenfliesen.webp",
     },
     {
       title: "Großformatfliesen",
       description: "Moderne Großformatfliesen für ein nahtloses Design",
       image:
-        "/assets/produkt-grossformat.webp",
+        "https://a.storyblok.com/f/293408914760698/cd99d74afd/produkt-grossformat.webp",
     },
     {
       title: "Mosaik",
       description: "Kreative Mosaikfliesen für individuelle Akzente",
       image:
-        "/assets/produkt-mosaik.webp",
+        "https://a.storyblok.com/f/293408914760698/f8c03e8040/produkt-mosaik.webp",
     },
     {
       title: "Feinsteinzeug",
       description: "Pflegeleichtes Feinsteinzeug in Holz- und Betonoptik",
       image:
-        "/assets/produkt-feinsteinzeug.webp",
+        "https://a.storyblok.com/f/293408914760698/96de529bc1/produkt-feinsteinzeug.webp",
     },
   ],
 

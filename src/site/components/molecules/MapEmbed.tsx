@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "../atoms/Button";
-import { asset } from "../../lib/asset";
 
 const CONSENT_KEY = "ww-maps-consent";
 
@@ -36,7 +35,7 @@ export function MapEmbed({
   title = "Google Maps",
   address,
   mapsLink,
-  previewImage = asset("/assets/standort-karte.jpg"),
+  previewImage = "https://a.storyblok.com/f/293408914760698/cd4829b0ad/standort-karte.jpg",
 }: Readonly<MapEmbedProps>) {
   const [consented, setConsented] = useState(false);
   const [remember, setRemember] = useState(true);

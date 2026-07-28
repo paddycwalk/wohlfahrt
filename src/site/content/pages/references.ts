@@ -24,7 +24,7 @@ export type ReferencesContent = {
 
 export const defaultReferencesContent: ReferencesContent = {
   heroImage:
-    "/assets/referenzen-hero.webp",
+    "https://a.storyblok.com/f/293408914760698/d4e4e5db3e/referenzen-hero.webp",
   heroEyebrow: "Referenzen",
   heroTitle: "Unsere Projekte",
   galleryLabel: "Portfolio",
@@ -34,31 +34,31 @@ export const defaultReferencesContent: ReferencesContent = {
       title: "Badezimmer",
       category: "Bad",
       image:
-        "/assets/projekt-bad-1.webp",
+        "https://a.storyblok.com/f/293408914760698/7ad0800a6a/projekt-bad-1.webp",
     },
     {
       title: "Badezimmer",
       category: "Bad",
       image:
-        "/assets/projekt-bad-2.webp",
+        "https://a.storyblok.com/f/293408914760698/0949fc2475/projekt-bad-2.webp",
     },
     {
       title: "Badezimmer",
       category: "Bad",
       image:
-        "/assets/projekt-bad-3.webp",
+        "https://a.storyblok.com/f/293408914760698/54e72bfe7b/projekt-bad-3.webp",
     },
     {
       title: "Badezimmer",
       category: "Bad",
       image:
-        "/assets/projekt-bad-4.webp",
+        "https://a.storyblok.com/f/293408914760698/dfde2b7a2e/projekt-bad-4.webp",
     },
     {
       title: "Badezimmer",
       category: "Bad",
       image:
-        "/assets/projekt-bad-5.webp",
+        "https://a.storyblok.com/f/293408914760698/fcd40170d1/projekt-bad-5.webp",
     },
   ],
   ctaTitlePre: "Ihr Projekt",

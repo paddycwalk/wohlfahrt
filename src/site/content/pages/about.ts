@@ -74,7 +74,8 @@ export interface AboutContent {
 }
 
 export const defaultAboutContent: AboutContent = {
-  heroImage: "/assets/de9dae3e15181dc8a32cee214e691af8ea1217e1.webp",
+  heroImage:
+    "https://a.storyblok.com/f/293408914760698/33789c09df/de9dae3e15181dc8a32cee214e691af8ea1217e1.webp",
   heroImageAlt: "Wohlfahrt & Wohlfahrt Team in der Ausstellung",
   heroEyebrow: "Über uns",
   heroTitleLine1: "Drei Generationen,",
@@ -93,7 +94,7 @@ export const defaultAboutContent: AboutContent = {
   team: [
     {
       image:
-        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjBidXNpbmVzcyUyMHBvcnRyYWl0JTIwbWFuJTIwc3VpdHxlbnwxfHx8fDE3NzkwOTE1MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://a.storyblok.com/f/293408914760698/68acd999da/team-volker-wohlfahrt.webp",
       imageAlt: "Volker Wohlfahrt",
       name: "Volker Wohlfahrt",
       role: "Kaufmann & QB-Bau",
@@ -102,7 +103,7 @@ export const defaultAboutContent: AboutContent = {
     },
     {
       image:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBidXNpbmVzcyUyMHBvcnRyYWl0JTIwbWFuJTIwc3VpdHxlbnwxfHx8fDE3NzkwOTE1MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://a.storyblok.com/f/293408914760698/1eaf209776/team-uwe-wohlfahrt.webp",
       imageAlt: "Uwe Wohlfahrt",
       name: "Uwe Wohlfahrt",
       role: "Fliesenlegermeister",
@@ -111,7 +112,7 @@ export const defaultAboutContent: AboutContent = {
     },
     {
       image:
-        "https://images.unsplash.com/photo-1624797432677-6f803a98acb3?crop=entropy&cs=tinysrgb&fit=max&fm=webp&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxwcm9mZXNzaW9uYWwlMjBidXNpbmVzcyUyMHBvcnRyYWl0JTIwbWFuJTIwc3VpdHxlbnwxfHx8fDE3NzkwOTE1MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://a.storyblok.com/f/293408914760698/b4fa202984/team-yannik-wohlfahrt.webp",
       imageAlt: "Yannik Wohlfahrt",
       name: "Yannik Wohlfahrt",
       role: "Technische Leitung",
