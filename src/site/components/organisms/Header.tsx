@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useLocation } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { Logo } from "../atoms/Logo";
+import { FacebookIcon, InstagramIcon } from "../atoms/BrandIcons";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
 
 export function Header() {
@@ -135,7 +136,11 @@ export function Header() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
-            <Link to="/" className="relative z-[60] min-w-0">
+            <Link
+              to="/"
+              className="relative z-[60] min-w-0"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
               <div className="flex flex-col items-start gap-1 min-w-0">
                 <motion.div
                   initial={false}
@@ -387,15 +392,16 @@ export function Header() {
                           <p className="text-[10px] tracking-[0.3em] text-accent uppercase mb-3">
                             Social
                           </p>
-                          <div className="flex gap-6">
+                          <div className="flex gap-4">
                             {s.social.facebook && (
                               <a
                                 href={s.social.facebook}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-white/40 text-xs tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                                aria-label="Facebook"
+                                className="text-white/40 hover:text-accent transition-colors"
                               >
-                                Facebook
+                                <FacebookIcon size={20} />
                               </a>
                             )}
                             {s.social.instagram && (
@@ -403,9 +409,10 @@ export function Header() {
                                 href={s.social.instagram}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-white/40 text-xs tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                                aria-label="Instagram"
+                                className="text-white/40 hover:text-accent transition-colors"
                               >
-                                Instagram
+                                <InstagramIcon size={20} />
                               </a>
                             )}
                           </div>
