@@ -9,7 +9,6 @@ export function Header() {
   const s = useSiteSettings();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const location = useLocation();
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -298,8 +297,6 @@ export function Header() {
                             ease: [0.16, 1, 0.3, 1],
                           }}
                           className="border-b border-white/[0.07] first:border-t"
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
                         >
                           <Link
                             to={item.path}

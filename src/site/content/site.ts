@@ -72,13 +72,6 @@ export const defaultSiteSettings: SiteSettings = {
 };
 
 /**
- * Hilfsfunktion: erzeugt die Adresse als mehrzeiligen String.
- */
-export function formatAddress(s: SiteSettings): string[] {
-  return [s.street, `${s.zip} ${s.city}`];
-}
-
-/**
  * Hilfsfunktion: erzeugt die Oeffnungszeiten als Anzeige-Zeilen
  * (z. B. "Mo. – Fr.: 08:00 – 12:30 Uhr").
  */

@@ -1,8 +1,9 @@
 # W&W – Wohlfahrt & Wohlfahrt Fliesen
 
 Website des Fliesen-Meisterbetriebs **Wohlfahrt & Wohlfahrt** (Pfullingen, seit 1954).
-Gebaut mit **Next.js** als **statischer Export** – das Ergebnis ist reines HTML/CSS/JS
-und kann ohne Server (z. B. per FTP) auf jedes Webhosting geladen werden.
+Gebaut mit **Next.js** (App Router) und auf **Vercel** server-gerendert (SSR/ISR).
+Inhalte kommen aus **Storyblok** und sind ohne Rebuild sofort live; ohne Token
+läuft die Seite mit den lokalen Fallback-Inhalten in `src/site/content/`.
 
 ---
 
@@ -13,11 +14,12 @@ und kann ohne Server (z. B. per FTP) auf jedes Webhosting geladen werden.
 - [Schnellstart](#schnellstart)
 - [Skripte](#skripte)
 - [Projektstruktur](#projektstruktur)
-- [Statischer Build & FTP-Upload](#statischer-build--ftp-upload)
+- [Deployment (Vercel, SSR)](#deployment-vercel-ssr)
 - [SEO](#seo)
 - [Konfiguration anpassen](#konfiguration-anpassen)
 - [Storyblok CMS (Inhalte pflegbar machen)](#storyblok-cms-inhalte-pflegbar-machen)
 - [Bekannte Punkte / To-dos](#bekannte-punkte--to-dos)
+- [Mail-/DNS-Daten (kasserver.com)](#mail-dns-daten-kasservercom)
 
 ---
 
@@ -57,7 +59,7 @@ nvm install
 # 1. Abhängigkeiten installieren
 npm install
 
-# 2. Entwicklungsserver starten (http://localhost:3000)
+# 2. Entwicklungsserver starten (https://localhost:3010)
 npm run dev
 ```
 
@@ -65,15 +67,19 @@ npm run dev
 
 ## Skripte
 
-| Befehl            | Beschreibung                                                        |
-| ----------------- | ------------------------------------------------------------------- |
-| `npm run dev`     | Startet den Entwicklungsserver mit Hot-Reload auf Port 3000.        |
-| `npm run build`   | Erzeugt den statischen Export im Ordner `out/`.                     |
-| `npm run preview` | Serviert den gebauten `out/`-Ordner lokal (wie auf dem FTP-Server). |
-| `npm run lint`    | Führt das Linting via ESLint aus.                                   |
+| Befehl              | Beschreibung                                                                    |
+| ------------------- | ------------------------------------------------------------------------------- |
+| `npm run dev`       | Dev-Server mit Hot-Reload auf **https**://localhost:**3010** (lokales Zertifikat). |
+| `npm run dev:http`  | Dev-Server ohne HTTPS auf Port 3000.                                            |
+| `npm run build`     | Produktions-Build (`.next/`) für den Node-Server.                               |
+| `npm run start`     | Startet den gebauten Produktions-Server.                                        |
+| `npm run preview`   | `build` + `start` in einem Schritt.                                             |
+| `npm run typecheck` | Prüft die Typen via `tsc --noEmit`.                                             |
 
-> **Hinweis:** `next start` gibt es bewusst nicht – bei `output: "export"` existiert
-> kein Node-Server. Zum Anschauen des Builds `npm run preview` verwenden.
+> **Warum HTTPS im Dev-Modus?** Der Storyblok Visual Editor lädt die Seite in einem
+> iframe und verlangt eine `https`-Preview-URL. Die Zertifikate `localhost.pem` /
+> `localhost-key.pem` liegen im Projekt-Root und sind per `.gitignore` ausgenommen –
+> bei Bedarf mit [mkcert](https://github.com/FiloSottile/mkcert) neu erzeugen.
 
 ---
 
@@ -95,14 +101,15 @@ npm run dev
 │  ├─ site/
 │  │  ├─ components/        # Atomic Design: atoms / molecules / organisms / templates
 │  │  ├─ pages/             # Seiten-Komponenten (Home, About, Contact …)
+│  │  ├─ content/           # Content-Schicht: Storyblok-Abruf + lokale Fallbacks
 │  │  ├─ config/seo.ts      # zentrale SEO-Konfiguration (Domain, Titel, Texte)
 │  │  └─ lib/               # Hilfsfunktionen (u. a. react-router-Shim)
-│  ├─ styles/               # Tailwind, Theme-Variablen, selbst gehostete Fonts
-│  └─ imports/              # (Altlasten aus Figma – können entfernt werden)
+│  └─ styles/               # Tailwind, Theme-Variablen, selbst gehostete Fonts
 │
-├─ public/                  # statische Assets (Logo, Fonts, Bilder, og-image)
-├─ out/                     # Build-Ergebnis (wird von `npm run build` erzeugt)
-├─ next.config.mjs          # Next.js-Konfiguration (Static Export)
+├─ public/                  # statische Assets (Fonts, llms.txt)
+├─ .next/                   # Build-Ergebnis (wird von `npm run build` erzeugt)
+├─ proxy.ts                 # Basic-Auth + Storyblok-Preview-Erkennung
+├─ next.config.mjs          # Next.js-Konfiguration (SSR/ISR auf Vercel)
 ├─ .nvmrc                   # festgelegte Node-Version
 └─ .editorconfig            # einheitlicher Editor-Stil
 ```
@@ -111,9 +118,16 @@ npm run dev
 
 Die Seiten-Komponenten stammen aus einem Vite/React-Router-Projekt. Damit der
 generierte Code unverändert weiterläuft, mappt [`src/site/lib/react-router-shim.tsx`](src/site/lib/react-router-shim.tsx)
-`react-router` (z. B. `Link`, `useLocation`, `Outlet`) auf die Next.js-Pendants.
+`react-router` auf die Next.js-Pendants – bewusst nur die beiden tatsächlich
+genutzten APIs `Link` und `useLocation`. Der Alias ist doppelt hinterlegt: in
+[`tsconfig.json`](tsconfig.json) (für TypeScript) und in
+[`next.config.mjs`](next.config.mjs) (für Turbopack).
 Jede Route unter `app/<name>/page.tsx` ist ein dünner Wrapper mit eigener
 `metadata` und rendert die passende Komponente aus `src/site/pages/`.
+
+> **Aufräum-Kandidat:** Der Shim ist reines Figma-Make-Erbe. Wer die 32
+> `<Link to=…>`-Stellen auf `next/link` (`href=`) und `useLocation` auf
+> `usePathname` umstellt, kann Shim + beide Alias-Einträge löschen.
 
 ---
 
@@ -138,7 +152,7 @@ Commit.
 - In Storyblok → **Settings → Visual Editor → Preview URL** die Vercel-Domain
   eintragen (`https://DEINE-DOMAIN/`).
 - Beim Oeffnen einer Story haengt Storyblok `?_storyblok=…` an. Die
-  [`middleware.ts`](middleware.ts) setzt daraufhin den internen Header
+  [`proxy.ts`](proxy.ts) setzt daraufhin den internen Header
   `x-sb-preview`, und die Content-Fetcher laden **draft** statt **published**
   (siehe `resolveVersion` in [`src/site/content/index.ts`](src/site/content/index.ts)).
   Bewusst **ohne** Draft-Mode-Cookie – im iframe blockieren Browser solche
@@ -184,7 +198,7 @@ Canonical-URLs, Open Graph, Sitemap und robots.txt verwendet.
 | Strukturdaten (JSON-LD)                             | `app/layout.tsx` (`buildJsonLd`, speist sich aus den Firmendaten)   |
 | Farben / Theme                                      | `src/styles/theme.css`                                              |
 | Schriften                                           | `src/styles/fonts.css` + `public/fonts/`                            |
-| Static-Export-Optionen                              | `next.config.mjs`                                                   |
+| Next.js-Optionen (Bilder, trailingSlash, Rewrites)  | `next.config.mjs`                                                   |
 
 ---
 
@@ -197,11 +211,16 @@ nie.
 
 ### Architektur
 
-- **Modell:** Build-time (SSG). Inhalte werden beim `npm run build` per Content
-  Delivery API geholt und statisch eingebacken → beste SEO/Performance.
+- **Modell:** SSR/ISR auf Vercel. Inhalte werden serverseitig pro Anfrage bzw.
+  per Incremental Static Regeneration geholt – veröffentlichte Änderungen sind
+  ohne Rebuild live.
 - **Datenabruf:** `storyblok-js-client` direkt (reiner HTTP-Client). Der
-  `@storyblok/react/rsc`-Einstieg wird **nicht** genutzt, da er Server Actions
-  registriert, die mit `output: "export"` inkompatibel sind.
+  `@storyblok/react/rsc`-Einstieg wird **nicht** genutzt; `@storyblok/react`
+  liefert nur die Visual-Editor-Bridge für den Client.
+- **Draft-Vorschau:** [`proxy.ts`](proxy.ts) erkennt den Query-Parameter
+  `_storyblok` des Visual Editors und setzt den internen Header `x-sb-preview`;
+  der Server rendert dann Draft-Inhalte (bewusst kein Cookie – im iframe würde
+  es als Third-Party blockiert).
 - **Fallback:** `src/site/content/site.ts` ist die Quelle der Wahrheit ohne CMS;
   gepflegte Storyblok-Felder überlagern diese Werte (Teil-Pflege möglich).
 
@@ -211,51 +230,62 @@ nie.
 | ----------------------------------------------------- | ------------------------------------------------------- |
 | `src/site/content/types.ts`                           | TypeScript-Typen der Inhalte                            |
 | `src/site/content/site.ts`                            | Lokale Default-Firmendaten (Fallback)                   |
-| `src/site/content/index.ts`                           | `getSiteSettings()` – Build-time Fetch mit Fallback     |
+| `src/site/content/index.ts`                           | `getSiteSettings()` – serverseitiger Fetch mit Fallback |
 | `src/site/lib/storyblok.ts`                           | Client-Init (nur mit Token aktiv)                       |
 | `src/site/content/SiteSettingsProvider.tsx`           | Stellt Settings clientseitig bereit (`useSiteSettings`) |
-| `src/site/content/storyblok-schema.ts`                | Blueprint der anzulegenden Storyblok-Komponenten        |
 | `src/site/components/providers/StoryblokProvider.tsx` | Visual-Editor-Bridge (Live-Vorschau)                    |
+| `src/site/lib/editable.ts`                            | Click-to-Edit-Attribute aus `_editable`                 |
+| `proxy.ts`                                            | Preview-Erkennung + Basic-Auth                          |
 | `.env.example`                                        | Vorlage für die Env-Variablen                           |
 
 ### Einrichtung
 
 1. **Space anlegen** in Storyblok (Region merken: `eu`/`us`/`ap`/`ca`/`cn`).
-2. **Komponenten erstellen** gemäß `src/site/content/storyblok-schema.ts`
-   (z. B. mit dem Storyblok-MCP) und eine globale Story `settings` füllen.
+2. **Komponenten erstellen** (z. B. mit dem Storyblok-MCP) und eine globale
+   Story `settings` füllen. Als Feldnamen die Keys aus
+   `src/site/content/types.ts` verwenden – dort steht die Zielstruktur.
 3. **`.env.local`** aus `.env.example` kopieren und Tokens eintragen:
    ```bash
    cp .env.example .env.local
    ```
-4. **Neu bauen:** `npm run build`. Die Inhalte sind nun statisch eingebacken.
+4. **Dev-Server neu starten** – die Inhalte werden serverseitig geladen.
 
 ### Visual Editor (Live-Vorschau)
 
 - `NEXT_PUBLIC_STORYBLOK_TOKEN` setzen und `StoryblokProvider` in
   `app/layout.tsx` um die App legen.
-- Als Vorschau-URL im Space den lokalen Dev-Server (`npm run dev`) bzw. die
+- Als Vorschau-URL im Space den lokalen Dev-Server
+  (`https://localhost:3010`, daher `npm run dev` mit HTTPS) bzw. die
   Preview-Deployment-URL eintragen.
 
-### Wichtig: Rebuild bei Inhaltsänderungen
+### Inhaltsänderungen
 
-Da die Seite **statisch** exportiert wird, erscheinen neue Inhalte erst nach
-einem erneuten Build/Deploy. Empfehlung: einen **Webhook** in Storyblok
-(„Story published") auf einen GitHub-Action-`repository_dispatch` zeigen lassen,
-der den Build + Deploy automatisch auslöst.
+Kein Rebuild nötig: durch SSR/ISR holt der Server die Inhalte selbst.
+„Veröffentlichen" in Storyblok wirkt also direkt – ohne GitHub-Action,
+ohne Webhook, ohne Commit.
 
 ---
 
 ## Bekannte Punkte / To-dos
 
-- [ ] **Kontaktformular** versendet noch nicht real (Mock) – Anbindung an einen
-      Dienst wie Web3Forms/Formspree/Resend oder `mailto:`-Fallback nötig.
-- [ ] **Cookie-/Consent-Banner** für externe Einbettungen (z. B. Google-Maps-iframe
-      über `mapEmbedUrl`) prüfen.
-- [ ] **Team-Fotos** in Storyblok pflegen (Default ist ein Platzhalter,
-      `/assets/team-placeholder.svg`).
+- [x] **Kontaktformular** versendet real per SMTP über
+      [`app/api/contact/route.ts`](app/api/contact/route.ts) (Nodemailer,
+      Honeypot + serverseitige Validierung). Env: `SMTP_*`, `CONTACT_TO`.
+- [ ] **Cookie-/Consent-Banner** für externe Einbettungen (Google-Maps-iframe
+      über `mapEmbedUrl` in [`MapEmbed.tsx`](src/site/components/molecules/MapEmbed.tsx))
+      prüfen.
 - [ ] **Rechtstexte** (Impressum/Datenschutz) juristisch final prüfen.
+- [ ] **react-router-Shim** ablösen (siehe [Routing-Hinweis](#routing-hinweis)).
+- [ ] **`asset()`** in [`src/site/lib/asset.ts`](src/site/lib/asset.ts) ist seit
+      dem Wechsel auf Vercel eine Identitätsfunktion (`NEXT_PUBLIC_BASE_PATH`
+      wird nirgends gesetzt, `basePath` ist nicht konfiguriert) – kann entfallen.
 
-- kasserver.com
-  MX (Postannahme): w00efa13.kasserver.com ← hierhin gehen eure Mails
-  SPF: include:spf.kasserver.com
-  Nameserver: ns5/ns6.kasserver.com
+---
+
+## Mail-/DNS-Daten (kasserver.com)
+
+| Eintrag              | Wert                                       |
+| -------------------- | ------------------------------------------ |
+| MX (Postannahme)     | `w00efa13.kasserver.com`                   |
+| SPF                  | `include:spf.kasserver.com`                |
+| Nameserver           | `ns5.kasserver.com` / `ns6.kasserver.com`  |
