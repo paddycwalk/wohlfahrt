@@ -87,12 +87,12 @@ export function Home({
                 {content.heroLine2Suffix}
               </h1>
               <div aria-hidden="true">
-                <RevealText delay={0.4}>
+                <RevealText delay={0}>
                   <span className="block font-['Bebas_Neue',sans-serif] uppercase text-[clamp(3rem,10vw,9rem)] leading-[0.9] tracking-tight text-white mb-0">
                     {content.heroLine1}
                   </span>
                 </RevealText>
-                <RevealText delay={0.5}>
+                <RevealText delay={0.1}>
                   <span className="block font-['Bebas_Neue',sans-serif] uppercase text-[clamp(3rem,10vw,9rem)] leading-[0.9] tracking-tight text-white">
                     <span className="text-accent">
                       {content.heroAccentWord}
@@ -104,9 +104,9 @@ export function Home({
             </div>
             <div className="lg:col-span-4 lg:pb-4">
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
+                initial={{ y: 12 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="text-white/70 text-lg mb-8 max-w-sm"
               >
                 {content.heroSubtitle}
@@ -114,7 +114,7 @@ export function Home({
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
+                transition={{ delay: 0.1, duration: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4"
               >
                 <Button

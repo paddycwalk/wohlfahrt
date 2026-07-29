@@ -22,6 +22,13 @@ function resolveImage(src: string): string {
   return src.startsWith("/") ? asset(src) : src;
 }
 
+/**
+ * Anzeigebreite der Projektkacheln fuer die `srcset`-Auswahl. Die Karten
+ * spannen je nach Reihe `md:col-span-4` bis `md:col-span-8` von 12 bzw. ein
+ * Drittel in `md:grid-cols-3` – ausgelegt auf die breiteste Variante.
+ */
+const PROJECT_SIZES = "(min-width: 768px) 66vw, 100vw";
+
 export function References({
   content = defaultReferencesContent,
 }: {
@@ -202,6 +209,7 @@ function GalleryItem({
         className="w-full h-full object-cover absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105"
         width={1080}
         height={720}
+        sizes={PROJECT_SIZES}
       />
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500" />
       <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">

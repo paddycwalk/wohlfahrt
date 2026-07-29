@@ -58,6 +58,9 @@ function resolveImage(src: string): string {
   return src.startsWith("/") ? asset(src) : src;
 }
 
+/** Anzeigebreite der Split-Bilder: halbe Breite ab `lg`, sonst voll. */
+const SPLIT_SIZES = "(min-width: 1024px) 50vw, 100vw";
+
 function ServiceShowcase({
   service,
   index,
@@ -94,6 +97,7 @@ function ServiceShowcase({
           className="w-full h-full object-cover absolute inset-0"
           width={1080}
           height={720}
+          sizes={SPLIT_SIZES}
         />
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute top-6 left-6 md:top-8 md:left-8">

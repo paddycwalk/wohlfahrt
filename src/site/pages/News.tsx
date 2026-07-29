@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { RevealText } from "../components/molecules/RevealText";
 import { defaultNewsContent, type NewsContent } from "../content/pages/news";
 import { sbEditable } from "../lib/editable";
+import { storyblokImgProps } from "@/site/lib/image";
 
 export function News({
   content = defaultNewsContent,
@@ -48,7 +49,11 @@ export function News({
                   {item.image && (
                     <div className="w-full md:w-56 shrink-0 overflow-hidden aspect-[4/3]">
                       <img
-                        src={item.image}
+                        {...storyblokImgProps(
+                          item.image,
+                          // Feste Spalte ab md, darunter volle Breite.
+                          "(min-width: 768px) 224px, 92vw",
+                        )}
                         alt={item.title}
                         loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"

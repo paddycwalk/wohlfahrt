@@ -2,6 +2,20 @@
 
 import { useCallback, useRef, useState } from "react";
 import { MoveHorizontal } from "lucide-react";
+import { storyblokImgProps } from "@/site/lib/image";
+
+/**
+ * Der Slider fuellt den Bild-Slot der SplitImageCard (`lg:col-span-7` von 12).
+ * Relevant, weil hier ZWEI Bilder gleichzeitig geladen werden – uebereinander
+ * gelegt und per `clip-path` beschnitten.
+ *
+ * Beide `<img>` sind zwingend `loading="lazy"`: der Slider liegt weit unter dem
+ * Fold, aber React 19 hoistet fuer eager Bilder ein `<link rel="preload">` in
+ * den <head>. Auf der Startseite hat das zwei Bilder (auf Handys 480 + 130 KB)
+ * in den kritischen Pfad gezogen und dem Hero – dem LCP-Element – die
+ * Bandbreite weggenommen.
+ */
+const SLIDER_SIZES = "(min-width: 1024px) 58vw, 100vw";
 
 interface BeforeAfterSliderProps {
   /** Traditionelles Bild (wird von links eingeblendet). */
@@ -74,18 +88,20 @@ export function BeforeAfterSlider({
     >
       {/* Basisebene: modern (rechte Seite) */}
       <img
-        src={afterImage}
+        {...storyblokImgProps(afterImage, SLIDER_SIZES)}
         alt={afterAlt}
         draggable={false}
         decoding="async"
+        loading="lazy"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
       {/* Overlay: traditionell (links, per clip-path beschnitten) */}
       <img
-        src={beforeImage}
+        {...storyblokImgProps(beforeImage, SLIDER_SIZES)}
         alt={beforeAlt}
         draggable={false}
         decoding="async"
+        loading="lazy"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       />

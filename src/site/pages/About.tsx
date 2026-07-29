@@ -34,6 +34,17 @@ function resolveImage(src: string): string {
   return src.startsWith("/") ? asset(src) : src;
 }
 
+/**
+ * Anzeigebreiten fuer die `srcset`-Auswahl (siehe ImageWithFallback).
+ * Hergeleitet aus Container (max. 96rem = 1536px), Spaltenzahl und Gaps.
+ */
+
+/** Die beiden versetzten Team-Portraits: `lg:col-span-5` von 12. */
+const TEAM_SIZES = "(min-width: 1024px) 590px, 92vw";
+
+/** Das dritte Portrait: `md:col-span-2` von 5 in einem `max-w-4xl`-Block. */
+const TEAM_WIDE_SIZES = "(min-width: 768px) 340px, 92vw";
+
 export function About({
   content = defaultAboutContent,
 }: {
@@ -124,6 +135,8 @@ export function About({
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   width={900}
                   height={1200}
+                  sizes={TEAM_SIZES}
+                  aspect={3 / 4}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
@@ -160,6 +173,8 @@ export function About({
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   width={900}
                   height={1200}
+                  sizes={TEAM_SIZES}
+                  aspect={3 / 4}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
@@ -194,6 +209,8 @@ export function About({
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   width={900}
                   height={1200}
+                  sizes={TEAM_WIDE_SIZES}
+                  aspect={1}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>

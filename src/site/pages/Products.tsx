@@ -23,6 +23,18 @@ function resolveImage(src: string): string {
   return src.startsWith("/") ? asset(src) : src;
 }
 
+/**
+ * Anzeigebreiten fuer die `srcset`-Auswahl (siehe ImageWithFallback).
+ * Hergeleitet aus Container (max. 96rem = 1536px), Spaltenzahl und Gaps.
+ */
+
+/** Serien-Kacheln: `grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`. */
+const SERIES_SIZES =
+  "(min-width: 1024px) 356px, (min-width: 768px) 29vw, 47vw";
+
+/** Kategorie-Karten: `md:col-span-4` bis `md:col-span-7` von 12. */
+const CATEGORY_SIZES = "(min-width: 768px) 60vw, 100vw";
+
 export function Products({
   content = defaultProductsContent,
 }: {
@@ -342,6 +354,7 @@ function ProductCard({
         className="w-full h-full object-cover absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105"
         width={1080}
         height={1350}
+        sizes={CATEGORY_SIZES}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
@@ -391,6 +404,8 @@ function SeriesCard({
         className="w-full h-full object-cover absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105"
         width={800}
         height={1000}
+        sizes={SERIES_SIZES}
+        aspect={4 / 5}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
       <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">

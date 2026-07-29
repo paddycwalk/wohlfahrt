@@ -12,6 +12,9 @@ export function Logo({ className = "" }: LogoProps) {
       className={`h-9 w-auto max-w-full object-contain sm:h-10 md:h-12 ${className}`}
       width={270}
       height={49}
+      // Das Original ist mit 2.120 B bereits kleiner als jede Variante, die der
+      // Storyblok Image Service daraus macht (320w: 4.278 B). Also unangetastet.
+      unoptimized
     />
   );
 }

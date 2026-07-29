@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "../atoms/Button";
+import { storyblokImgProps } from "@/site/lib/image";
 
 const CONSENT_KEY = "ww-maps-consent";
 
@@ -98,7 +99,7 @@ export function MapEmbed({
           >
             {/* Lokales Kartenbild als Vorschau (kein Google-Kontakt) */}
             <img
-              src={previewImage}
+              {...storyblokImgProps(previewImage, "100vw")}
               alt=""
               aria-hidden="true"
               className="absolute inset-0 h-full w-full object-cover"

@@ -1,6 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { storyblokFallbackSrc, storyblokSrcSet } from "@/site/lib/image";
+
+/**
+ * Das Bild ist auf `max-w-[90vw]` begrenzt. Ohne diese Angabe wuerde der
+ * Browser von 100vw ausgehen – und weil hier ALLE Bilder der Serie vorab
+ * geladen werden, multipliziert sich jede zu grosse Variante.
+ */
+const LIGHTBOX_SIZES = "90vw";
 
 interface GalleryModalProps {
   images: string[];
@@ -75,6 +83,10 @@ export function GalleryModal({
   // Alle Galeriebilder vorab laden (Nachbarn zuerst), damit Wischen/Blaettern
   // sofort erscheint statt bei jedem Wechsel neu vom CDN zu laden. Der
   // Image().src-Aufruf fuellt den HTTP-Cache – eine JS-Referenz ist nicht noetig.
+  //
+  // Wichtig: `srcset`/`sizes` werden VOR `src` gesetzt und sind identisch mit
+  // dem gerenderten <img>. Sonst laedt der Preloader eine andere Variante als
+  // die spaeter angezeigte – doppelte Bytes statt Cache-Treffer.
   useEffect(() => {
     const seen = new Set<number>();
     const preload = (i: number) => {
@@ -83,7 +95,12 @@ export function GalleryModal({
       seen.add(n);
       const img = new Image();
       img.decoding = "async";
-      img.src = images[n];
+      const srcSet = storyblokSrcSet(images[n]);
+      if (srcSet) {
+        img.sizes = LIGHTBOX_SIZES;
+        img.srcset = srcSet;
+      }
+      img.src = storyblokFallbackSrc(images[n]) ?? images[n];
     };
     preload(currentIndex);
     for (let d = 1; d < images.length; d++) {
@@ -133,7 +150,9 @@ export function GalleryModal({
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          src={images[index]}
+          src={storyblokFallbackSrc(images[index]) ?? images[index]}
+          srcSet={storyblokSrcSet(images[index])}
+          sizes={LIGHTBOX_SIZES}
           alt={currentAlt}
           decoding="async"
           fetchPriority="high"

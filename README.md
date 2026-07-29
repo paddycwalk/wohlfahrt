@@ -17,6 +17,7 @@ läuft die Seite mit den lokalen Fallback-Inhalten in `src/site/content/`.
 - [Deployment (Vercel, SSR)](#deployment-vercel-ssr)
 - [SEO](#seo)
 - [Konfiguration anpassen](#konfiguration-anpassen)
+- [Bilder](#bilder)
 - [Storyblok CMS (Inhalte pflegbar machen)](#storyblok-cms-inhalte-pflegbar-machen)
 - [Bekannte Punkte / To-dos](#bekannte-punkte--to-dos)
 - [Mail-/DNS-Daten (kasserver.com)](#mail-dns-daten-kasservercom)
@@ -199,6 +200,64 @@ Canonical-URLs, Open Graph, Sitemap und robots.txt verwendet.
 | Farben / Theme                                      | `src/styles/theme.css`                                              |
 | Schriften                                           | `src/styles/fonts.css` + `public/fonts/`                            |
 | Next.js-Optionen (Bilder, trailingSlash, Rewrites)  | `next.config.mjs`                                                   |
+| Bild-Skalierung (`srcset`, Qualität)                | `src/site/lib/image.ts`                                             |
+
+---
+
+## Bilder
+
+Alle Bilder laufen über [`ImageWithFallback`](src/site/components/figma/ImageWithFallback.tsx),
+die aus jeder Storyblok-URL automatisch ein `srcset` über den
+[Storyblok Image Service](https://www.storyblok.com/docs/image-service) baut
+(`<url>/m/<breite>x0/filters:quality(75)`) und `width`/`height` aus dem
+Asset-Pfad liest. Details und Breitenstufen: [`src/site/lib/image.ts`](src/site/lib/image.ts).
+
+Bewusst **nicht** über `next/image`: die Assets liegen auf Storybloks CDN, das
+dieselbe Transformation gratis und gecacht erledigt. Der Next-Optimizer würde
+~340 Bilder durch Vercel proxen und dort das Bildkontingent belasten – deshalb
+steht `images.unoptimized = true` in [`next.config.mjs`](next.config.mjs).
+
+Wer ein rohes `<img>` braucht (z. B. wegen `clip-path` oder exakter absoluter
+Positionierung), holt sich die Attribute über `storyblokImgProps()` aus
+demselben Modul.
+
+### Gemessene Entscheidungen – bitte nicht „optimieren"
+
+Die folgenden Punkte sehen wie offene Enden aus, sind aber nachgemessen. Alle
+Zahlen am Hero der Startseite (Quelle 2200×1650) bei 828 px Breite.
+
+- **`quality(75)` ist das Optimum.** PSNR gegen `quality(100)` derselben
+  Skalierung: q80 = 108 KiB / 36,5 dB · **q75 = 88 KiB / 34,7 dB** ·
+  q65 = 76 KiB / 33,6 dB · q50 = 62 KiB / 32,3 dB · q30 = 42 KiB / 30,1 dB.
+  Unter q70 werden Artefakte sichtbar, der Gewinn ist minimal.
+- **Lighthouse' Hinweis „Increasing the image compression factor…" ist nicht
+  erreichbar.** Er verlangt ~31 KiB; selbst `quality(30)` mit deutlich
+  sichtbaren Artefakten landet bei 42 KiB. Der Schätzwert ignoriert, dass das
+  Bild bereits WebP bei vernünftiger Qualität ist. Die Warnung bleibt bestehen –
+  das ist in Ordnung.
+- **AVIF ist bei Storyblok kontraproduktiv.** `filters:format(avif)` liefert für
+  dasselbe Bild **137 KB gegen 90 KB** als WebP.
+- **Die 1200er-Breitenstufe ist Absicht.** Gängige Handys landen mit
+  CSS-Breite × DPR knapp über 1080 (412×2,625 = 1081; 390×3 = 1170) und würden
+  sonst auf 1440w springen – beim Hero 246 KB statt 175 KB.
+- **Das Logo ist von der Optimierung ausgenommen** (`unoptimized`). Das Original
+  ist mit 2.120 B kleiner als jede Variante, die der Image Service daraus macht
+  (320w = 4.278 B).
+
+### Bekannte Schwäche: Full-Bleed-Heroes auf Hochkant-Viewports
+
+Die Hero-Bilder sind 4:3, ein Handy-Viewport ist ~1:2. Mit `object-cover`
+skaliert der Browser das gelieferte 828×621-Bild um 1,33× hoch und schneidet die
+Seiten ab – im sichtbaren Bereich bleiben 311 Quellpixel für 1082 Device-Pixel,
+also **3,5× Hochskalierung**. Der Hero ist auf hohen Handys unscharf, und ein
+Teil der Bytes kodiert nie sichtbare Bildbereiche.
+
+Ein serverseitiger Zuschnitt auf das Viewport-Verhältnis wäre auf beiden Achsen
+besser: `/m/412x823` = 57 KiB bei nur 2,6× Hochskalierung. Das lässt sich mit
+`srcset`/`sizes` aber nicht ausdrücken (die kennen nur Breite, kein
+Seitenverhältnis) – es bräuchte `<picture>` mit `media`-Queries in
+`ImageWithFallback` und ggf. Fokuspunkte in Storyblok, damit der Center-Crop
+nicht das Motiv zerschneidet. Siehe To-dos.
 
 ---
 
@@ -276,6 +335,19 @@ ohne Webhook, ohne Commit.
       prüfen.
 - [ ] **Rechtstexte** (Impressum/Datenschutz) juristisch final prüfen.
 - [ ] **react-router-Shim** ablösen (siehe [Routing-Hinweis](#routing-hinweis)).
+- [ ] **Hero-Bilder per `<picture>` art-directed** ausliefern (Portrait-Crop für
+      hohe Handys) – siehe [Bekannte Schwäche](#bekannte-schwäche-full-bleed-heroes-auf-hochkant-viewports).
+      Bringt beim Hero 87 → 57 KiB **und** ein schärferes Bild.
+- [ ] **Storyblok-Antworten cachen.** Aktuell hat keine Route Caching: `headers()`
+      in `resolveVersion()` ([`src/site/content/index.ts`](src/site/content/index.ts))
+      macht alle Seiten dynamisch, und `storyblok-js-client` cacht per Default
+      nicht (`cache.type` ist undefined → No-Op-Provider). Jeder Seitenaufruf
+      löst also zwei Storyblok-Calls aus. `fetchOptions` mit
+      `next: { revalidate, tags }` durchreichen und per Webhook `revalidateTag`
+      auslösen – dann bleibt „Veröffentlichen ist sofort live" erhalten.
+- [ ] **`"use client"` in allen 15 Seiten-Komponenten** ([`src/site/pages/`](src/site/pages/))
+      – auch Impressum, Datenschutz und Haftungsausschluss werden als
+      Client-Bundle ausgeliefert und hydriert. Prod-Bundle: 344 KB gzip.
 - [ ] **`asset()`** in [`src/site/lib/asset.ts`](src/site/lib/asset.ts) ist seit
       dem Wechsel auf Vercel eine Identitätsfunktion (`NEXT_PUBLIC_BASE_PATH`
       wird nirgends gesetzt, `basePath` ist nicht konfiguriert) – kann entfallen.
