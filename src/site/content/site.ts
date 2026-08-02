@@ -1,4 +1,5 @@
 import type { SiteSettings } from "./types";
+import { FOUNDING_YEAR, YEARS_TOKEN, yearsSinceFounding } from "../lib/years";
 
 /**
  * Lokale Default-Geschaeftsdaten – die einzige Quelle der Wahrheit, solange
@@ -11,10 +12,13 @@ import type { SiteSettings } from "./types";
 export const defaultSiteSettings: SiteSettings = {
   companyName: "Wohlfahrt & Wohlfahrt",
   legalName: "Wohlfahrt & Wohlfahrt Fliesen GmbH",
-  footerIntro:
-    "Ihr Experte für hochwertige Fliesen und professionelle Verlegung seit über 67 Jahren.",
-  foundingYear: 1954,
-  yearsExperience: 67,
+  footerIntro: `Ihr Experte für hochwertige Fliesen und professionelle Verlegung seit über ${YEARS_TOKEN} Jahren.`,
+  foundingYear: FOUNDING_YEAR,
+  // Abgeleitet statt gepflegt: als Getter, damit die Zahl auch in einem lang
+  // laufenden Prozess ueber den Jahrestag hinaus stimmt.
+  get yearsExperience() {
+    return yearsSinceFounding();
+  },
 
   street: "Hinterer Spielbach 4",
   zip: "72793",

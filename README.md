@@ -201,6 +201,23 @@ Canonical-URLs, Open Graph, Sitemap und robots.txt verwendet.
 | Schriften                                           | `src/styles/fonts.css` + `public/fonts/`                            |
 | Next.js-Optionen (Bilder, trailingSlash, Rewrites)  | `next.config.mjs`                                                   |
 | Bild-Skalierung (`srcset`, Qualität)                | `src/site/lib/image.ts`                                             |
+| Gründungsjahr / Jahresangaben                       | `src/site/lib/years.ts` (siehe [Platzhalter](#platzhalter-jahre))   |
+
+### Platzhalter `{{jahre}}`
+
+Sätze wie „seit über 67 Jahren" veralten still. Deshalb steht in den Inhalten –
+lokal **und** in Storyblok – nur der Platzhalter `{{jahre}}`; er wird pro
+Anfrage durch die vollendeten Jahre seit der Gründung (01.02.1954) ersetzt.
+
+- Funktioniert in **jedem** Textfeld, auch in `stat_item.value` und in Texten,
+  die erst später im CMS ergänzt werden.
+- Aufgelöst wird zentral in [`src/site/content/index.ts`](src/site/content/index.ts)
+  (`withYears`), damit sowohl Storyblok-Inhalte als auch die lokalen Defaults
+  durchlaufen.
+- Bewusst pro Anfrage statt beim Modul-Import: So stimmt die Zahl auch dann
+  noch, wenn ein Server-Prozess über den Jahrestag hinaus läuft.
+- `settings.yearsExperience` in Storyblok wird **nicht** mehr ausgelesen – der
+  Wert wird aus dem Gründungsjahr berechnet.
 
 ---
 

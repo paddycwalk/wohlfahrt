@@ -160,7 +160,7 @@ export function Home({
                 {...sbEditable(stat.editable)}
               >
                 <StatsCounter
-                  end={stat.value}
+                  end={Number(stat.value) || 0}
                   suffix={stat.suffix}
                   label={stat.label}
                 />

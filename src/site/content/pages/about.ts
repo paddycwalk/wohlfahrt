@@ -6,6 +6,8 @@
  * diesen Defaults; mit Token werden gepflegte Werte ueberlagert.
  */
 
+import { YEARS_TOKEN } from "../../lib/years";
+
 /** Icon-Schluessel fuer die Werte-Kacheln (lucide-react). */
 export type ValueIcon =
   | "award"
@@ -175,8 +177,7 @@ export const defaultAboutContent: AboutContent = {
     {
       icon: "trendingUp",
       title: "Tradition",
-      description:
-        "Erfolgreich in 3. Generation – seit über 70 Jahren Meisterbetrieb",
+      description: `Erfolgreich in 3. Generation – seit über ${YEARS_TOKEN} Jahren Meisterbetrieb`,
     },
     {
       icon: "zap",

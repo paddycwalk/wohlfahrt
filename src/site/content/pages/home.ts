@@ -8,6 +8,8 @@
  * (siehe `getHomeContent` in `../index.ts`).
  */
 
+import { YEARS_TOKEN } from "../../lib/years";
+
 export interface CtaLink {
   label: string;
   /** Interner Pfad, z. B. "/kontakt". */
@@ -15,7 +17,11 @@ export interface CtaLink {
 }
 
 export interface StatItem {
-  value: number;
+  /**
+   * Zahl als Zeichenkette, damit hier auch `{{jahre}}` stehen kann
+   * (siehe `src/site/lib/years.ts`). Die Anzeige parst den Wert.
+   */
+  value: string;
   suffix: string;
   label: string;
   editable?: string;
@@ -104,10 +110,10 @@ export const defaultHomeContent: HomeContent = {
   heroCtaSecondary: { label: "Ausstellung", link: "/ausstellung" },
 
   stats: [
-    { value: 67, suffix: "+", label: "Jahre Erfahrung" },
-    { value: 1000, suffix: "+", label: "Projekte" },
-    { value: 12, suffix: "+", label: "Mitarbeiter" },
-    { value: 500, suffix: "+", label: "Fliesenmuster" },
+    { value: YEARS_TOKEN, suffix: "+", label: "Jahre Erfahrung" },
+    { value: "1000", suffix: "+", label: "Projekte" },
+    { value: "12", suffix: "+", label: "Mitarbeiter" },
+    { value: "500", suffix: "+", label: "Fliesenmuster" },
   ],
 
   servicesLabel: "Kompetenzen",
@@ -134,7 +140,7 @@ export const defaultHomeContent: HomeContent = {
     },
     {
       icon: "award",
-      title: "Über 67 Jahre Erfahrung",
+      title: `Über ${YEARS_TOKEN} Jahre Erfahrung`,
       description:
         "Tradition trifft Innovation für höchste Qualitätsansprüche.",
     },
@@ -144,8 +150,7 @@ export const defaultHomeContent: HomeContent = {
     "https://a.storyblok.com/f/293408914760698/295d5a15d5/home-tradition.webp",
   traditionImageAlt: "Modernes Wohnzimmer mit warmen Holzoptik-Fliesen",
   traditionTitle: "Tradition trifft Moderne",
-  traditionText:
-    "Seit über 67 Jahren steht der Name Wohlfahrt & Wohlfahrt für Qualität und Zuverlässigkeit. Als familiengeführter Meisterbetrieb verbinden wir traditionelles Handwerk mit modernster Technik.",
+  traditionText: `Seit über ${YEARS_TOKEN} Jahren steht der Name Wohlfahrt & Wohlfahrt für Qualität und Zuverlässigkeit. Als familiengeführter Meisterbetrieb verbinden wir traditionelles Handwerk mit modernster Technik.`,
   traditionItems: [
     "Meisterqualität seit 1954",
     "Familiengeführter Betrieb",

@@ -1,4 +1,5 @@
 import { isStoryblokEnabled, storyblokClient } from "../lib/storyblok";
+import { resolveYearTokens, yearsSinceFounding } from "../lib/years";
 import { headers } from "next/headers";
 import { defaultSiteSettings } from "./site";
 import type { SiteSettings } from "./types";
@@ -213,7 +214,7 @@ function richTextToHtml(field: unknown): string | null {
  *
  * Wird zur Build-Zeit (RSC) aufgerufen -> Inhalte werden statisch eingebacken.
  */
-export async function getSiteSettings(): Promise<SiteSettings> {
+async function loadSiteSettings(): Promise<SiteSettings> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultSiteSettings;
 
   try {
@@ -232,7 +233,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       legalName: c.legalName || d.legalName,
       footerIntro: c.footerIntro || d.footerIntro,
       foundingYear: Number(c.foundingYear) || d.foundingYear,
-      yearsExperience: Number(c.yearsExperience) || d.yearsExperience,
+      // Bewusst NICHT aus Storyblok: die Jahre werden aus dem Gruendungsjahr
+      // abgeleitet, damit die Angabe nicht jaehrlich nachgepflegt werden muss.
+      yearsExperience: yearsSinceFounding(),
       street: c.street || d.street,
       zip: c.zip || d.zip,
       city: c.city || d.city,
@@ -275,7 +278,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
  * Laedt die Inhalte der Startseite (Story "home").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/home.ts`.
  */
-export async function getHomeContent(): Promise<HomeContent> {
+async function loadHomeContent(): Promise<HomeContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultHomeContent;
 
   try {
@@ -291,7 +294,12 @@ export async function getHomeContent(): Promise<HomeContent> {
     const stats: StatItem[] =
       Array.isArray(c.stats) && c.stats.length > 0
         ? c.stats.map((s: Record<string, unknown>, i: number) => ({
-            value: Number(s.value) || d.stats[i]?.value || 0,
+            // Als Zeichenkette uebernehmen, damit `{{jahre}}` erhalten bleibt
+            // und erst in `withYears` aufgeloest wird.
+            value:
+              typeof s.value === "string" || typeof s.value === "number"
+                ? String(s.value)
+                : (d.stats[i]?.value ?? "0"),
             suffix: typeof s.suffix === "string" ? s.suffix : "",
             label: typeof s.label === "string" ? s.label : "",
             editable: editableOf(s),
@@ -368,7 +376,7 @@ export async function getHomeContent(): Promise<HomeContent> {
  * Laedt die Inhalte der Seite "Über uns" (Story "ueber-uns").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/about.ts`.
  */
-export async function getAboutContent(): Promise<AboutContent> {
+async function loadAboutContent(): Promise<AboutContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultAboutContent;
 
   try {
@@ -452,7 +460,7 @@ export async function getAboutContent(): Promise<AboutContent> {
  * Laedt die Inhalte der Seite "Leistungen" (Story "leistungen").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/services.ts`.
  */
-export async function getServicesContent(): Promise<ServicesContent> {
+async function loadServicesContent(): Promise<ServicesContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultServicesContent;
 
   try {
@@ -541,7 +549,7 @@ export async function getServicesContent(): Promise<ServicesContent> {
  * Laedt die Inhalte der Seite "Produkte" (Story "produkte").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/products.ts`.
  */
-export async function getProductsContent(): Promise<ProductsContent> {
+async function loadProductsContent(): Promise<ProductsContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultProductsContent;
 
   try {
@@ -623,7 +631,7 @@ export async function getProductsContent(): Promise<ProductsContent> {
  * Laedt die Inhalte der Seite "Referenzen" (Story "referenzen").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/references.ts`.
  */
-export async function getReferencesContent(): Promise<ReferencesContent> {
+async function loadReferencesContent(): Promise<ReferencesContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultReferencesContent;
 
   try {
@@ -674,7 +682,7 @@ export async function getReferencesContent(): Promise<ReferencesContent> {
  * Adresse/Karte stammen aus den globalen SiteSettings.
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/showroom.ts`.
  */
-export async function getShowroomContent(): Promise<ShowroomContent> {
+async function loadShowroomContent(): Promise<ShowroomContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultShowroomContent;
 
   try {
@@ -727,7 +735,7 @@ export async function getShowroomContent(): Promise<ShowroomContent> {
  * Laedt die Inhalte der Seite "Karriere" (Story "karriere").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/career.ts`.
  */
-export async function getCareerContent(): Promise<CareerContent> {
+async function loadCareerContent(): Promise<CareerContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultCareerContent;
 
   try {
@@ -807,7 +815,7 @@ export async function getCareerContent(): Promise<CareerContent> {
  * Laedt die Inhalte der Seite "Aktuelles" (Story "aktuelles").
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/news.ts`.
  */
-export async function getNewsContent(): Promise<NewsContent> {
+async function loadNewsContent(): Promise<NewsContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultNewsContent;
 
   try {
@@ -857,7 +865,7 @@ export async function getNewsContent(): Promise<NewsContent> {
  * Adresse/Telefon/E-Mail/Karte stammen aus den globalen SiteSettings.
  * Ohne Token / bei Fehlern: lokale Defaults aus `pages/contact.ts`.
  */
-export async function getContactContent(): Promise<ContactContent> {
+async function loadContactContent(): Promise<ContactContent> {
   if (!isStoryblokEnabled || !storyblokClient) return defaultContactContent;
 
   try {
@@ -922,20 +930,50 @@ async function getLegalContent(
 }
 
 /** Inhalte der Seite "Impressum" (Story "impressum"). */
-export function getImprintContent(): Promise<LegalContent> {
+async function loadImprintContent(): Promise<LegalContent> {
   return getLegalContent("impressum", "page_imprint", defaultImprintContent);
 }
 
 /** Inhalte der Seite "Datenschutz" (Story "datenschutz"). */
-export function getPrivacyContent(): Promise<LegalContent> {
+async function loadPrivacyContent(): Promise<LegalContent> {
   return getLegalContent("datenschutz", "page_privacy", defaultPrivacyContent);
 }
 
 /** Inhalte der Seite "Haftungsausschluss" (Story "haftungsausschluss"). */
-export function getDisclaimerContent(): Promise<LegalContent> {
+async function loadDisclaimerContent(): Promise<LegalContent> {
   return getLegalContent(
     "haftungsausschluss",
     "page_disclaimer",
     defaultDisclaimerContent,
   );
 }
+
+/* -------------------------------------------------------------------------
+ * Oeffentliche Getter
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Umhuellt einen Content-Getter mit der Platzhalter-Aufloesung.
+ *
+ * Alles, was eine Seite bekommt – aus Storyblok *oder* aus den lokalen
+ * Defaults – laeuft hier durch. Dadurch bleibt `{{jahre}}` ueberall aktuell,
+ * auch in Texten, die erst spaeter im CMS ergaenzt werden. Die Aufloesung
+ * passiert pro Anfrage, nicht beim Modul-Import.
+ */
+function withYears<T>(load: () => Promise<T>): () => Promise<T> {
+  return async () => resolveYearTokens(await load());
+}
+
+export const getSiteSettings = withYears(loadSiteSettings);
+export const getHomeContent = withYears(loadHomeContent);
+export const getAboutContent = withYears(loadAboutContent);
+export const getServicesContent = withYears(loadServicesContent);
+export const getProductsContent = withYears(loadProductsContent);
+export const getReferencesContent = withYears(loadReferencesContent);
+export const getShowroomContent = withYears(loadShowroomContent);
+export const getCareerContent = withYears(loadCareerContent);
+export const getNewsContent = withYears(loadNewsContent);
+export const getContactContent = withYears(loadContactContent);
+export const getImprintContent = withYears(loadImprintContent);
+export const getPrivacyContent = withYears(loadPrivacyContent);
+export const getDisclaimerContent = withYears(loadDisclaimerContent);
