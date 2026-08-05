@@ -43,7 +43,8 @@ export const defaultShowroomContent: ShowroomContent = {
     },
     {
       title: "Persönliche Beratung",
-      description: "Fachkundige Beratung durch unsere erfahrenen Mitarbeiter",
+      description:
+        "Termin nach Vereinbarung. Hochwertige und persönliche Beratung durch den Firmeninhaber.",
     },
     {
       title: "Inspiration",
