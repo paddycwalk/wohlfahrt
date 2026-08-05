@@ -81,6 +81,13 @@ export function BeforeAfterSlider({
     }
   };
 
+  // Style (u. a. object-position aus dem Fokuspunkt) getrennt halten, damit es
+  // beim Overlay mit dem clip-path zusammengefuehrt und nicht ueberschrieben wird.
+  const { style: beforeStyle, ...beforeProps } = storyblokImgProps(
+    beforeImage,
+    SLIDER_SIZES,
+  );
+
   return (
     <div
       ref={containerRef}
@@ -97,13 +104,13 @@ export function BeforeAfterSlider({
       />
       {/* Overlay: traditionell (links, per clip-path beschnitten) */}
       <img
-        {...storyblokImgProps(beforeImage, SLIDER_SIZES)}
+        {...beforeProps}
         alt={beforeAlt}
         draggable={false}
         decoding="async"
         loading="lazy"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+        style={{ ...beforeStyle, clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       />
 
       {/* Labels */}

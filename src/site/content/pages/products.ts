@@ -1,8 +1,10 @@
 /**
  * Feldbasiertes Content-Modell der Seite "Produkte" (Products).
  *
- * Hinweis: Das Kategorie-Layout ist fest auf 5 Kacheln ausgelegt
- * (Reihe 1: 2 Kacheln, Reihe 2: 3 Kacheln).
+ * Hinweis zum Kategorie-Layout: Die ersten zwei Kacheln bilden die grosse
+ * erste Reihe (7/5 von 12), alle weiteren landen in der zweiten Reihe. Deren
+ * Spaltenzahl richtet sich nach der Anzahl (siehe `CATEGORY_ROW_2` in
+ * `pages/Products.tsx`) – aktuell 6 Kategorien, also 2 + 4.
  *
  * Die Serien-Galerien (`collections`) werden aus den gelieferten Bildordnern
  * generiert und liegen in `products-collections.ts` (regenerierbar).
@@ -103,7 +105,8 @@ export interface ProductsContent {
 export const defaultProductsContent: ProductsContent = {
   heroEyebrow: "Produkte",
   heroTitle: "Premium Fliesen",
-  heroSubtitle: "Von führenden Herstellern — kuratiert für höchste Ansprüche",
+  heroSubtitle:
+    "Von führenden Herstellern aus Italien und Spanien — kuratiert für höchste Ansprüche",
 
   bannerMarqueeText: "NEU · 2026 · KOLLEKTION ·",
   bannerItems: [
@@ -116,8 +119,8 @@ export const defaultProductsContent: ProductsContent = {
         "Holzdekor XXL",
         "Handgefertigte Mosaike",
       ],
-      buttonLabel: "Jetzt entdecken",
-      buttonLink: "/ausstellung",
+      buttonLabel: "Jetzt Kontakt aufnehmen",
+      buttonLink: "/kontakt",
       image:
         "https://a.storyblok.com/f/293408914760698/2200x1456/477def9462/01-csa-timewood-brown20120-form-cement60180-silkystone-sand9090.webp",
     },
@@ -157,6 +160,13 @@ export const defaultProductsContent: ProductsContent = {
       description: "Pflegeleichtes Feinsteinzeug in Holz- und Betonoptik",
       image:
         "https://a.storyblok.com/f/293408914760698/96de529bc1/produkt-feinsteinzeug.webp",
+    },
+    {
+      title: "Terrassenplatten aus Feinsteinzeug",
+      description:
+        "Frostsichere 2-cm-Platten für Terrasse, Pool und Garten — rutschhemmend und farbstabil",
+      image:
+        "https://a.storyblok.com/f/293408914760698/1349x1800/2ba8004845/01-sunstone-freya-120x120-th2.webp",
     },
   ],
 

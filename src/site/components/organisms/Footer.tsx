@@ -117,7 +117,7 @@ export function Footer() {
                   key={row.day}
                   className={`flex gap-3 ${row.closed ? "text-primary-foreground/50" : ""}`}
                 >
-                  <span className="w-8 shrink-0">{row.label}</span>
+                  <span className="w-12 shrink-0">{row.label}</span>
                   <span className="tabular-nums">
                     {row.closed ? CLOSED_LABEL : row.slots.join(" · ")}
                   </span>
@@ -129,7 +129,7 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
           <p>
-            {year} {s.companyName}
+            &copy; {year} {s.companyName}. Alle Rechte vorbehalten.
           </p>
           <div className="flex flex-col items-center gap-2 md:flex-row md:gap-6">
             {s.legalNav.map((link) => (

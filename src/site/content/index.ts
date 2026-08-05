@@ -2,7 +2,7 @@ import { isStoryblokEnabled, storyblokClient } from "../lib/storyblok";
 import { resolveYearTokens, yearsSinceFounding } from "../lib/years";
 import { headers } from "next/headers";
 import { WEEKDAYS, defaultSiteSettings } from "./site";
-import type { OpeningDay, SiteSettings } from "./types";
+import type { Geo, NavItem, OpeningDay, SiteSettings } from "./types";
 import { defaultHomeContent } from "./pages/home";
 import type {
   CtaLink,
@@ -86,11 +86,21 @@ async function resolveVersion(): Promise<"draft" | "published"> {
 /** Storyblok-Asset-Feld (Objekt) auf eine URL-Zeichenkette reduzieren. */
 function assetUrl(field: unknown, fallback: string): string {
   if (field && typeof field === "object" && "filename" in field) {
-    const filename = (field as { filename?: string }).filename;
-    return filename || fallback;
+    const a = field as { filename?: string; focus?: string };
+    if (!a.filename) return fallback;
+    return withFocus(a.filename, a.focus);
   }
   if (typeof field === "string" && field) return field;
   return fallback;
+}
+
+/**
+ * Haengt einen in Storyblok gesetzten Fokuspunkt als `#focus=…`-Fragment an die
+ * Asset-URL. So wandert der Fokus durch die string-basierte Bildpipeline (siehe
+ * `src/site/lib/image.ts`), ohne die Content-Felder auf Objekte umzustellen.
+ */
+function withFocus(filename: string, focus?: string): string {
+  return focus ? `${filename}#focus=${focus}` : filename;
 }
 
 /** Einen CTA-Blok (label/link) mit Fallback abbilden. */
@@ -138,8 +148,10 @@ function multiAssetUrls(field: unknown, fallback: string[]): string[] {
     const urls = field
       .map((a) => {
         if (a && typeof a === "object" && "filename" in a) {
-          const f = (a as { filename?: string }).filename;
-          return typeof f === "string" ? f : "";
+          const o = a as { filename?: string; focus?: string };
+          return typeof o.filename === "string" && o.filename
+            ? withFocus(o.filename, o.focus)
+            : "";
         }
         return typeof a === "string" ? a : "";
       })
@@ -147,6 +159,41 @@ function multiAssetUrls(field: unknown, fallback: string[]): string[] {
     if (urls.length > 0) return urls;
   }
   return fallback;
+}
+
+/**
+ * Eine Liste von `nav_item`-Bloks auf `NavItem[]` abbilden.
+ *
+ * Eintraege ohne Name *oder* Pfad werden verworfen; bleibt nichts uebrig,
+ * greifen die lokalen Defaults (Menue faellt nie leer aus).
+ */
+function navItems(field: unknown, fallback: NavItem[]): NavItem[] {
+  if (!Array.isArray(field)) return fallback;
+
+  const items = field.flatMap((raw) => {
+    if (!raw || typeof raw !== "object") return [];
+    const o = raw as { name?: unknown; path?: unknown };
+    const name = typeof o.name === "string" ? o.name.trim() : "";
+    const path = typeof o.path === "string" ? o.path.trim() : "";
+    return name && path ? [{ name, path }] : [];
+  });
+
+  return items.length > 0 ? items : fallback;
+}
+
+/**
+ * Geokoordinaten aus zwei Storyblok-Zahlenfeldern lesen.
+ *
+ * Storyblok liefert Zahlenfelder als Zeichenkette, leere Felder als `""`
+ * (-> `0`). Nur ein vollstaendiges, plausibles Paar ueberschreibt den Default.
+ */
+function geoFrom(latitude: unknown, longitude: unknown, fallback: Geo): Geo {
+  const lat = Number(latitude);
+  const lng = Number(longitude);
+  const usable = (n: number) => Number.isFinite(n) && n !== 0;
+  return usable(lat) && usable(lng)
+    ? { latitude: lat, longitude: lng }
+    : fallback;
 }
 
 /** Eine Zeitangabe aus Storyblok auf "HH:MM" (oder leer) reduzieren. */
@@ -264,6 +311,7 @@ async function loadSiteSettings(): Promise<SiteSettings> {
       ...d,
       companyName: c.companyName || d.companyName,
       legalName: c.legalName || d.legalName,
+      tagline: c.tagline || d.tagline,
       footerIntro: c.footerIntro || d.footerIntro,
       foundingYear: Number(c.foundingYear) || d.foundingYear,
       // Bewusst NICHT aus Storyblok: die Jahre werden aus dem Gruendungsjahr
@@ -285,13 +333,10 @@ async function loadSiteSettings(): Promise<SiteSettings> {
       mapEmbedUrl: c.mapEmbedUrl || d.mapEmbedUrl,
       // Strukturierte Listen nur uebernehmen, wenn vorhanden:
       openingHours: openingDays(c.openingHours) ?? d.openingHours,
-      geo:
-        c.geo?.latitude && c.geo?.longitude
-          ? {
-              latitude: Number(c.geo.latitude),
-              longitude: Number(c.geo.longitude),
-            }
-          : d.geo,
+      geo: geoFrom(c.geoLatitude, c.geoLongitude, d.geo),
+      mainNav: navItems(c.mainNav, d.mainNav),
+      footerQuickLinks: navItems(c.footerQuickLinks, d.footerQuickLinks),
+      legalNav: navItems(c.legalNav, d.legalNav),
     };
   } catch (err) {
     // Im Fehlerfall niemals den Build brechen – lokale Defaults nutzen.

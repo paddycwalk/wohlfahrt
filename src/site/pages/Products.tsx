@@ -33,8 +33,29 @@ function resolveImage(src: string): string {
 const SERIES_SIZES =
   "(min-width: 1024px) 356px, (min-width: 768px) 29vw, 47vw";
 
-/** Kategorie-Karten: `md:col-span-4` bis `md:col-span-7` von 12. */
+/** Kategorie-Karten der ersten Reihe: `md:col-span-7` bzw. `md:col-span-5` von 12. */
 const CATEGORY_SIZES = "(min-width: 768px) 60vw, 100vw";
+
+/**
+ * Zweite Kategorie-Reihe: Spaltenraster und `sizes`, abhaengig davon wie viele
+ * Kacheln nach den zwei grossen der ersten Reihe uebrig bleiben. Tailwind
+ * braucht statische Klassennamen, daher eine Tabelle statt Interpolation.
+ */
+const CATEGORY_ROW_2: Record<number, { cols: string; sizes: string }> = {
+  1: { cols: "md:grid-cols-1", sizes: "100vw" },
+  2: { cols: "md:grid-cols-2", sizes: "(min-width: 768px) 48vw, 100vw" },
+  3: { cols: "md:grid-cols-3", sizes: "(min-width: 768px) 32vw, 100vw" },
+  4: {
+    cols: "md:grid-cols-2 lg:grid-cols-4",
+    sizes: "(min-width: 1024px) 24vw, (min-width: 768px) 48vw, 100vw",
+  },
+};
+
+/** Mehr als vier Restkacheln: dreispaltig umbrechen. */
+const CATEGORY_ROW_2_FALLBACK = {
+  cols: "md:grid-cols-2 lg:grid-cols-3",
+  sizes: "(min-width: 1024px) 32vw, (min-width: 768px) 48vw, 100vw",
+};
 
 /** Bild im Highlight-Banner: `lg:w-64` (256px), darunter volle Breite. */
 const BANNER_SIZES = "(min-width: 1024px) 256px, 100vw";
@@ -44,7 +65,10 @@ export function Products({
 }: {
   content?: ProductsContent;
 }) {
-  const categories = content.categories;
+  // Erste Reihe: zwei grosse Kacheln. Zweite Reihe: alles Weitere.
+  const leadCategories = content.categories.slice(0, 2);
+  const restCategories = content.categories.slice(2);
+  const row2 = CATEGORY_ROW_2[restCategories.length] ?? CATEGORY_ROW_2_FALLBACK;
   const [activeSeries, setActiveSeries] = useState<ProductSeries | null>(null);
 
   return (
@@ -121,37 +145,34 @@ export function Products({
           />
 
           <div className="space-y-4 mt-16">
-            {/* Row 1 */}
+            {/* Row 1 — zwei grosse Kacheln */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              <ProductCard
-                category={categories[0]}
-                index={0}
-                className="md:col-span-7 h-[350px] md:h-[500px]"
-              />
-              <ProductCard
-                category={categories[1]}
-                index={1}
-                className="md:col-span-5 h-[350px] md:h-[500px]"
-              />
+              {leadCategories.map((category, i) => (
+                <ProductCard
+                  key={category.title}
+                  category={category}
+                  index={i}
+                  sizes={CATEGORY_SIZES}
+                  className={`${
+                    i === 0 ? "md:col-span-7" : "md:col-span-5"
+                  } h-[350px] md:h-[500px]`}
+                />
+              ))}
             </div>
-            {/* Row 2 */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              <ProductCard
-                category={categories[2]}
-                index={2}
-                className="md:col-span-4 h-[350px] md:h-[400px]"
-              />
-              <ProductCard
-                category={categories[3]}
-                index={3}
-                className="md:col-span-4 h-[350px] md:h-[400px]"
-              />
-              <ProductCard
-                category={categories[4]}
-                index={4}
-                className="md:col-span-4 h-[350px] md:h-[400px]"
-              />
-            </div>
+            {/* Row 2 — restliche Kacheln, Spaltenzahl richtet sich nach der Anzahl */}
+            {restCategories.length > 0 && (
+              <div className={`grid grid-cols-1 gap-4 ${row2.cols}`}>
+                {restCategories.map((category, i) => (
+                  <ProductCard
+                    key={category.title}
+                    category={category}
+                    index={i + leadCategories.length}
+                    sizes={row2.sizes}
+                    className="h-[350px] md:h-[400px]"
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -388,10 +409,12 @@ function BannerItem({
 function ProductCard({
   category,
   index,
+  sizes = CATEGORY_SIZES,
   className = "",
 }: {
   category: ProductCategory;
   index: number;
+  sizes?: string;
   className?: string;
 }) {
   return (
@@ -413,7 +436,7 @@ function ProductCard({
         className="w-full h-full object-cover absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105"
         width={1080}
         height={1350}
-        sizes={CATEGORY_SIZES}
+        sizes={sizes}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
@@ -478,7 +501,7 @@ function SeriesCard({
         <h4 className="text-lg md:text-xl text-white leading-tight">
           {series.title}
           {series.articleNumber && (
-            <span className="ml-2 inline-block align-middle bg-black/55 backdrop-blur-sm text-white text-xs tracking-wide whitespace-nowrap px-2 py-0.5 rounded-full">
+            <span className="ml-2 inline-block align-middle bg-black/55 backdrop-blur-sm text-white text-sm md:text-base tracking-wide whitespace-nowrap px-2.5 py-1 rounded-full">
               Art.-Nr. {series.articleNumber}
             </span>
           )}

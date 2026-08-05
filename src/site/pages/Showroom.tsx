@@ -3,21 +3,18 @@
 import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
-import { MapEmbed } from "../components/molecules/MapEmbed";
-import {
-  MapPin,
-  Clock,
-  Phone,
-  ArrowRight,
-  type LucideIcon,
-} from "lucide-react";
+import { MapPin, Clock, Phone, ArrowRight, type LucideIcon } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { asset } from "../lib/asset";
 import { sbEditable } from "../lib/editable";
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
-import { openingHoursText } from "@/site/content/site";
+import {
+  CLOSED_LABEL,
+  openingHoursRows,
+  type OpeningHoursRow,
+} from "@/site/content/site";
 import {
   defaultShowroomContent,
   type ShowroomContent,
@@ -28,43 +25,69 @@ function resolveImage(src: string): string {
   return src.startsWith("/") ? asset(src) : src;
 }
 
+/** Ein Info-Block neben der Karte (Adresse, Oeffnungszeiten, Telefon). */
+interface InfoBlock {
+  icon: LucideIcon;
+  title: string;
+  note?: string;
+  text?: string;
+  /** Oeffnungszeiten als ausgerichtete Zeilen – wie im Footer. */
+  rows?: OpeningHoursRow[];
+  href?: string;
+  external?: boolean;
+}
+
+/**
+ * Der Inhalt eines Info-Blocks: Oeffnungszeiten als Tag/Zeit-Raster,
+ * verlinkte Angaben als `<a>`, alles andere als Absatz.
+ */
+function InfoBlockBody({ item }: Readonly<{ item: InfoBlock }>) {
+  if (item.rows) {
+    return (
+      <ul className="space-y-1.5 text-sm">
+        {item.rows.map((row) => (
+          <li
+            key={row.day}
+            className={`flex gap-3 ${row.closed ? "text-muted-foreground/50" : "text-muted-foreground"}`}
+          >
+            <span className="w-12 shrink-0">{row.label}</span>
+            <span className="tabular-nums">
+              {row.closed ? CLOSED_LABEL : row.slots.join(" · ")}
+            </span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (item.href) {
+    return (
+      <a
+        href={item.href}
+        target={item.external ? "_blank" : undefined}
+        rel={item.external ? "noopener noreferrer" : undefined}
+        className="text-muted-foreground text-sm hover:text-accent transition-colors whitespace-pre-line"
+      >
+        {item.text}
+      </a>
+    );
+  }
+
+  return (
+    <p className="text-muted-foreground text-sm whitespace-pre-line">
+      {item.text}
+    </p>
+  );
+}
+
 export function Showroom({
   content = defaultShowroomContent,
 }: {
   content?: ShowroomContent;
 }) {
   const s = useSiteSettings();
-  const infoItems: {
-    icon: LucideIcon;
-    title: string;
-    /** Hervorgehobene Zeile ueber dem Text (z. B. Terminhinweis). */
-    note?: string;
-    text: string;
-    href?: string;
-    external?: boolean;
-  }[] = [
-    {
-      icon: MapPin,
-      title: "Adresse",
-      text: `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`,
-      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        `${s.street}, ${s.zip} ${s.city}`,
-      )}`,
-      external: true,
-    },
-    {
-      icon: Clock,
-      title: "Öffnungszeiten",
-      note: s.openingHoursNote,
-      text: openingHoursText(s),
-    },
-    {
-      icon: Phone,
-      title: "Telefon",
-      text: s.phone,
-      href: `tel:${s.phoneHref}`,
-    },
-  ];
+  const addressText = `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`;
+  const openingHours = openingHoursRows(s);
 
   return (
     <div className="overflow-hidden" {...sbEditable(content.editable)}>
@@ -123,7 +146,31 @@ export function Showroom({
               </motion.p>
 
               <div className="space-y-8">
-                {infoItems.map((item, i) => (
+                {(
+                  [
+                    {
+                      icon: MapPin,
+                      title: "Adresse",
+                      text: addressText,
+                      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        `${s.street}, ${s.zip} ${s.city}`,
+                      )}`,
+                      external: true,
+                    },
+                    {
+                      icon: Clock,
+                      title: "Öffnungszeiten",
+                      note: s.openingHoursNote,
+                      rows: openingHours,
+                    },
+                    {
+                      icon: Phone,
+                      title: "Telefon",
+                      text: s.phone,
+                      href: `tel:${s.phoneHref}`,
+                    },
+                  ] as InfoBlock[]
+                ).map((item, i) => (
                   <motion.div
                     key={item.title}
                     initial={{ opacity: 0, x: -20 }}
@@ -140,26 +187,9 @@ export function Showroom({
                         {item.title}
                       </h3>
                       {item.note && (
-                        <p className="text-base text-foreground mb-2">
-                          {item.note}
-                        </p>
+                        <p className="text-sm text-accent mb-2">{item.note}</p>
                       )}
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          target={item.external ? "_blank" : undefined}
-                          rel={
-                            item.external ? "noopener noreferrer" : undefined
-                          }
-                          className="text-muted-foreground text-sm hover:text-accent transition-colors whitespace-pre-line"
-                        >
-                          {item.text}
-                        </a>
-                      ) : (
-                        <p className="text-muted-foreground text-sm whitespace-pre-line">
-                          {item.text}
-                        </p>
-                      )}
+                      <InfoBlockBody item={item} />
                     </div>
                   </motion.div>
                 ))}
@@ -173,9 +203,15 @@ export function Showroom({
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7 h-[500px] lg:h-[600px]"
             >
-              <MapEmbed
-                embedUrl={s.mapEmbedUrl}
-                address={[s.street, `${s.zip} ${s.city}`]}
+              <iframe
+                src={s.mapEmbedUrl}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps"
               />
             </motion.div>
           </div>
@@ -198,7 +234,7 @@ export function Showroom({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className={`p-10 md:p-12 group hover:bg-accent transition-colors duration-500 cursor-default ${index < 2 ? "md:border-r border-white/10" : ""}`}
+                className={`p-10 md:p-12 group hover:bg-accent transition-all duration-500 cursor-default ${index < 2 ? "md:border-r border-white/10" : ""}`}
                 {...sbEditable(feature.editable)}
               >
                 <span className="text-5xl font-[Bebas_Neue] text-accent/40 group-hover:text-white/30 transition-colors leading-none block mb-6">

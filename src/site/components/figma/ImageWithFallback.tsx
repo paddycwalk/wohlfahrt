@@ -3,7 +3,9 @@ import {
   croppedSize,
   intrinsicSize,
   storyblokFallbackSrc,
+  storyblokObjectPosition,
   storyblokSrcSet,
+  stripFocus,
 } from "@/site/lib/image";
 
 const ERROR_IMG_SRC =
@@ -93,14 +95,23 @@ export function ImageWithFallback({
     srcSetProp ??
     (unoptimized ? undefined : storyblokSrcSet(srcString, quality, aspect));
   const resolvedSrc = srcSet
-    ? (storyblokFallbackSrc(srcString, quality, aspect) ?? src)
-    : src;
+    ? (storyblokFallbackSrc(srcString, quality, aspect) ??
+      stripFocus(srcString) ??
+      src)
+    : (stripFocus(srcString) ?? src);
   // Bei Zuschnitt gilt das Zielverhaeltnis, sonst die Originalmasse.
   const natural = aspect
     ? croppedSize(srcString, aspect)
     : intrinsicSize(srcString);
   const width = widthProp ?? natural?.width;
   const height = heightProp ?? natural?.height;
+  // Fokuspunkt nur nötig, wenn NICHT serverseitig zugeschnitten wird (bei
+  // `aspect` erledigt der `focal`-Filter das bereits). Inline-Style gewinnt
+  // gegen object-position-Klassen wie `object-top`.
+  const objectPosition = aspect
+    ? undefined
+    : storyblokObjectPosition(srcString);
+  const resolvedStyle = objectPosition ? { ...style, objectPosition } : style;
 
   return didError ? (
     <div
@@ -125,7 +136,7 @@ export function ImageWithFallback({
       width={width}
       height={height}
       className={className}
-      style={style}
+      style={resolvedStyle}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
       fetchPriority={priority ? "high" : undefined}

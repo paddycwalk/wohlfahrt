@@ -39,11 +39,8 @@ function resolveImage(src: string): string {
  * Hergeleitet aus Container (max. 96rem = 1536px), Spaltenzahl und Gaps.
  */
 
-/** Die beiden versetzten Team-Portraits: `lg:col-span-5` von 12. */
-const TEAM_SIZES = "(min-width: 1024px) 590px, 92vw";
-
-/** Das dritte Portrait: `md:col-span-2` von 5 in einem `max-w-4xl`-Block. */
-const TEAM_WIDE_SIZES = "(min-width: 768px) 340px, 92vw";
+/** Team-Karten im gleichwertigen Raster: ab lg vier Spalten (~360px). */
+const TEAM_GRID_SIZES = "(min-width: 1024px) 360px, (min-width: 640px) 46vw, 92vw";
 
 /**
  * Platzhalter fuer Teammitglieder ohne Portraitfoto: Initialen statt des
@@ -65,6 +62,66 @@ function TeamMonogram({ name }: Readonly<{ name: string }>) {
         {initials}
       </span>
     </div>
+  );
+}
+
+/**
+ * Eine Team-Karte im Editorial-Look: quadratisches Portrait mit dunklem
+ * Verlauf und Name/Rolle als gut lesbare Overlay-Caption. Alle Karten sind
+ * bewusst gleich gross und gleichwertig – keine Hierarchie ueber Groesse.
+ */
+function TeamCard({
+  member,
+  delay,
+  sizes,
+}: Readonly<{
+  member: AboutContent["team"][number];
+  delay: number;
+  sizes: string;
+}>) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative"
+      {...sbEditable(member.editable)}
+    >
+      <div className="relative aspect-square overflow-hidden bg-secondary">
+        {member.image ? (
+          <ImageWithFallback
+            src={resolveImage(member.image)}
+            alt={member.imageAlt}
+            className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05]"
+            width={1000}
+            height={1000}
+            sizes={sizes}
+            aspect={1}
+          />
+        ) : (
+          <TeamMonogram name={member.name} />
+        )}
+
+        {/* Verlauf sichert die Lesbarkeit der Caption auf jedem Foto. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+        <div className="absolute inset-x-0 bottom-0 p-5">
+          <h3 className="font-[Bebas_Neue] text-2xl md:text-3xl tracking-wide text-white">
+            {member.name}
+          </h3>
+          <p className="mt-0.5 text-[11px] tracking-[0.25em] uppercase text-white/80">
+            {member.role}
+          </p>
+        </div>
+      </div>
+
+      {member.description && (
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          {member.description}
+        </p>
+      )}
+    </motion.article>
   );
 }
 
@@ -136,131 +193,21 @@ export function About({
         </div>
       </section>
 
-      {/* Team — Asymmetric Editorial */}
+      {/* Team — Editorial Grid */}
       <section className="pt-12 md:pt-16 pb-24 md:pb-40">
         <div className="container mx-auto px-4">
           <SectionHeader label={content.teamLabel} title={content.teamTitle} />
 
-          <div className="mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
-            {/* Team Member 1 — Large */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-5 group"
-              {...sbEditable(content.team[0]?.editable)}
-            >
-              <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                <ImageWithFallback
-                  src={resolveImage(content.team[0]?.image ?? "")}
-                  alt={content.team[0]?.imageAlt ?? ""}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  width={900}
-                  height={1200}
-                  sizes={TEAM_SIZES}
-                  aspect={3 / 4}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-3xl md:text-4xl font-[Bebas_Neue] tracking-wide">
-                  {content.team[0]?.name}
-                </h3>
-                <p className="text-accent text-sm tracking-[0.3em] uppercase">
-                  {content.team[0]?.role}
-                </p>
-                <p className="text-muted-foreground text-sm leading-relaxed pt-2">
-                  {content.team[0]?.description}
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Team Member 2 — Large */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.8,
-                delay: 0.15,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="lg:col-span-5 lg:col-start-8 lg:mt-20 group"
-              {...sbEditable(content.team[1]?.editable)}
-            >
-              <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                <ImageWithFallback
-                  src={resolveImage(content.team[1]?.image ?? "")}
-                  alt={content.team[1]?.imageAlt ?? ""}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  width={900}
-                  height={1200}
-                  sizes={TEAM_SIZES}
-                  aspect={3 / 4}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-3xl md:text-4xl font-[Bebas_Neue] tracking-wide">
-                  {content.team[1]?.name}
-                </h3>
-                <p className="text-accent text-sm tracking-[0.3em] uppercase">
-                  {content.team[1]?.role}
-                </p>
-                <p className="text-muted-foreground text-sm leading-relaxed pt-2">
-                  {content.team[1]?.description}
-                </p>
-              </div>
-            </motion.div>
+          <div className="mt-14 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            {content.team.map((member, i) => (
+              <TeamCard
+                key={member.name}
+                member={member}
+                delay={(i % 4) * 0.08}
+                sizes={TEAM_GRID_SIZES}
+              />
+            ))}
           </div>
-
-          {/* Weitere Mitglieder — Wide Format, abwechselnd links/rechts */}
-          {content.team.slice(2).map((member, i) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className={`mt-12 lg:mt-20 max-w-4xl group ${
-                i % 2 === 1 ? "lg:ml-auto" : ""
-              }`}
-              {...sbEditable(member.editable)}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
-                <div className="md:col-span-2 relative aspect-[3/4] md:aspect-square overflow-hidden">
-                  {member.image ? (
-                    <>
-                      <ImageWithFallback
-                        src={resolveImage(member.image)}
-                        alt={member.imageAlt}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        width={900}
-                        height={1200}
-                        sizes={TEAM_WIDE_SIZES}
-                        aspect={1}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    </>
-                  ) : (
-                    <TeamMonogram name={member.name} />
-                  )}
-                </div>
-                <div className="md:col-span-3 space-y-2">
-                  <h3 className="text-3xl md:text-4xl font-[Bebas_Neue] tracking-wide">
-                    {member.name}
-                  </h3>
-                  <p className="text-accent text-sm tracking-[0.3em] uppercase">
-                    {member.role}
-                  </p>
-                  <p className="text-muted-foreground text-sm leading-relaxed pt-2">
-                    {member.description}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </section>
 

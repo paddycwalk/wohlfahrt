@@ -4,17 +4,9 @@ import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
 import { ContactForm } from "../components/molecules/ContactForm";
-import { MapEmbed } from "../components/molecules/MapEmbed";
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  ArrowRight,
-  type LucideIcon,
-} from "lucide-react";
+import { MapPin, Phone, Mail, Clock, ArrowRight } from "lucide-react";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
-import { openingHoursText } from "@/site/content/site";
+import { CLOSED_LABEL, openingHoursRows } from "@/site/content/site";
 import {
   defaultContactContent,
   type ContactContent,
@@ -27,15 +19,8 @@ export function Contact({
   content?: ContactContent;
 }) {
   const s = useSiteSettings();
-  const contactInfo: {
-    icon: LucideIcon;
-    title: string;
-    /** Hervorgehobene Zeile ueber dem Text (z. B. Terminhinweis). */
-    note?: string;
-    text: string;
-    href?: string;
-    external?: boolean;
-  }[] = [
+  const openingHours = openingHoursRows(s);
+  const contactInfo = [
     {
       icon: MapPin,
       title: "Adresse",
@@ -56,12 +41,6 @@ export function Contact({
       title: "E-Mail",
       text: s.email,
       href: `mailto:${s.email}`,
-    },
-    {
-      icon: Clock,
-      title: "Öffnungszeiten",
-      note: s.openingHoursNote,
-      text: openingHoursText(s),
     },
   ];
 
@@ -110,11 +89,6 @@ export function Contact({
                       <h3 className="text-sm tracking-[0.15em] uppercase text-accent mb-1">
                         {item.title}
                       </h3>
-                      {item.note && (
-                        <p className="text-base text-foreground mb-2">
-                          {item.note}
-                        </p>
-                      )}
                       {item.href ? (
                         <a
                           href={item.href}
@@ -134,6 +108,44 @@ export function Contact({
                     </div>
                   </motion.div>
                 ))}
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    delay: contactInfo.length * 0.1,
+                    duration: 0.5,
+                  }}
+                  className="flex gap-5"
+                >
+                  <div className="w-10 h-10 bg-accent flex items-center justify-center shrink-0">
+                    <Clock size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm tracking-[0.15em] uppercase text-accent mb-1">
+                      Öffnungszeiten
+                    </h3>
+                    {s.openingHoursNote && (
+                      <p className="text-sm text-accent mb-2">
+                        {s.openingHoursNote}
+                      </p>
+                    )}
+                    <ul className="space-y-1.5 text-sm">
+                      {openingHours.map((row) => (
+                        <li
+                          key={row.day}
+                          className={`flex gap-3 ${row.closed ? "text-muted-foreground/50" : "text-muted-foreground"}`}
+                        >
+                          <span className="w-12 shrink-0">{row.label}</span>
+                          <span className="tabular-nums">
+                            {row.closed ? CLOSED_LABEL : row.slots.join(" · ")}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
               </div>
             </div>
 
@@ -166,9 +178,15 @@ export function Contact({
         transition={{ duration: 0.8 }}
         className="h-[500px]"
       >
-        <MapEmbed
-          embedUrl={s.mapEmbedUrl}
-          address={[s.street, `${s.zip} ${s.city}`]}
+        <iframe
+          src={s.mapEmbedUrl}
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Google Maps"
         />
       </motion.div>
 

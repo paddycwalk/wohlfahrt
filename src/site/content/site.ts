@@ -54,6 +54,7 @@ const closedDay = (day: Weekday): OpeningDay => ({
 export const defaultSiteSettings: SiteSettings = {
   companyName: "Wohlfahrt & Wohlfahrt",
   legalName: "Wohlfahrt & Wohlfahrt Fliesen GmbH",
+  tagline: `Meisterbetrieb seit ${FOUNDING_YEAR}`,
   footerIntro: `Ihr Experte für hochwertige Fliesen und professionelle Verlegung seit über ${YEARS_TOKEN} Jahren.`,
   foundingYear: FOUNDING_YEAR,
   // Abgeleitet statt gepflegt: als Getter, damit die Zahl auch in einem lang
@@ -152,21 +153,6 @@ export function openingHoursRows(s: SiteSettings): OpeningHoursRow[] {
       closed: slots.length === 0,
     };
   });
-}
-
-/**
- * Die Oeffnungszeiten als mehrzeiliger Text – fuer die Info-Bloecke auf
- * Kontakt- und Ausstellungsseite (`whitespace-pre-line`). Der Hinweis
- * (`openingHoursNote`) wird bewusst nicht eingemischt: er steht ueber den
- * Tagen und wird eigenstaendig hervorgehoben.
- */
-export function openingHoursText(s: SiteSettings): string {
-  return openingHoursRows(s)
-    .map(
-      (row) =>
-        `${row.label}  ${row.closed ? CLOSED_LABEL : row.slots.join(" · ")}`,
-    )
-    .join("\n");
 }
 
 /**

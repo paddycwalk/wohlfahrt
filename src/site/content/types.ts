@@ -49,6 +49,8 @@ export interface OpeningDay {
 export interface SiteSettings {
   companyName: string;
   legalName: string;
+  /** Kurzclaim in der Kopfzeile, z. B. "Meisterbetrieb seit 1954". */
+  tagline: string;
   /** Kurzer Einleitungstext (Footer). */
   footerIntro: string;
   /** Gruendungsjahr, z. B. 1954. */

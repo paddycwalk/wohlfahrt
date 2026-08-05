@@ -36,6 +36,36 @@ const WIDTH_STEPS: number[] = [320, 480, 640, 828, 1080, 1200, 1440, 1920];
 /** Kompression fuer skalierte Varianten (75 ist bei Fotos visuell unauffaellig). */
 const DEFAULT_QUALITY = 75;
 
+/**
+ * Marker, mit dem `assetUrl` (src/site/content/index.ts) den in Storyblok
+ * gesetzten Fokuspunkt an die Asset-URL haengt – z. B.
+ * `…/name.jpg#focus=921x462:922x463`. So wandert der Fokus durch die komplett
+ * string-basierte Bildpipeline, ohne jedes Content-Feld auf ein Objekt
+ * umstellen zu muessen. Das Format entspricht dem Storyblok-Image-Service
+ * (`filters:focal(LxT:RxB)`), sodass es direkt weiterverwendet werden kann.
+ */
+const FOCUS_MARK = "#focus=";
+
+/** Trennt einen optional angehaengten Fokuspunkt von der eigentlichen URL. */
+function splitFocus(url: string): { base: string; focus?: string } {
+  const i = url.indexOf(FOCUS_MARK);
+  if (i === -1) return { base: url };
+  const focus = url.slice(i + FOCUS_MARK.length);
+  return { base: url.slice(0, i), focus: focus || undefined };
+}
+
+/**
+ * Entfernt einen angehaengten Fokuspunkt aus der URL. Fuer Stellen, die die
+ * nackte URL brauchen (OG-/JSON-LD-Metadaten), wo das Fragment nur stoeren
+ * wuerde.
+ */
+export function stripFocus(url: string): string;
+export function stripFocus(url: undefined): undefined;
+export function stripFocus(url: string | undefined): string | undefined;
+export function stripFocus(url: string | undefined): string | undefined {
+  return typeof url === "string" ? splitFocus(url).base : url;
+}
+
 /** Ist das ein Storyblok-Asset, das der Image Service transformieren kann? */
 export function isStoryblokAsset(url: string | undefined): boolean {
   return typeof url === "string" && url.includes(STORYBLOK_HOST);
@@ -74,8 +104,12 @@ export function storyblokVariant(
   quality: number = DEFAULT_QUALITY,
   aspect?: number,
 ): string {
+  const { base, focus } = splitFocus(url);
   const height = aspect ? Math.round(width / aspect) : 0;
-  return `${url}/m/${width}x${height}/filters:quality(${quality})`;
+  // Bei Zuschnitt (aspect) um den gesetzten Fokuspunkt herum schneiden statt
+  // mittig. Ohne Zuschnitt (height 0) hat der Fokus-Filter keine Wirkung.
+  const focal = aspect && focus ? `:focal(${focus})` : "";
+  return `${base}/m/${width}x${height}/filters:quality(${quality})${focal}`;
 }
 
 /**
@@ -168,6 +202,42 @@ export function croppedSize(
 }
 
 /**
+ * Uebersetzt einen in Storyblok gesetzten Fokuspunkt in eine
+ * CSS-`object-position`-Angabe ("x% y%") – die Mitte des Fokus-Rechtecks,
+ * ausgedrueckt in Prozent der Originalmasse.
+ *
+ * Fuer `object-cover`-Bilder, bei denen der Browser (nicht der Image Service)
+ * zuschneidet: Ohne diese Angabe schneidet er mittig und kann das gesetzte
+ * Motiv wegschneiden. Bei serverseitigem Zuschnitt (`aspect`) uebernimmt der
+ * `focal`-Filter das bereits – dann ist die Rahmen- gleich der Bild-Proportion,
+ * es wird nichts mehr per CSS beschnitten und die Angabe bleibt wirkungslos.
+ *
+ * Gibt `undefined` zurueck, wenn kein Fokus gesetzt ist oder sich die
+ * Originalmasse nicht aus der URL lesen laesst (dann bleibt der Standard 50/50).
+ */
+export function storyblokObjectPosition(
+  url: string | undefined,
+): string | undefined {
+  if (typeof url !== "string") return undefined;
+  const { base, focus } = splitFocus(url);
+  if (!focus) return undefined;
+  const size = intrinsicSize(base);
+  if (!size) return undefined;
+  const m = /^(\d+)x(\d+):(\d+)x(\d+)$/.exec(focus);
+  if (!m) return undefined;
+  const cx = (Number(m[1]) + Number(m[3])) / 2;
+  const cy = (Number(m[2]) + Number(m[4])) / 2;
+  const px = clampPercent((cx / size.width) * 100);
+  const py = clampPercent((cy / size.height) * 100);
+  return `${px}% ${py}%`;
+}
+
+/** Auf 0–100 begrenzen und auf zwei Nachkommastellen runden. */
+function clampPercent(n: number): number {
+  return Math.max(0, Math.min(100, Math.round(n * 100) / 100));
+}
+
+/**
  * Fertige `<img>`-Attribute fuer die Stellen, die bewusst ein rohes `<img>`
  * verwenden statt `ImageWithFallback` – etwa weil sie `clip-path`, `draggable`
  * oder eine exakte absolute Positionierung brauchen, mit der der
@@ -180,12 +250,20 @@ export function storyblokImgProps(
   sizes: string,
   quality: number = DEFAULT_QUALITY,
   aspect?: number,
-): { src: string | undefined; srcSet?: string; sizes?: string } {
+): {
+  src: string | undefined;
+  srcSet?: string;
+  sizes?: string;
+  style?: { objectPosition: string };
+} {
+  const objectPosition = aspect ? undefined : storyblokObjectPosition(url);
+  const style = objectPosition ? { objectPosition } : undefined;
   const srcSet = storyblokSrcSet(url, quality, aspect);
-  if (!srcSet) return { src: url };
+  if (!srcSet) return { src: stripFocus(url), style };
   return {
-    src: storyblokFallbackSrc(url, quality, aspect) ?? url,
+    src: storyblokFallbackSrc(url, quality, aspect) ?? stripFocus(url),
     srcSet,
     sizes,
+    style,
   };
 }

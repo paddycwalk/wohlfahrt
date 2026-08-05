@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
   ].filter((l) => l !== null);
 
   const html = `
-    <h2 style="margin:0 0 16px">Neue Anfrage über das Kontaktformular</h2>
+    <h2 style="margin:0 0 16px">Website Kontaktformular</h2>
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>E-Mail:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
     ${phone ? `<p><strong>Telefon:</strong> ${escapeHtml(phone)}</p>` : ""}
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
       from: `"Website Wohlfahrt & Wohlfahrt" <${SMTP_USER}>`,
       to,
       replyTo: `"${name}" <${email}>`,
-      subject: `Neue Anfrage über das Kontaktformular – ${name}`,
+      subject: `Website Kontaktformular – ${name}`,
       text: lines.join("\n"),
       html,
     });

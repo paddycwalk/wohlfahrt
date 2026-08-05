@@ -175,10 +175,11 @@ export function Header() {
               </div>
             </Link>
 
-            {/* Center — Meisterbetrieb-Claim. Voller Kontrast statt Grau und
-                fett gesetzt, damit er neben Logo und Burger nicht untergeht.
-                Farbwechsel laeuft ueber `transition-colors`, damit die Farben
-                aus den Tokens kommen und nicht als Hex dupliziert werden. */}
+            {/* Center — Claim aus den Settings (Storyblok, sonst lokaler
+                Default). Voller Kontrast statt Grau und fett gesetzt, damit er
+                neben Logo und Burger nicht untergeht. Farbwechsel laeuft ueber
+                `transition-colors`, damit die Farben aus den Tokens kommen und
+                nicht als Hex dupliziert werden. */}
             <div className="hidden shrink-0 items-center md:flex">
               <span
                 className={`whitespace-nowrap text-xs font-bold uppercase leading-none tracking-[0.15em] transition-colors duration-300 lg:text-base lg:tracking-[0.2em] ${
@@ -189,7 +190,7 @@ export function Header() {
                     : "text-foreground"
                 }`}
               >
-                Meisterbetrieb seit {s.foundingYear}
+                {s.tagline}
               </span>
             </div>
 
