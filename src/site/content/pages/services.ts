@@ -203,7 +203,7 @@ export const defaultServicesContent: ServicesContent = {
     {
       step: "03",
       title: "Ausführung",
-      desc: "Professionelle Umsetzung durch unser erfahrenes Meisterbetrieb-Team — sauber und termingerecht.",
+      desc: "Professionelle Umsetzung durch unser erfahrenes Meisterbetrieb-Team — sauber und termingerecht. Langjährige Mitarbeiter, die teilweise über 25 Jahre im Betrieb sind und hochwertige Arbeiten zur vollsten Zufriedenheit der Kunden ausführen.",
     },
     {
       step: "04",
