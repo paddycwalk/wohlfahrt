@@ -113,7 +113,9 @@ export function Showroom({
         </div>
         <div className="relative z-10 container mx-auto px-4 pb-16 md:pb-24">
           <RevealText>
-            <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4 text-[#ffffff]">
+            {/* Wie auf dem About-Hero: aufgehelltes Akzentrot, groesser und
+                fett – sonst geht der Eyebrow auf dem dunklen Bild unter. */}
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.4em] text-accent-on-dark md:text-base">
               {content.heroEyebrow}
             </p>
           </RevealText>
