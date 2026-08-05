@@ -1,5 +1,10 @@
 import type { OpeningDay, SiteSettings, TimeRange, Weekday } from "./types";
-import { FOUNDING_YEAR, YEARS_TOKEN, yearsSinceFounding } from "../lib/years";
+import {
+  FOUNDING_YEAR,
+  FOUNDING_YEAR_TOKEN,
+  YEARS_TOKEN,
+  yearsSinceFounding,
+} from "../lib/years";
 
 /** Wochentage in Anzeige- und Sortierreihenfolge (Montag zuerst). */
 export const WEEKDAYS: Weekday[] = [
@@ -54,7 +59,7 @@ const closedDay = (day: Weekday): OpeningDay => ({
 export const defaultSiteSettings: SiteSettings = {
   companyName: "Wohlfahrt & Wohlfahrt",
   legalName: "Wohlfahrt & Wohlfahrt Fliesen GmbH",
-  tagline: `Meisterbetrieb seit ${FOUNDING_YEAR}`,
+  tagline: `Meisterbetrieb seit ${FOUNDING_YEAR_TOKEN}`,
   footerIntro: `Ihr Experte für hochwertige Fliesen und professionelle Verlegung seit über ${YEARS_TOKEN} Jahren.`,
   foundingYear: FOUNDING_YEAR,
   // Abgeleitet statt gepflegt: als Getter, damit die Zahl auch in einem lang

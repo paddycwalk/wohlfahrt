@@ -1,6 +1,7 @@
 import { isStoryblokEnabled, storyblokClient } from "../lib/storyblok";
 import { resolveYearTokens, yearsSinceFounding } from "../lib/years";
 import { headers } from "next/headers";
+import { cache } from "react";
 import { WEEKDAYS, defaultSiteSettings } from "./site";
 import type { Geo, NavItem, OpeningDay, SiteSettings } from "./types";
 import { defaultHomeContent } from "./pages/home";
@@ -307,16 +308,17 @@ async function loadSiteSettings(): Promise<SiteSettings> {
     // Storyblok-Felder auf SiteSettings mappen. Leere Felder fallen auf die
     // Defaults zurueck, damit Teil-Pflege moeglich ist.
     const d = defaultSiteSettings;
+    const foundingYear = Number(c.foundingYear) || d.foundingYear;
     return {
       ...d,
       companyName: c.companyName || d.companyName,
       legalName: c.legalName || d.legalName,
       tagline: c.tagline || d.tagline,
       footerIntro: c.footerIntro || d.footerIntro,
-      foundingYear: Number(c.foundingYear) || d.foundingYear,
+      foundingYear,
       // Bewusst NICHT aus Storyblok: die Jahre werden aus dem Gruendungsjahr
       // abgeleitet, damit die Angabe nicht jaehrlich nachgepflegt werden muss.
-      yearsExperience: yearsSinceFounding(),
+      yearsExperience: yearsSinceFounding(foundingYear),
       street: c.street || d.street,
       zip: c.zip || d.zip,
       city: c.city || d.city,
@@ -1041,18 +1043,32 @@ async function loadDisclaimerContent(): Promise<LegalContent> {
  * ---------------------------------------------------------------------- */
 
 /**
+ * Die Settings pro Anfrage nur einmal laden.
+ *
+ * Sie werden im Layout *und* – fuer das Gruendungsjahr – von jedem
+ * Content-Getter gebraucht. `cache()` memoisiert im Request-Scope, es bleibt
+ * also bei einem CDN-Aufruf je Anfrage.
+ */
+const siteSettingsOnce = cache(loadSiteSettings);
+
+/**
  * Umhuellt einen Content-Getter mit der Platzhalter-Aufloesung.
  *
  * Alles, was eine Seite bekommt – aus Storyblok *oder* aus den lokalen
- * Defaults – laeuft hier durch. Dadurch bleibt `{{jahre}}` ueberall aktuell,
- * auch in Texten, die erst spaeter im CMS ergaenzt werden. Die Aufloesung
- * passiert pro Anfrage, nicht beim Modul-Import.
+ * Defaults – laeuft hier durch. Dadurch bleiben `{{jahre}}` und
+ * `{{gruendungsjahr}}` ueberall aktuell, auch in Texten, die erst spaeter im
+ * CMS ergaenzt werden. Die Aufloesung passiert pro Anfrage, nicht beim
+ * Modul-Import, und rechnet mit dem in Storyblok gepflegten Gruendungsjahr –
+ * damit die Jahreszahl genau eine Quelle hat.
  */
 function withYears<T>(load: () => Promise<T>): () => Promise<T> {
-  return async () => resolveYearTokens(await load());
+  return async () => {
+    const [value, settings] = await Promise.all([load(), siteSettingsOnce()]);
+    return resolveYearTokens(value, settings.foundingYear);
+  };
 }
 
-export const getSiteSettings = withYears(loadSiteSettings);
+export const getSiteSettings = withYears(siteSettingsOnce);
 export const getHomeContent = withYears(loadHomeContent);
 export const getAboutContent = withYears(loadAboutContent);
 export const getServicesContent = withYears(loadServicesContent);
