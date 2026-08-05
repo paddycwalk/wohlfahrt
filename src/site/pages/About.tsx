@@ -154,7 +154,10 @@ export function About({
         </div>
         <div className="relative z-10 container mx-auto px-4 pb-16 md:pb-24">
           <RevealText>
-            <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4 text-[#ffffff]">
+            {/* Eyebrow bewusst groesser und fett: als 12px-Versalschrift in
+                Akzentrot ging er auf dem dunklen Hero unter. Farbe kommt aus
+                dem aufgehellten Token, damit das Rot auf Schwarz lesbar ist. */}
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.4em] text-accent-on-dark md:text-base">
               {content.heroEyebrow}
             </p>
           </RevealText>

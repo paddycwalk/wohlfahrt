@@ -17,6 +17,10 @@
   --muted-foreground: #737373;
   --accent: #c41e1e;
   --accent-foreground: #ffffff;
+  /* Akzentrot fuer dunkle Flaechen (Hero-Bilder, schwarze Sektionen). Das
+     normale --accent kommt auf Schwarz nur auf 3,35:1 und ist als kleine
+     Versalschrift kaum lesbar; diese Aufhellung erreicht 5,0:1. */
+  --accent-on-dark: #e14b4b;
   --border: rgba(0, 0, 0, 0.1);
   --input: transparent;
   --input-background: #f5f5f5;
@@ -37,6 +41,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-on-dark: var(--accent-on-dark);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
