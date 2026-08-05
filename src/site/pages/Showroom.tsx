@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
+import { MapEmbed } from "../components/molecules/MapEmbed";
 import {
   MapPin,
   Clock,
@@ -209,15 +210,10 @@ export function Showroom({
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7 h-[500px] lg:h-[600px]"
             >
-              <iframe
-                src={s.mapEmbedUrl}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps"
+              {/* Zwei-Klick-Loesung: Google wird erst nach Einwilligung kontaktiert. */}
+              <MapEmbed
+                embedUrl={s.mapEmbedUrl}
+                address={[s.street, `${s.zip} ${s.city}`]}
               />
             </motion.div>
           </div>
