@@ -3,7 +3,13 @@
 import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
-import { MapPin, Clock, Phone, ArrowRight, type LucideIcon } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Phone,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { asset } from "../lib/asset";
 import { sbEditable } from "../lib/editable";

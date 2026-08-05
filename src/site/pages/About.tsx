@@ -40,7 +40,8 @@ function resolveImage(src: string): string {
  */
 
 /** Team-Karten im gleichwertigen Raster: ab lg vier Spalten (~360px). */
-const TEAM_GRID_SIZES = "(min-width: 1024px) 360px, (min-width: 640px) 46vw, 92vw";
+const TEAM_GRID_SIZES =
+  "(min-width: 1024px) 360px, (min-width: 640px) 46vw, 92vw";
 
 /**
  * Platzhalter fuer Teammitglieder ohne Portraitfoto: Initialen statt des
