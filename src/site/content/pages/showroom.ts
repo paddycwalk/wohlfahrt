@@ -47,7 +47,8 @@ export const defaultShowroomContent: ShowroomContent = {
     },
     {
       title: "Inspiration",
-      description: "Musterbäder und Rauminszenierungen für neue Ideen",
+      description:
+        "Musterfliesen mit digitaler Visualisierung und Rauminszenierungen für neue Ideen",
     },
   ],
   featuresButtonLabel: "Termin vereinbaren",

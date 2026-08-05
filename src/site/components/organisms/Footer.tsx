@@ -5,11 +5,11 @@ import { MapPin, Phone, Mail } from "lucide-react";
 import { FacebookIcon, InstagramIcon } from "../atoms/BrandIcons";
 import { Logo } from "../atoms/Logo";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
-import { formatOpeningHours } from "@/site/content/site";
+import { CLOSED_LABEL, openingHoursRows } from "@/site/content/site";
 
 export function Footer() {
   const s = useSiteSettings();
-  const openingHours = formatOpeningHours(s);
+  const openingHours = openingHoursRows(s);
   const year = new Date().getFullYear();
 
   return (
@@ -108,9 +108,20 @@ export function Footer() {
           {/* Opening Hours */}
           <div>
             <h3 className="text-lg mb-4">Öffnungszeiten</h3>
-            <ul className="space-y-2 text-sm">
-              {openingHours.map((line) => (
-                <li key={line}>{line}</li>
+            {s.openingHoursNote && (
+              <p className="text-base text-accent mb-4">{s.openingHoursNote}</p>
+            )}
+            <ul className="space-y-1.5 text-sm">
+              {openingHours.map((row) => (
+                <li
+                  key={row.day}
+                  className={`flex gap-3 ${row.closed ? "text-primary-foreground/50" : ""}`}
+                >
+                  <span className="w-8 shrink-0">{row.label}</span>
+                  <span className="tabular-nums">
+                    {row.closed ? CLOSED_LABEL : row.slots.join(" · ")}
+                  </span>
+                </li>
               ))}
             </ul>
           </div>

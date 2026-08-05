@@ -119,8 +119,14 @@ export function Header() {
       : location.pathname;
 
   const lightPages = ["/impressum", "/datenschutz", "/haftungsausschluss"];
+  // Seiten mit hellem Hero brauchen den dunklen Header (weisser Hintergrund,
+  // dunkle Schrift) bereits ganz oben – sonst waere die weisse Schrift auf
+  // hellem Grund unlesbar.
   const isLightPage = lightPages.includes(currentPath);
   const darkHeader = (scrolled || isLightPage) && !menuOpen;
+  // Genaues Gegenteil von `darkHeader`: Header liegt transparent ueber dem Hero
+  // (oder das Overlay ist offen) – Logo, Schrift und Burger muessen weiss sein.
+  const lightText = !darkHeader;
 
   return (
     <>
@@ -144,47 +150,47 @@ export function Header() {
                 <motion.div
                   initial={false}
                   animate={{
-                    filter:
-                      menuOpen || (!scrolled && !isLightPage)
-                        ? "brightness(0) invert(1)"
-                        : darkHeader
-                          ? "brightness(0)"
-                          : "none",
+                    filter: lightText
+                      ? "brightness(0) invert(1)"
+                      : "brightness(0)",
                   }}
                   transition={{ duration: 0.3 }}
                 >
                   <Logo />
                 </motion.div>
-                {darkHeader && (
-                  <motion.span
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.3 }}
-                    className="whitespace-nowrap text-[8px] tracking-[0.08em] sm:text-[10px] sm:tracking-[0.15em] uppercase text-accent font-bold leading-tight"
-                  >
-                    {s.legalName}
-                  </motion.span>
-                )}
+                {/* Dauerhaft im Layout, nur ein- und ausgeblendet. Wurde der
+                    Firmenname erst bei `darkHeader` gerendert, wuchs der linke
+                    Block beim Scrollen um 16,5 px Hoehe und 20 px Breite – das
+                    Logo sprang dadurch 8,2 px nach oben und der Meisterbetrieb-
+                    Claim 10,1 px nach rechts (`justify-between` verteilt die
+                    zusaetzliche Breite auf beide Luecken). */}
+                <motion.span
+                  initial={false}
+                  animate={{ opacity: darkHeader ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="whitespace-nowrap text-[8px] tracking-[0.08em] sm:text-[10px] sm:tracking-[0.15em] uppercase text-accent font-bold leading-tight"
+                >
+                  {s.legalName}
+                </motion.span>
               </div>
             </Link>
 
-            {/* Center — Hidden tagline on desktop */}
-            <div className="hidden lg:flex items-center gap-3">
-              <motion.span
-                initial={false}
-                animate={{
-                  color:
-                    menuOpen || (!scrolled && !isLightPage)
-                      ? "#ffffff"
-                      : "#737373",
-                  opacity: darkHeader ? 1 : 0.7,
-                }}
-                transition={{ duration: 0.3 }}
-                className="text-xs tracking-[0.3em] uppercase"
+            {/* Center — Meisterbetrieb-Claim. Voller Kontrast statt Grau und
+                fett gesetzt, damit er neben Logo und Burger nicht untergeht.
+                Farbwechsel laeuft ueber `transition-colors`, damit die Farben
+                aus den Tokens kommen und nicht als Hex dupliziert werden. */}
+            <div className="hidden shrink-0 items-center md:flex">
+              <span
+                className={`whitespace-nowrap text-xs font-bold uppercase leading-none tracking-[0.15em] transition-colors duration-300 lg:text-base lg:tracking-[0.2em] ${
+                  lightText
+                    ? // Der Hero zeigt an dieser Stelle hellen Marmor – ohne
+                      // Schatten verschwindet die weisse Schrift darin.
+                      "text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.55)]"
+                    : "text-foreground"
+                }`}
               >
-                Meisterbetrieb seit 1954
-              </motion.span>
+                Meisterbetrieb seit {s.foundingYear}
+              </span>
             </div>
 
             {/* Menu Toggle — Custom animated hamburger */}
@@ -199,12 +205,7 @@ export function Header() {
             >
               <motion.span
                 initial={false}
-                animate={{
-                  color:
-                    menuOpen || (!scrolled && !isLightPage)
-                      ? "#ffffff"
-                      : "#0a0a0a",
-                }}
+                animate={{ color: lightText ? "#ffffff" : "#0a0a0a" }}
                 transition={{ duration: 0.3 }}
                 className="text-xs tracking-[0.25em] uppercase hidden sm:block"
               >
@@ -218,10 +219,7 @@ export function Header() {
                   animate={{
                     rotate: menuOpen ? 45 : 0,
                     y: menuOpen ? 0 : -4,
-                    backgroundColor:
-                      menuOpen || (!scrolled && !isLightPage)
-                        ? "#ffffff"
-                        : "#0a0a0a",
+                    backgroundColor: lightText ? "#ffffff" : "#0a0a0a",
                   }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute w-7 h-[1.5px] origin-center"
@@ -234,10 +232,7 @@ export function Header() {
                     y: menuOpen ? 0 : 4,
                     x: menuOpen ? 0 : 5,
                     width: menuOpen ? 28 : 18,
-                    backgroundColor:
-                      menuOpen || (!scrolled && !isLightPage)
-                        ? "#ffffff"
-                        : "#0a0a0a",
+                    backgroundColor: lightText ? "#ffffff" : "#0a0a0a",
                   }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute h-[1.5px] origin-center"

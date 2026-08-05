@@ -198,7 +198,7 @@ export const defaultServicesContent: ServicesContent = {
     {
       step: "02",
       title: "Planung",
-      desc: "Detaillierte Planung mit Aufmaß, Verlegeplan und transparentem Festpreisangebot.",
+      desc: "Beratung und Aufmaß direkt auf der Baustelle als Grundlage für die detaillierte Planung.",
     },
     {
       step: "03",
@@ -208,14 +208,14 @@ export const defaultServicesContent: ServicesContent = {
     {
       step: "04",
       title: "Abnahme",
-      desc: "Gemeinsame Endabnahme, Pflegehinweise und 5 Jahre Gewährleistung auf alle Arbeiten.",
+      desc: "Gemeinsame Endabnahme, Pflegehinweise und Gewährleistung auf alle Arbeiten.",
     },
   ],
 
   whyEyebrow: "Vorteile",
   whyTitle: "Warum\nWohlfahrt & Wohlfahrt?",
   whyText:
-    "Drei Generationen Erfahrung, über 12 qualifizierte Mitarbeiter und ein unerschütterliches Engagement für Perfektion — das ist unser Versprechen.",
+    "Drei Generationen Erfahrung und ein unerschütterliches Engagement für Perfektion — das ist unser Versprechen.",
   features: [
     {
       icon: "award",
@@ -223,14 +223,9 @@ export const defaultServicesContent: ServicesContent = {
       desc: "Zertifizierter Meisterbetrieb seit 1954 mit höchsten Qualitätsstandards.",
     },
     {
-      icon: "checkCircle",
-      title: "Festpreisgarantie",
-      desc: "Transparente Kalkulation — keine versteckten Kosten, faire Preise.",
-    },
-    {
       icon: "star",
-      title: "5 Jahre Gewährleistung",
-      desc: "Verlängerte Garantie auf alle unsere Verlegearbeiten.",
+      title: "Gewährleistung",
+      desc: "Verlässliche Absicherung auf alle unsere Verlegearbeiten.",
     },
     {
       icon: "phone",

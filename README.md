@@ -314,6 +314,21 @@ nie.
 | `proxy.ts`                                            | Preview-Erkennung + Basic-Auth                          |
 | `.env.example`                                        | Vorlage für die Env-Variablen                           |
 
+### Öffnungszeiten
+
+Gepflegt wird **pro Wochentag**: in der Story `settings` liegt im Feld
+`openingHours` je Tag ein `opening_day`-Blok mit Schalter **Geschlossen** und bis
+zu zwei Zeitfenstern (für die Mittagspause). Angezeigt wird jeder Tag einzeln
+(Footer, Kontakt, Ausstellung); ein Tag, der auf „Geschlossen“ steht oder keine
+vollständigen Zeiten hat, erscheint als „Geschlossen“ und fällt aus dem
+JSON-LD (`openingHoursSpecification`) heraus. Der hervorgehobene Hinweis über
+den Tagen („Beratung nach Vereinbarung“) kommt aus `openingHoursNote`.
+
+Formatierung und JSON-LD entstehen zentral in
+[`src/site/content/site.ts`](src/site/content/site.ts) (`openingHoursRows`,
+`openingHoursText`, `openingHoursSpecification`) – Anzeigekomponenten
+formatieren nichts selbst.
+
 ### Einrichtung
 
 1. **Space anlegen** in Storyblok (Region merken: `eu`/`us`/`ap`/`ca`/`cn`).

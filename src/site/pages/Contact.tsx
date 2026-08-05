@@ -5,9 +5,16 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
 import { ContactForm } from "../components/molecules/ContactForm";
 import { MapEmbed } from "../components/molecules/MapEmbed";
-import { MapPin, Phone, Mail, Clock, ArrowRight } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
-import { formatOpeningHours } from "@/site/content/site";
+import { openingHoursText } from "@/site/content/site";
 import {
   defaultContactContent,
   type ContactContent,
@@ -20,7 +27,15 @@ export function Contact({
   content?: ContactContent;
 }) {
   const s = useSiteSettings();
-  const contactInfo = [
+  const contactInfo: {
+    icon: LucideIcon;
+    title: string;
+    /** Hervorgehobene Zeile ueber dem Text (z. B. Terminhinweis). */
+    note?: string;
+    text: string;
+    href?: string;
+    external?: boolean;
+  }[] = [
     {
       icon: MapPin,
       title: "Adresse",
@@ -45,7 +60,8 @@ export function Contact({
     {
       icon: Clock,
       title: "Öffnungszeiten",
-      text: formatOpeningHours(s).join("\n"),
+      note: s.openingHoursNote,
+      text: openingHoursText(s),
     },
   ];
 
@@ -94,6 +110,11 @@ export function Contact({
                       <h3 className="text-sm tracking-[0.15em] uppercase text-accent mb-1">
                         {item.title}
                       </h3>
+                      {item.note && (
+                        <p className="text-base text-foreground mb-2">
+                          {item.note}
+                        </p>
+                      )}
                       {item.href ? (
                         <a
                           href={item.href}

@@ -1,8 +1,8 @@
 import { isStoryblokEnabled, storyblokClient } from "../lib/storyblok";
 import { resolveYearTokens, yearsSinceFounding } from "../lib/years";
 import { headers } from "next/headers";
-import { defaultSiteSettings } from "./site";
-import type { SiteSettings } from "./types";
+import { WEEKDAYS, defaultSiteSettings } from "./site";
+import type { OpeningDay, SiteSettings } from "./types";
 import { defaultHomeContent } from "./pages/home";
 import type {
   CtaLink,
@@ -32,6 +32,7 @@ import { defaultProductsContent } from "./pages/products";
 import type {
   ProductCategory,
   ProductCollectionGroup,
+  ProductHighlight,
   ProductsContent,
 } from "./pages/products";
 import { defaultReferencesContent } from "./pages/references";
@@ -148,6 +149,38 @@ function multiAssetUrls(field: unknown, fallback: string[]): string[] {
   return fallback;
 }
 
+/** Eine Zeitangabe aus Storyblok auf "HH:MM" (oder leer) reduzieren. */
+function timeFrom(field: unknown): string {
+  return typeof field === "string" ? field.trim() : "";
+}
+
+/**
+ * Eine Liste von `opening_day`-Bloks auf `OpeningDay[]` abbilden – ein Blok je
+ * Wochentag, mit Geschlossen-Schalter und bis zu zwei Zeitfenstern.
+ *
+ * Bloks ohne gueltigen Wochentag werden ignoriert; bleibt nichts uebrig, wird
+ * `null` zurueckgegeben, damit die lokalen Defaults greifen.
+ */
+function openingDays(field: unknown): OpeningDay[] | null {
+  if (!Array.isArray(field)) return null;
+
+  const days = field.flatMap((raw) => {
+    if (!raw || typeof raw !== "object") return [];
+    const o = raw as Record<string, unknown>;
+    const day = WEEKDAYS.find((d) => d === o.day);
+    if (!day) return [];
+
+    const slots = [
+      { opens: timeFrom(o.opens), closes: timeFrom(o.closes) },
+      { opens: timeFrom(o.opens2), closes: timeFrom(o.closes2) },
+    ].filter((slot) => slot.opens && slot.closes);
+
+    return [{ day, closed: Boolean(o.closed) || slots.length === 0, slots }];
+  });
+
+  return days.length > 0 ? days : null;
+}
+
 /** Das `_editable`-Feld eines Bloks extrahieren (Storyblok Click-to-Edit). */
 function editableOf(obj: unknown): string | undefined {
   if (obj && typeof obj === "object" && "_editable" in obj) {
@@ -251,14 +284,7 @@ async function loadSiteSettings(): Promise<SiteSettings> {
       },
       mapEmbedUrl: c.mapEmbedUrl || d.mapEmbedUrl,
       // Strukturierte Listen nur uebernehmen, wenn vorhanden:
-      openingHours:
-        Array.isArray(c.openingHours) && c.openingHours.length > 0
-          ? c.openingHours.map((o: Record<string, unknown>) => ({
-              days: Array.isArray(o.days) ? (o.days as string[]) : [],
-              opens: typeof o.opens === "string" ? o.opens : "",
-              closes: typeof o.closes === "string" ? o.closes : "",
-            }))
-          : d.openingHours,
+      openingHours: openingDays(c.openingHours) ?? d.openingHours,
       geo:
         c.geo?.latitude && c.geo?.longitude
           ? {
@@ -561,6 +587,24 @@ async function loadProductsContent(): Promise<ProductsContent> {
 
     const d = defaultProductsContent;
 
+    // Highlight-Banner: beliebig viele Eintraege, jedes Feld einzeln optional.
+    const bannerItems: ProductHighlight[] = Array.isArray(c.bannerItems)
+      ? c.bannerItems.map((b: Record<string, unknown>, i: number) => {
+          const f = d.bannerItems[i];
+          return {
+            badge: typeof b.badge === "string" ? b.badge : "",
+            headlinePre: typeof b.headlinePre === "string" ? b.headlinePre : "",
+            headlineItalic:
+              typeof b.headlineItalic === "string" ? b.headlineItalic : "",
+            features: textItems(b.features, f?.features || []),
+            buttonLabel: typeof b.buttonLabel === "string" ? b.buttonLabel : "",
+            buttonLink: resolveLink(b.buttonLink, f?.buttonLink || ""),
+            image: assetUrl(b.image, f?.image || ""),
+            editable: editableOf(b),
+          };
+        })
+      : d.bannerItems;
+
     const categories: ProductCategory[] =
       Array.isArray(c.categories) && c.categories.length > 0
         ? c.categories.map((cat: Record<string, unknown>, i: number) => ({
@@ -583,6 +627,10 @@ async function loadProductsContent(): Promise<ProductsContent> {
             series: (Array.isArray(g.series) ? g.series : []).map(
               (s: Record<string, unknown>, si: number) => ({
                 title: typeof s.title === "string" ? s.title : "",
+                articleNumber:
+                  typeof s.articleNumber === "string" && s.articleNumber
+                    ? s.articleNumber
+                    : d.collections[gi]?.series[si]?.articleNumber || "",
                 images: multiAssetUrls(
                   s.gallery,
                   d.collections[gi]?.series[si]?.images || [],
@@ -600,12 +648,7 @@ async function loadProductsContent(): Promise<ProductsContent> {
       heroTitle: c.heroTitle || d.heroTitle,
       heroSubtitle: c.heroSubtitle || d.heroSubtitle,
       bannerMarqueeText: c.bannerMarqueeText || d.bannerMarqueeText,
-      bannerBadge: c.bannerBadge || d.bannerBadge,
-      bannerHeadlinePre: c.bannerHeadlinePre || d.bannerHeadlinePre,
-      bannerHeadlineItalic: c.bannerHeadlineItalic || d.bannerHeadlineItalic,
-      bannerFeatures: textItems(c.bannerFeatures, d.bannerFeatures),
-      bannerButtonLabel: c.bannerButtonLabel || d.bannerButtonLabel,
-      bannerButtonLink: resolveLink(c.bannerButtonLink, d.bannerButtonLink),
+      bannerItems,
       categoriesLabel: c.categoriesLabel || d.categoriesLabel,
       categoriesTitle: c.categoriesTitle || d.categoriesTitle,
       categories,

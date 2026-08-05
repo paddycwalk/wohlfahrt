@@ -152,11 +152,11 @@ export function Home({
       {/* Stats — Horizontal Editorial */}
       <section className="bg-primary text-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+          <div className="grid grid-cols-3 gap-0">
             {content.stats.map((stat, i) => (
               <div
                 key={stat.label}
-                className={`py-12 md:py-20 px-6 md:px-10 ${i < 3 ? "border-r border-white/10" : ""} ${i < 2 ? "border-b lg:border-b-0 border-white/10" : i === 2 ? "border-b lg:border-b-0 border-white/10" : ""}`}
+                className={`py-12 md:py-20 px-6 md:px-10 ${i < content.stats.length - 1 ? "border-r border-white/10" : ""}`}
                 {...sbEditable(stat.editable)}
               >
                 <StatsCounter

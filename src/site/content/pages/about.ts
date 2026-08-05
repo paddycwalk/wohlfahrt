@@ -117,9 +117,17 @@ export const defaultAboutContent: AboutContent = {
         "https://a.storyblok.com/f/293408914760698/b4fa202984/team-yannik-wohlfahrt.webp",
       imageAlt: "Yannik Wohlfahrt",
       name: "Yannik Wohlfahrt",
-      role: "Technische Leitung",
+      role: "Fliesenlegermeister",
       description:
-        "Meisterliche Überwachung aller Baustellen. Jahrzehntelange Erfahrung in der fachgerechten Verlegung von Fliesen und Mosaiken.",
+        "Vierte Meistergeneration im Familienbetrieb. Meisterliche Überwachung aller Baustellen und fachgerechte Verlegung von Fliesen und Mosaiken.",
+    },
+    {
+      image: "",
+      imageAlt: "Thomas Meister Giebel",
+      name: "Thomas Meister Giebel",
+      role: "Fliesenlegermeister",
+      description:
+        "Fliesenlegermeister mit langjähriger Erfahrung. Überwacht Baustellen und steht für die handwerkliche Qualität bei Neubau und Sanierung.",
     },
   ],
 
@@ -129,6 +137,10 @@ export const defaultAboutContent: AboutContent = {
     {
       year: "1954",
       text: "Gründung des Fliesenmeisterbetriebs Wohlfahrt & Wohlfahrt",
+    },
+    {
+      year: "1987",
+      text: "Uwe Wohlfahrt legt die Meisterprüfung im Fliesenlegerhandwerk ab",
     },
     {
       year: "1995",
@@ -143,8 +155,12 @@ export const defaultAboutContent: AboutContent = {
       text: "Eröffnung der Fliesenausstellung am Firmensitz in Pfullingen",
     },
     {
+      year: "2025",
+      text: "Yannik Wohlfahrt besteht die Meisterprüfung im Fliesenlegerhandwerk – die vierte Meistergeneration",
+    },
+    {
       year: "Heute",
-      text: "Meisterbetrieb für Neubau und Sanierung im Privat- und Industriebereich mit 12+ Mitarbeitern",
+      text: "Meisterbetrieb für Neubau und Sanierung im Privat- und Industriebereich",
     },
   ],
 

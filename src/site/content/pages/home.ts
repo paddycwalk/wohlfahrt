@@ -112,7 +112,6 @@ export const defaultHomeContent: HomeContent = {
   stats: [
     { value: YEARS_TOKEN, suffix: "+", label: "Jahre Erfahrung" },
     { value: "1000", suffix: "+", label: "Projekte" },
-    { value: "12", suffix: "+", label: "Mitarbeiter" },
     { value: "500", suffix: "+", label: "Fliesenmuster" },
   ],
 

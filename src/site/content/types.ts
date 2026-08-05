@@ -20,12 +20,29 @@ export interface Geo {
   longitude: number;
 }
 
-/** Eine strukturierte Oeffnungszeit (fuer Anzeige & JSON-LD). */
-export interface OpeningHours {
-  /** Wochentage in Schema.org-Schreibweise, z. B. ["Monday", ...]. */
-  days: string[];
+/** Wochentag in Schema.org-Schreibweise. */
+export type Weekday =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+
+/** Ein Zeitfenster innerhalb eines Tages, z. B. 08:00 – 12:30. */
+export interface TimeRange {
   opens: string; // "08:00"
   closes: string; // "12:30"
+}
+
+/** Die Oeffnungszeiten eines einzelnen Wochentags (Anzeige & JSON-LD). */
+export interface OpeningDay {
+  day: Weekday;
+  /** Geschlossen-Schalter aus Storyblok – Zeitfenster werden dann ignoriert. */
+  closed: boolean;
+  /** Ein oder zwei Zeitfenster (z. B. Vormittag/Nachmittag). */
+  slots: TimeRange[];
 }
 
 /** Globale, seitenweit genutzte Geschaeftsdaten (Storyblok: "settings"). */
@@ -52,9 +69,9 @@ export interface SiteSettings {
   email: string;
 
   // Oeffnungszeiten
-  /** Strukturiert (JSON-LD). */
-  openingHours: OpeningHours[];
-  /** Zusatzhinweis, z. B. "Sa.: Nach Vereinbarung". */
+  /** Ein Eintrag je Wochentag (Storyblok: ein `opening_day`-Blok pro Tag). */
+  openingHours: OpeningDay[];
+  /** Zusatzhinweis unter den Zeiten, z. B. "Beratung nach Vereinbarung". */
   openingHoursNote: string;
 
   // Sonstiges

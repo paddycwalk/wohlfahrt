@@ -15,6 +15,7 @@ import {
   defaultProductsContent,
   type ProductsContent,
   type ProductCategory,
+  type ProductHighlight,
   type ProductSeries,
 } from "../content/pages/products";
 
@@ -34,6 +35,9 @@ const SERIES_SIZES =
 
 /** Kategorie-Karten: `md:col-span-4` bis `md:col-span-7` von 12. */
 const CATEGORY_SIZES = "(min-width: 768px) 60vw, 100vw";
+
+/** Bild im Highlight-Banner: `lg:w-64` (256px), darunter volle Breite. */
+const BANNER_SIZES = "(min-width: 1024px) 256px, 100vw";
 
 export function Products({
   content = defaultProductsContent,
@@ -69,8 +73,9 @@ export function Products({
         </div>
       </section>
 
-      {/* Aktion Banner — kompakt & animiert */}
-      <section className="relative bg-accent text-white overflow-hidden border-y border-white/10">
+      {/* Highlight-Banner — ein Eintrag pro Produkt/Aktion, untereinander */}
+      {content.bannerItems.length > 0 && (
+        <section className="relative bg-accent text-white overflow-hidden border-y border-white/10">
         <motion.div
           aria-hidden
           initial={{ x: "-100%" }}
@@ -95,97 +100,17 @@ export function Products({
           ))}
         </motion.div>
 
-        <div className="relative container mx-auto px-4 py-10 md:py-14">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="flex items-center gap-3 shrink-0"
-            >
-              <motion.span
-                animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
-                transition={{ duration: 1.8, repeat: Infinity }}
-                className="w-2 h-2 bg-white rounded-full"
+          <div className="relative container mx-auto px-4 divide-y divide-white/20">
+            {content.bannerItems.map((item, i) => (
+              <BannerItem
+                key={`${item.headlinePre}-${item.badge}-${i}`}
+                item={item}
+                index={i}
               />
-              <span className="text-xs tracking-[0.35em] uppercase">
-                {content.bannerBadge}
-              </span>
-            </motion.div>
-
-            <div className="flex-1 overflow-hidden">
-              <motion.h2
-                initial={{ y: "100%" }}
-                whileInView={{ y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: 0.5,
-                }}
-                className="text-3xl md:text-5xl tracking-tight leading-[0.95]"
-              >
-                {content.bannerHeadlinePre}{" "}
-                <span className="italic font-light opacity-90">
-                  {content.bannerHeadlineItalic}
-                </span>
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 1, staggerChildren: 0.1 }}
-                className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-4 text-sm text-white/85"
-              >
-                {content.bannerFeatures.map((t, i) => (
-                  <motion.span
-                    key={t}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.9 + i * 0.12 }}
-                    className="flex items-center gap-2"
-                  >
-                    {i > 0 && (
-                      <span className="w-1 h-1 bg-white/60 rounded-full" />
-                    )}
-                    {t}
-                  </motion.span>
-                ))}
-              </motion.div>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7 }}
-              className="shrink-0"
-            >
-              <Button
-                asChild
-                variant="outline"
-                className="group border border-white bg-transparent text-white hover:!bg-white hover:!text-accent text-sm px-8 py-4 h-12 flex items-center gap-3 transition-colors"
-              >
-                <Link to={content.bannerButtonLink}>
-                  {content.bannerButtonLabel}
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <ArrowRight size={14} />
-                  </motion.span>
-                </Link>
-              </Button>
-            </motion.div>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Product Categories — Editorial Grid */}
       <section className="py-24 md:py-40">
@@ -326,6 +251,140 @@ export function Products({
   );
 }
 
+/**
+ * Ein Eintrag des Highlight-Banners: Bild, Badge, Ueberschrift, Merkmale,
+ * Button. Jedes Feld ist optional — fehlt es, entfaellt der Teil im Layout.
+ */
+function BannerItem({
+  item,
+  index,
+}: {
+  item: ProductHighlight;
+  index: number;
+}) {
+  // Nachfolgende Eintraege starten leicht versetzt, ohne sich aufzustauen.
+  const base = Math.min(index, 3) * 0.12;
+  return (
+    <div
+      className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-10 py-10 md:py-14"
+      {...sbEditable(item.editable)}
+    >
+      {item.image && (
+        <motion.div
+          initial={{ opacity: 0, scale: 1.05 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: base }}
+          className="relative w-full lg:w-64 shrink-0 aspect-[4/3] overflow-hidden"
+        >
+          <ImageWithFallback
+            src={resolveImage(item.image)}
+            alt={[item.headlinePre, item.headlineItalic]
+              .filter(Boolean)
+              .join(" ")}
+            className="w-full h-full object-cover absolute inset-0"
+            sizes={BANNER_SIZES}
+            aspect={4 / 3}
+          />
+        </motion.div>
+      )}
+
+      <div className="flex-1 min-w-0">
+        {item.badge && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: base + 0.4 }}
+            className="flex items-center gap-3 mb-3"
+          >
+            <motion.span
+              animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity }}
+              className="w-2 h-2 bg-white rounded-full shrink-0"
+            />
+            <span className="text-xs tracking-[0.35em] uppercase">
+              {item.badge}
+            </span>
+          </motion.div>
+        )}
+
+        <div className="overflow-hidden">
+          <motion.h2
+            initial={{ y: "100%" }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: base + 0.5,
+            }}
+            className="text-3xl md:text-5xl tracking-tight leading-[0.95]"
+          >
+            {item.headlinePre}
+            {item.headlineItalic && (
+              <>
+                {" "}
+                <span className="italic font-light opacity-90">
+                  {item.headlineItalic}
+                </span>
+              </>
+            )}
+          </motion.h2>
+        </div>
+
+        {item.features.length > 0 && (
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-4 text-sm text-white/85">
+            {item.features.map((t, i) => (
+              <motion.span
+                key={t}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: base + 0.9 + i * 0.12 }}
+                className="flex items-center gap-2"
+              >
+                {i > 0 && <span className="w-1 h-1 bg-white/60 rounded-full" />}
+                {t}
+              </motion.span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {item.buttonLabel && item.buttonLink && (
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: base + 0.7 }}
+          className="shrink-0"
+        >
+          <Button
+            asChild
+            variant="outline"
+            className="group border border-white bg-transparent text-white hover:!bg-white hover:!text-accent text-sm px-8 py-4 h-12 flex items-center gap-3 transition-colors"
+          >
+            <Link to={item.buttonLink}>
+              {item.buttonLabel}
+              <motion.span
+                animate={{ x: [0, 4, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <ArrowRight size={14} />
+              </motion.span>
+            </Link>
+          </Button>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
 function ProductCard({
   category,
   index,
@@ -382,6 +441,9 @@ function SeriesCard({
   onOpen: () => void;
 }) {
   const cover = series.images[0];
+  const artLabel = series.articleNumber
+    ? `, Art.-Nr. ${series.articleNumber}`
+    : "";
   return (
     <motion.button
       type="button"
@@ -394,7 +456,7 @@ function SeriesCard({
         ease: [0.16, 1, 0.3, 1],
       }}
       onClick={onOpen}
-      aria-label={`${series.title}: Galerie mit ${series.images.length} Bildern öffnen`}
+      aria-label={`${series.title}${artLabel}: Galerie mit ${series.images.length} Bildern öffnen`}
       className="group relative block w-full overflow-hidden text-left cursor-pointer aspect-[4/5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
       {...sbEditable(series.editable)}
     >
@@ -415,6 +477,11 @@ function SeriesCard({
       <div className="absolute inset-0 p-5 flex flex-col justify-end">
         <h4 className="text-lg md:text-xl text-white leading-tight">
           {series.title}
+          {series.articleNumber && (
+            <span className="ml-2 inline-block align-middle bg-black/55 backdrop-blur-sm text-white text-xs tracking-wide whitespace-nowrap px-2 py-0.5 rounded-full">
+              Art.-Nr. {series.articleNumber}
+            </span>
+          )}
         </h4>
       </div>
     </motion.button>

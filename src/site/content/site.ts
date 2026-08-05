@@ -1,5 +1,47 @@
-import type { SiteSettings } from "./types";
+import type { OpeningDay, SiteSettings, TimeRange, Weekday } from "./types";
 import { FOUNDING_YEAR, YEARS_TOKEN, yearsSinceFounding } from "../lib/years";
+
+/** Wochentage in Anzeige- und Sortierreihenfolge (Montag zuerst). */
+export const WEEKDAYS: Weekday[] = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+/** Kurzform der Wochentage fuer die Anzeige. */
+const DAY_SHORT: Record<Weekday, string> = {
+  Monday: "Mo.",
+  Tuesday: "Di.",
+  Wednesday: "Mi.",
+  Thursday: "Do.",
+  Friday: "Fr.",
+  Saturday: "Sa.",
+  Sunday: "So.",
+};
+
+/** Anzeigetext fuer Tage ohne Zeitfenster bzw. mit gesetztem Geschlossen-Schalter. */
+export const CLOSED_LABEL = "Geschlossen";
+
+const WORKDAY_SLOTS: TimeRange[] = [
+  { opens: "08:00", closes: "12:30" },
+  { opens: "14:00", closes: "17:00" },
+];
+
+const openDay = (day: Weekday): OpeningDay => ({
+  day,
+  closed: false,
+  slots: WORKDAY_SLOTS.map((slot) => ({ ...slot })),
+});
+
+const closedDay = (day: Weekday): OpeningDay => ({
+  day,
+  closed: true,
+  slots: [],
+});
 
 /**
  * Lokale Default-Geschaeftsdaten – die einzige Quelle der Wahrheit, solange
@@ -29,19 +71,18 @@ export const defaultSiteSettings: SiteSettings = {
   phoneHref: "+49712171082",
   email: "info@fliesen-wohlfahrt.de",
 
+  // Pro Wochentag gepflegt, damit ein einzelner Tag (z. B. Betriebsurlaub oder
+  // ein Feiertag) in Storyblok ohne Umbau auf "Geschlossen" gestellt werden kann.
   openingHours: [
-    {
-      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:00",
-      closes: "12:30",
-    },
-    {
-      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "14:00",
-      closes: "17:00",
-    },
+    openDay("Monday"),
+    openDay("Tuesday"),
+    openDay("Wednesday"),
+    openDay("Thursday"),
+    openDay("Friday"),
+    closedDay("Saturday"),
+    closedDay("Sunday"),
   ],
-  openingHoursNote: "Sa.: Nach Vereinbarung",
+  openingHoursNote: "Beratung nach Vereinbarung",
 
   social: {
     facebook: "https://www.facebook.com/FliesenWohlfahrt/",
@@ -75,27 +116,81 @@ export const defaultSiteSettings: SiteSettings = {
   ],
 };
 
+/** Nur vollstaendig gepflegte Zeitfenster sind verwertbar. */
+const isUsable = (slot: TimeRange) => Boolean(slot.opens && slot.closes);
+
+/** Die verwertbaren Zeitfenster eines Wochentags (leer = geschlossen). */
+function slotsOf(s: SiteSettings, day: Weekday): TimeRange[] {
+  const entry = s.openingHours.find((d) => d.day === day);
+  if (!entry || entry.closed) return [];
+  return entry.slots.filter(isUsable);
+}
+
+/** Eine Anzeigezeile der Oeffnungszeiten (ein Wochentag). */
+export interface OpeningHoursRow {
+  day: Weekday;
+  /** Kurzform des Wochentags, z. B. "Mo.". */
+  label: string;
+  /** Zeitfenster als Text, z. B. ["08:00 – 12:30", "14:00 – 17:00"]. */
+  slots: string[];
+  /** Geschlossen – kein gepflegtes Zeitfenster bzw. Schalter gesetzt. */
+  closed: boolean;
+}
+
 /**
- * Hilfsfunktion: erzeugt die Oeffnungszeiten als Anzeige-Zeilen
- * (z. B. "Mo. – Fr.: 08:00 – 12:30 Uhr").
+ * Erzeugt die Oeffnungszeiten als Anzeigezeilen – eine je Wochentag, Montag
+ * zuerst. Ein Tag, der in Storyblok fehlt oder auf "Geschlossen" steht,
+ * erscheint als geschlossen.
  */
-export function formatOpeningHours(s: SiteSettings): string[] {
-  const dayShort: Record<string, string> = {
-    Monday: "Mo.",
-    Tuesday: "Di.",
-    Wednesday: "Mi.",
-    Thursday: "Do.",
-    Friday: "Fr.",
-    Saturday: "Sa.",
-    Sunday: "So.",
-  };
-  const lines = s.openingHours.map((oh) => {
-    const first = dayShort[oh.days[0]] ?? oh.days[0];
-    const last =
-      dayShort[oh.days[oh.days.length - 1]] ?? oh.days[oh.days.length - 1];
-    const range = oh.days.length > 1 ? `${first} – ${last}` : first;
-    return `${range}: ${oh.opens} – ${oh.closes} Uhr`;
+export function openingHoursRows(s: SiteSettings): OpeningHoursRow[] {
+  return WEEKDAYS.map((day) => {
+    const slots = slotsOf(s, day);
+    return {
+      day,
+      label: DAY_SHORT[day],
+      slots: slots.map((slot) => `${slot.opens} – ${slot.closes}`),
+      closed: slots.length === 0,
+    };
   });
-  if (s.openingHoursNote) lines.push(s.openingHoursNote);
-  return lines;
+}
+
+/**
+ * Die Oeffnungszeiten als mehrzeiliger Text – fuer die Info-Bloecke auf
+ * Kontakt- und Ausstellungsseite (`whitespace-pre-line`). Der Hinweis
+ * (`openingHoursNote`) wird bewusst nicht eingemischt: er steht ueber den
+ * Tagen und wird eigenstaendig hervorgehoben.
+ */
+export function openingHoursText(s: SiteSettings): string {
+  return openingHoursRows(s)
+    .map(
+      (row) =>
+        `${row.label}  ${row.closed ? CLOSED_LABEL : row.slots.join(" · ")}`,
+    )
+    .join("\n");
+}
+
+/**
+ * Die Oeffnungszeiten als schema.org `OpeningHoursSpecification`.
+ *
+ * Tage mit identischem Zeitfenster werden zusammengefasst (kompakteres JSON-LD),
+ * geschlossene Tage entfallen.
+ */
+export function openingHoursSpecification(s: SiteSettings) {
+  const daysByRange = new Map<string, Weekday[]>();
+  WEEKDAYS.forEach((day) => {
+    slotsOf(s, day).forEach((slot) => {
+      const key = `${slot.opens}-${slot.closes}`;
+      daysByRange.set(key, [...(daysByRange.get(key) ?? []), day]);
+    });
+  });
+
+  return [...daysByRange.entries()].map(([key, days]) => {
+    const [opens, closes] = key.split("-");
+    return {
+      "@type": "OpeningHoursSpecification" as const,
+      dayOfWeek: days,
+      opens,
+      closes,
+    };
+  });
 }

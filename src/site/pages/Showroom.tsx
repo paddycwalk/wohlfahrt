@@ -4,14 +4,20 @@ import { motion } from "motion/react";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { RevealText } from "../components/molecules/RevealText";
 import { MapEmbed } from "../components/molecules/MapEmbed";
-import { MapPin, Clock, Phone, ArrowRight } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Phone,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { asset } from "../lib/asset";
 import { sbEditable } from "../lib/editable";
 import { Link } from "react-router";
 import { Button } from "../components/atoms/Button";
 import { useSiteSettings } from "@/site/content/SiteSettingsProvider";
-import { formatOpeningHours } from "@/site/content/site";
+import { openingHoursText } from "@/site/content/site";
 import {
   defaultShowroomContent,
   type ShowroomContent,
@@ -28,8 +34,37 @@ export function Showroom({
   content?: ShowroomContent;
 }) {
   const s = useSiteSettings();
-  const addressText = `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`;
-  const openingHoursText = formatOpeningHours(s).join("\n");
+  const infoItems: {
+    icon: LucideIcon;
+    title: string;
+    /** Hervorgehobene Zeile ueber dem Text (z. B. Terminhinweis). */
+    note?: string;
+    text: string;
+    href?: string;
+    external?: boolean;
+  }[] = [
+    {
+      icon: MapPin,
+      title: "Adresse",
+      text: `${s.legalName}\n${s.street}\n${s.zip} ${s.city}`,
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${s.street}, ${s.zip} ${s.city}`,
+      )}`,
+      external: true,
+    },
+    {
+      icon: Clock,
+      title: "Öffnungszeiten",
+      note: s.openingHoursNote,
+      text: openingHoursText(s),
+    },
+    {
+      icon: Phone,
+      title: "Telefon",
+      text: s.phone,
+      href: `tel:${s.phoneHref}`,
+    },
+  ];
 
   return (
     <div className="overflow-hidden" {...sbEditable(content.editable)}>
@@ -88,28 +123,7 @@ export function Showroom({
               </motion.p>
 
               <div className="space-y-8">
-                {[
-                  {
-                    icon: MapPin,
-                    title: "Adresse",
-                    text: addressText,
-                    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      `${s.street}, ${s.zip} ${s.city}`,
-                    )}`,
-                    external: true,
-                  },
-                  {
-                    icon: Clock,
-                    title: "Öffnungszeiten",
-                    text: openingHoursText,
-                  },
-                  {
-                    icon: Phone,
-                    title: "Telefon",
-                    text: s.phone,
-                    href: `tel:${s.phoneHref}`,
-                  },
-                ].map((item, i) => (
+                {infoItems.map((item, i) => (
                   <motion.div
                     key={item.title}
                     initial={{ opacity: 0, x: -20 }}
@@ -125,6 +139,11 @@ export function Showroom({
                       <h3 className="text-sm tracking-[0.15em] uppercase text-accent mb-1">
                         {item.title}
                       </h3>
+                      {item.note && (
+                        <p className="text-base text-foreground mb-2">
+                          {item.note}
+                        </p>
+                      )}
                       {item.href ? (
                         <a
                           href={item.href}

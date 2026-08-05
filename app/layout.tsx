@@ -6,6 +6,7 @@ import { SiteShell } from "@/site/components/templates/SiteShell";
 import { fontFaceCss, fontPreloads } from "@/site/config/fonts";
 import { getSiteSettings } from "@/site/content";
 import { SiteSettingsProvider } from "@/site/content/SiteSettingsProvider";
+import { openingHoursSpecification } from "@/site/content/site";
 import { StoryblokProvider } from "@/site/components/providers/StoryblokProvider";
 import type { SiteSettings } from "@/site/content/types";
 import {
@@ -115,12 +116,7 @@ function buildJsonLd(s: SiteSettings) {
       latitude: s.geo.latitude,
       longitude: s.geo.longitude,
     },
-    openingHoursSpecification: s.openingHours.map((oh) => ({
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: oh.days,
-      opens: oh.opens,
-      closes: oh.closes,
-    })),
+    openingHoursSpecification: openingHoursSpecification(s),
     areaServed: ["Pfullingen", "Reutlingen", "Tübingen", "Baden-Württemberg"],
     sameAs: [s.social.facebook, s.social.instagram].filter(Boolean),
   };
