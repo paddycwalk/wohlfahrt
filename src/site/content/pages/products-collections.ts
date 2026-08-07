@@ -17,7 +17,7 @@ export const productCollections: ProductCollectionGroup[] = [
     series: [
       {
         title: "Serie Agathos",
-        articleNumber: "WF-OD-1010",
+        articleNumber: "W163",
         images: [
           "https://a.storyblok.com/f/293408914760698/1800x1200/303e59b15e/01-agathos-anthracite-60x60-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1800x1200/ef8b9b566c/02-agathos-grey-60x60-th2.webp",
@@ -29,7 +29,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Basaltina",
-        articleNumber: "WF-OD-1020",
+        articleNumber: "W99",
         images: [
           "https://a.storyblok.com/f/293408914760698/1679x2000/046afadb27/01-basaltina-grey-120x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/1007x1200/32107c3cf3/02-basaltina-grey-120x120-th2-2.webp",
@@ -43,7 +43,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Brera",
-        articleNumber: "WF-OD-1030",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1163/51178df635/01-brera-bloom-60x60-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1679x2000/7d670091e9/02-brera-fresh-60x120-th2.webp",
@@ -52,7 +51,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Calacatta",
-        articleNumber: "WF-OD-1040",
         images: [
           "https://a.storyblok.com/f/293408914760698/1800x1072/a9b9c5d446/01-calacatta-60x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/2000x1165/9345199b61/02-calacatta-60x120-th2-2.webp",
@@ -63,7 +61,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Ceppo di Gre",
-        articleNumber: "WF-OD-1050",
+        articleNumber: "W1001110 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1200x1000/c81032b628/01-ceppo-di-gre-grey-120x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/923x1100/a6b9241dcf/02-ceppo-di-gre-grey-120x120-th2-2.webp",
@@ -79,7 +77,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Flatiron",
-        articleNumber: "WF-OD-1060",
+        articleNumber: "W1000161 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1687x2200/e8e43ef8c3/01-flatiron-black-60x60-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1200x1800/4c392df770/02-flatiron-rust-60x120-th2-1.webp",
@@ -90,7 +88,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Genesis",
-        articleNumber: "WF-OD-1070",
+        articleNumber: "W1001120 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1687/373b9c8858/01-genesis-ash-60x60-th2.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1467/d12c0108c4/02-genesis-cocoa-60x60-th2.webp",
@@ -100,14 +98,14 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Heritage",
-        articleNumber: "WF-OD-1080",
+        articleNumber: "W1001100 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1310/d4270df3a6/01-heritage-powder-60x120-th2.webp",
         ],
       },
       {
         title: "Serie Loft",
-        articleNumber: "WF-OD-1090",
+        articleNumber: "W960001 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1200x800/5bea2ddba0/01-loft-ash-80x80-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1681x2000/5835f2881a/02-loft-cream-60x120-th2.webp",
@@ -122,7 +120,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Loop",
-        articleNumber: "WF-OD-1100",
+        articleNumber: "W102",
         images: [
           "https://a.storyblok.com/f/293408914760698/1200x800/56a09f954e/01-loop-anthracite-60x120-th2.webp",
           "https://a.storyblok.com/f/293408914760698/680x1100/ccb34c6985/02-loop-anthracite-60x60-th2.webp",
@@ -133,7 +131,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Medley",
-        articleNumber: "WF-OD-1110",
         images: [
           "https://a.storyblok.com/f/293408914760698/1678x2000/95db967ac9/01-medley-anthracite-80x80-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1845x2200/81788f33cb/02-medley-white-60x60-th2.webp",
@@ -141,7 +138,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Miro",
-        articleNumber: "WF-OD-1120",
+        articleNumber: "W1001230 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1555/f8375cf85f/01-miro-champagne-120x120-th2-ivory-60x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/1704x2200/cdfefee6ae/02-miro-champagne-120x120-th2-ivory-60x120-th2-2.webp",
@@ -150,14 +147,12 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Native",
-        articleNumber: "WF-OD-1130",
         images: [
           "https://a.storyblok.com/f/293408914760698/1650x2200/5044520633/01-native-white-60x120-th2.webp",
         ],
       },
       {
         title: "Serie Navona Soft",
-        articleNumber: "WF-OD-1140",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1191/556052f4c5/01-navona-soft-niveo-60x60-th2.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1497/3785a0ae9a/02-navona-soft-niveo-80x80-th2.webp",
@@ -165,7 +160,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Navona Vein",
-        articleNumber: "WF-OD-1150",
         images: [
           "https://a.storyblok.com/f/293408914760698/1535x2000/7c23743408/01-navona-vein-candido-60x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/2000x1257/74206e6ec7/02-navona-vein-candido-60x120-th2-2.webp",
@@ -175,7 +169,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Nereidi",
-        articleNumber: "WF-OD-1160",
+        articleNumber: "W1001090 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1338/a635f004fd/01-nereidi-cloud-60x60-th2-ecru-120x120-120x280.webp",
           "https://a.storyblok.com/f/293408914760698/1696x2200/cd9fe89123/02-nereidi-cloud-60x60-th2.webp",
@@ -183,7 +177,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Padouk",
-        articleNumber: "WF-OD-1170",
+        articleNumber: "W1000001 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1200x921/37f8eda750/01-padouk-beige-30x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/1001x1200/05189b947e/02-padouk-beige-30x120-th2-2.webp",
@@ -197,7 +191,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Parker",
-        articleNumber: "WF-OD-1180",
+        articleNumber: "W1000410 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1403x2000/7f3ce67cb9/01-parker-anthracite-80x80-th2.webp",
           "https://a.storyblok.com/f/293408914760698/2000x1784/cb98b1878b/02-parker-silver-60x120-th2.webp",
@@ -207,7 +201,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Pennslate",
-        articleNumber: "WF-OD-1190",
+        articleNumber: "W184",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1784/0befb8bfe1/01-pennslate-akiba-60x120-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1532x1800/de11a9641d/02-pennslate-bali-60x120-th2-1.webp",
@@ -220,7 +214,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Petraviva",
-        articleNumber: "WF-OD-1200",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1291/f9aa4f5934/01-petraviva-beige-60x60-th2.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1466/96b100f109/02-petraviva-ivory-60x120-th2-1.webp",
@@ -229,7 +222,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Pietra del Salento",
-        articleNumber: "WF-OD-1210",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1310/ac1e238938/01-pietra-del-salento-60x120-th2.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1821/98d096dbd0/02-pietra-del-salento-avorio-60x60-th2.webp",
@@ -237,7 +229,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Pietra di Vals",
-        articleNumber: "WF-OD-1220",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1962/6dd56ec867/01-pietra-di-vals-80x80-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/1097x1200/b2fe2a338c/02-pietra-di-vals-80x80-th2-2.webp",
@@ -245,7 +236,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Robur",
-        articleNumber: "WF-OD-1230",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1784/d761c9cb29/01-robur-cocoa-30x120-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1679x2000/1c272b3a6d/02-robur-honey-30x120-th2-1.webp",
@@ -259,7 +249,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Rushmore",
-        articleNumber: "WF-OD-1240",
+        articleNumber: "W1000780 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1165/f7b63dc3e1/01-rushmore-beige-60x120-th2-1.webp",
           "https://a.storyblok.com/f/293408914760698/2000x1191/00b10c1ebc/02-rushmore-beige-60x120-th2-2.webp",
@@ -271,7 +261,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Sunstone",
-        articleNumber: "WF-OD-1250",
+        articleNumber: "W307",
         images: [
           "https://a.storyblok.com/f/293408914760698/1349x1800/2ba8004845/01-sunstone-freya-120x120-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1637x2000/7bc331fb43/02-sunstone-freya-60x120-th2-1.webp",
@@ -283,21 +273,20 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Taj Mahal",
-        articleNumber: "WF-OD-1260",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1527/d03dc8d87b/01-taj-mahal-shell-60x120-th2.webp",
         ],
       },
       {
         title: "Serie Tivoli",
-        articleNumber: "WF-OD-1270",
+        articleNumber: "W327",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1632/5125203315/01-tivoli-beige-60x60-th2.webp",
         ],
       },
       {
         title: "Serie Urano",
-        articleNumber: "WF-OD-1280",
+        articleNumber: "W106",
         images: [
           "https://a.storyblok.com/f/293408914760698/1689x2000/5de2e78f17/01-urano-grigio-60x120-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1685x2000/69ca7f08d9/02-urano-grigio-60x60-th2-1.webp",
@@ -306,7 +295,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Wonder",
-        articleNumber: "WF-OD-1290",
+        articleNumber: "W312",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1309/f1310781a9/01-wonder-dunes-60x90-th2.webp",
           "https://a.storyblok.com/f/293408914760698/1986x1772/c302254197/02-wonder-shade-60x120-th2.webp",
@@ -319,7 +308,7 @@ export const productCollections: ProductCollectionGroup[] = [
     series: [
       {
         title: "Serie Ceppo di Gre",
-        articleNumber: "WF-ID-2010",
+        articleNumber: "W1001110 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1192/7134062ef8/01-ceppo-di-gre-anthracite-120x120-ivory-120x280-warm-60x120-th.webp",
           "https://a.storyblok.com/f/293408914760698/1643x2000/a034d4fb8f/02-ceppo-di-gre-anthracite-120x120-ivory-120x280-warm-60x120-th.webp",
@@ -334,7 +323,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie City Plaster",
-        articleNumber: "WF-ID-2020",
+        articleNumber: "W1000420 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1350x1800/849f072a57/01-city-plaster-beige-120x120-120x280.webp",
           "https://a.storyblok.com/f/293408914760698/1200x967/625848ab5a/02-city-plaster-beige-120x280-2.webp",
@@ -350,7 +339,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Flatiron",
-        articleNumber: "WF-ID-2030",
+        articleNumber: "W1000161 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1032/d4e9ae25fd/01-flatiron-black-120x280.webp",
           "https://a.storyblok.com/f/293408914760698/2000x1032/d186696a93/02-flatiron-blue-60x120.webp",
@@ -366,7 +355,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Heritage",
-        articleNumber: "WF-ID-2040",
+        articleNumber: "W1001100 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1800x2200/a17564a4c8/01-heritage-cornsilk-120x120-1.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1865/d56c6abc59/02-heritage-cornsilk-120x120-2.webp",
@@ -377,7 +366,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Loft",
-        articleNumber: "WF-ID-2050",
+        articleNumber: "W960001 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1760x2200/3ff9fb3f89/01-loft-ash-120x120-loft-cream-120x280-loft-taupe-120x280.webp",
           "https://a.storyblok.com/f/293408914760698/2129x2200/ffb4cf927a/02-loft-ash-30x60.webp",
@@ -393,7 +382,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Luminescence",
-        articleNumber: "WF-ID-2060",
+        articleNumber: "W1001420",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1240/b4dd75a27f/01-luminescence-120x280-1.webp",
           "https://a.storyblok.com/f/293408914760698/2200x2200/10e0922b92/02-luminescence-120x280-2.webp",
@@ -402,7 +391,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Magnetic",
-        articleNumber: "WF-ID-2070",
         images: [
           "https://a.storyblok.com/f/293408914760698/1693x1800/02996ea0b5/01-magnetic-bronze-60x120-mosaik-5x5.webp",
           "https://a.storyblok.com/f/293408914760698/1200x676/92da01b809/02-magnetic-bronze.webp",
@@ -414,7 +402,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Miro",
-        articleNumber: "WF-ID-2080",
+        articleNumber: "W1001230 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1555/a75f64d66c/01-miro-chalk-60x120-120x120-miro-leather-mosaik-spaccatella.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1612/013431979b/02-miro-amber-120x120-miro-chalk-120x280.webp",
@@ -430,7 +418,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Nereidi",
-        articleNumber: "WF-ID-2090",
+        articleNumber: "W1001090 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1338/a01d473c10/01-nereidi-almond-120x120-cloud-120x280-ecru-120x280-umber-120x.webp",
           "https://a.storyblok.com/f/293408914760698/1692x2200/e959983b03/02-nereidi-almond-120x120-ecru-groove-60x120.webp",
@@ -446,7 +434,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Padouk",
-        articleNumber: "WF-ID-2100",
+        articleNumber: "W1000001 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/801x1200/1d4f8a7a5a/01-padouk-beige-20x120-30x120.webp",
           "https://a.storyblok.com/f/293408914760698/1800x1072/0a189bdd60/02-padouk-beige-20x120.webp",
@@ -462,7 +450,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Parker",
-        articleNumber: "WF-ID-2110",
+        articleNumber: "W1000410 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1020x1200/52b2141921/01-parker-grey-120x120.webp",
           "https://a.storyblok.com/f/293408914760698/880x1200/f2d51448df/02-parker-grey-120x280.webp",
@@ -474,7 +462,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Robur",
-        articleNumber: "WF-ID-2120",
         images: [
           "https://a.storyblok.com/f/293408914760698/1511x1800/aeb1f15442/01-robur-honey-20x120.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1310/f233025603/02-robur-honey-chevron.webp",
@@ -485,7 +472,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "Serie Sunstone",
-        articleNumber: "WF-ID-2130",
+        articleNumber: "W307",
         images: [
           "https://a.storyblok.com/f/293408914760698/2000x1333/702eb9bd0f/01-sunstone-baugi-120x120.webp",
           "https://a.storyblok.com/f/293408914760698/1200x900/484eb6e63e/02-sunstone-baugi-60x120.webp",
@@ -501,7 +488,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "HR Ambienti BERGSTONE",
-        articleNumber: "WF-ID-2140",
+        articleNumber: "W1000860 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1760x2200/cd2ec85f13/01-csa-bergstone-black120120-black60120-restaurant.webp",
           "https://a.storyblok.com/f/293408914760698/1555x2200/6b194b8799/02-csa-bergstone-dark120120-dark60120-form-cement60120-in-out.webp",
@@ -517,7 +504,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "HR Ambienti MYSTIC",
-        articleNumber: "WF-ID-2150",
+        articleNumber: "W1000690 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1362/ab717e49c7/01-csa-mystic-beige60120-primewood-brown30180-living.webp",
           "https://a.storyblok.com/f/293408914760698/2200x2200/73e8a669ab/02-csa-mystic-beige8989-kry-living.webp",
@@ -533,7 +520,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "HR Ambienti SABLE",
-        articleNumber: "WF-ID-2160",
+        articleNumber: "W1000670 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/1760x2200/50f9f2ad73/01-csa-sable-beige120120-jardin-04-living.webp",
           "https://a.storyblok.com/f/293408914760698/1760x2200/f13fe9cc6f/02-csa-sable-beige9090-living.webp",
@@ -549,7 +536,6 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "HR Ambienti TETRIS",
-        articleNumber: "WF-ID-2170",
         images: [
           "https://a.storyblok.com/f/293408914760698/1650x2200/f02c7b1e8a/01-csa-tetris-aria-mat-primewood-natural20120-living.webp",
           "https://a.storyblok.com/f/293408914760698/1760x2200/8220b4cf6c/02-csa-tetris-artic-luc-smoke-luc-logico-cement120120-bathroom.webp",
@@ -565,7 +551,7 @@ export const productCollections: ProductCollectionGroup[] = [
       },
       {
         title: "HR Ambienti TIMEWOOD",
-        articleNumber: "WF-ID-2180",
+        articleNumber: "W1000240 ff",
         images: [
           "https://a.storyblok.com/f/293408914760698/2200x1456/477def9462/01-csa-timewood-brown20120-form-cement60180-silkystone-sand9090.webp",
           "https://a.storyblok.com/f/293408914760698/2200x1361/bba6a30f7a/02-csa-timewood-grey30180-public-space.webp",
