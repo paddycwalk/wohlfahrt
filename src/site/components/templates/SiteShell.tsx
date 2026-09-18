@@ -19,8 +19,15 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col">
+        {/* Sprungmarke fuer Tastatur- und Screenreader-Nutzer (WCAG 2.4.1).
+            Erstes fokussierbares Element im DOM; Styles in theme.css. */}
+        <a href="#hauptinhalt" className="skip-link">
+          Zum Inhalt springen
+        </a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="hauptinhalt" tabIndex={-1} className="flex-1">
+          {children}
+        </main>
         <Footer />
         <ScrollToTop />
         <Toaster position="top-right" />

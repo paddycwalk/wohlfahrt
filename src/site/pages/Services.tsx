@@ -101,7 +101,10 @@ function ServiceShowcase({
         />
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute top-6 left-6 md:top-8 md:left-8">
-          <span className="text-[5rem] md:text-[7rem] font-[Bebas_Neue] text-white/10 leading-none select-none">
+          <span
+            aria-hidden="true"
+            className="text-[5rem] md:text-[7rem] font-[Bebas_Neue] text-white/10 leading-none select-none"
+          >
             {String(index + 1).padStart(2, "0")}
           </span>
         </div>
@@ -341,7 +344,9 @@ export function Services({
                     <h3 className="text-3xl md:text-4xl tracking-tight mb-3">
                       {item.title}
                     </h3>
-                    <p className="text-white/60 text-base leading-relaxed max-w-md ${isEven ? 'lg:ml-auto' : ''}">
+                    <p
+                      className={`text-white/60 text-base leading-relaxed max-w-md ${isEven ? "lg:ml-auto" : ""}`}
+                    >
                       {item.desc}
                     </p>
                   </div>
@@ -360,7 +365,10 @@ export function Services({
       {/* Why Us — Bold Statement + Features */}
       <section className="py-24 md:py-40 bg-background relative overflow-hidden">
         {/* Large background text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
+        >
           <span className="text-[15rem] md:text-[25rem] font-[Bebas_Neue] text-foreground/[0.02] leading-none whitespace-nowrap">
             W&W
           </span>
@@ -422,9 +430,9 @@ export function Services({
                         />
                       </div>
                       <div>
-                        <h4 className="text-lg mb-1 group-hover:text-accent transition-colors duration-300">
+                        <h3 className="text-lg mb-1 group-hover:text-accent transition-colors duration-300">
                           {feature.title}
-                        </h4>
+                        </h3>
                         <p className="text-muted-foreground text-sm leading-relaxed">
                           {feature.desc}
                         </p>
@@ -449,7 +457,8 @@ export function Services({
         >
           <ImageWithFallback
             src={resolveImage(content.ctaImage)}
-            alt="Marble texture"
+            alt=""
+            aria-hidden="true"
             className="w-full h-full object-cover"
             width={1920}
             height={1080}

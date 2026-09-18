@@ -55,7 +55,10 @@ function InfoBlockBody({ item }: Readonly<{ item: InfoBlock }>) {
         {item.rows.map((row) => (
           <li
             key={row.day}
-            className={`flex gap-3 ${row.closed ? "text-muted-foreground/50" : "text-muted-foreground"}`}
+            // Geschlossene Tage nicht per Opazitaet abdunkeln: auf weissem
+            // Grund kaeme das Grau auf 2,1:1 und verfehlte WCAG AA. Die
+            // Unterscheidung traegt das Wort "Geschlossen".
+            className="flex gap-3 text-muted-foreground"
           >
             <span className="w-12 shrink-0">{row.label}</span>
             <span className="tabular-nums">
@@ -241,7 +244,10 @@ export function Showroom({
                 className={`p-10 md:p-12 group hover:bg-accent transition-all duration-500 cursor-default ${index < 2 ? "md:border-r border-white/10" : ""}`}
                 {...sbEditable(feature.editable)}
               >
-                <span className="text-5xl font-[Bebas_Neue] text-accent/40 group-hover:text-white/30 transition-colors leading-none block mb-6">
+                <span
+                  aria-hidden="true"
+                  className="text-5xl font-[Bebas_Neue] text-accent/40 group-hover:text-white/30 transition-colors leading-none block mb-6"
+                >
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-2xl mb-3 group-hover:text-white transition-colors">

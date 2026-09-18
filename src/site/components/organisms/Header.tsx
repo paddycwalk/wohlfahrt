@@ -307,7 +307,10 @@ export function Header() {
                             className="group flex items-center gap-4 md:gap-8 py-3 md:py-4 transition-all duration-300 hover:pl-4"
                           >
                             {/* Index number */}
-                            <span className="text-[10px] tracking-[0.2em] text-white/20 group-hover:text-accent transition-colors duration-300 w-6 shrink-0 font-[Montserrat]">
+                            <span
+                              aria-hidden="true"
+                              className="text-[10px] tracking-[0.2em] text-white/20 group-hover:text-accent transition-colors duration-300 w-6 shrink-0 font-[Montserrat]"
+                            >
                               {String(index + 1).padStart(2, "0")}
                             </span>
 
@@ -392,7 +395,7 @@ export function Header() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Facebook"
-                                className="text-white/40 hover:text-accent transition-colors"
+                                className="text-white/60 hover:text-accent transition-colors"
                               >
                                 <FacebookIcon size={20} />
                               </a>
@@ -403,7 +406,7 @@ export function Header() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"
-                                className="text-white/40 hover:text-accent transition-colors"
+                                className="text-white/60 hover:text-accent transition-colors"
                               >
                                 <InstagramIcon size={20} />
                               </a>
@@ -459,7 +462,7 @@ export function Header() {
                 className="shrink-0 border-t border-white/[0.07] py-4"
               >
                 <div className="container mx-auto px-4 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
-                  <span className="text-white/20 text-[10px] tracking-[0.2em] uppercase">
+                  <span className="text-white/60 text-[10px] tracking-[0.2em] uppercase">
                     {new Date().getFullYear()} {s.companyName}
                   </span>
                   <div className="flex gap-6">
@@ -467,7 +470,7 @@ export function Header() {
                       <Link
                         key={link.path}
                         to={link.path}
-                        className="text-white/30 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                        className="text-white/60 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
                       >
                         {link.name}
                       </Link>

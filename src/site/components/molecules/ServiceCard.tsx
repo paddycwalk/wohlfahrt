@@ -29,7 +29,10 @@ export function ServiceCard({ icon: Icon, title, description, index = 0, active 
       />
 
       {/* Large faded index number */}
-      <div className={`absolute top-4 right-6 text-7xl font-[Bebas_Neue] text-border/40 ${isActive ? "text-white/20" : ""} transition-colors duration-500 select-none leading-none`}>
+      <div
+        aria-hidden="true"
+        className={`absolute top-4 right-6 text-7xl font-[Bebas_Neue] text-border/40 ${isActive ? "text-white/20" : ""} transition-colors duration-500 select-none leading-none`}
+      >
         {String(index + 1).padStart(2, "0")}
       </div>
 

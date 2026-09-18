@@ -136,7 +136,10 @@ export function Contact({
                       {openingHours.map((row) => (
                         <li
                           key={row.day}
-                          className={`flex gap-3 ${row.closed ? "text-muted-foreground/50" : "text-muted-foreground"}`}
+                          // Geschlossene Tage nicht per Opazitaet abdunkeln: auf weissem
+                          // Grund kaeme das Grau auf 2,1:1 und verfehlte WCAG AA. Die
+                          // Unterscheidung traegt das Wort "Geschlossen".
+                          className="flex gap-3 text-muted-foreground"
                         >
                           <span className="w-12 shrink-0">{row.label}</span>
                           <span className="tabular-nums">

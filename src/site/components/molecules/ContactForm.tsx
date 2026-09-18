@@ -82,6 +82,7 @@ export function ContactForm() {
         label="Name"
         name="name"
         type="text"
+        autoComplete="name"
         required
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -90,6 +91,7 @@ export function ContactForm() {
         label="E-Mail"
         name="email"
         type="email"
+        autoComplete="email"
         required
         value={formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -98,6 +100,7 @@ export function ContactForm() {
         label="Telefon"
         name="phone"
         type="tel"
+        autoComplete="tel"
         value={formData.phone}
         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
       />

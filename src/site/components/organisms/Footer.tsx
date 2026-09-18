@@ -49,7 +49,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <nav aria-label="Schnelllinks">
             <h3 className="text-lg mb-4">Schnelllinks</h3>
             <ul className="space-y-2 text-sm">
               {s.footerQuickLinks.map((link) => (
@@ -63,7 +63,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Contact */}
           <div>
@@ -131,7 +131,10 @@ export function Footer() {
           <p>
             &copy; {year} {s.companyName}. Alle Rechte vorbehalten.
           </p>
-          <div className="flex flex-col items-center gap-2 md:flex-row md:gap-6">
+          <nav
+            aria-label="Rechtliches"
+            className="flex flex-col items-center gap-2 md:flex-row md:gap-6"
+          >
             {s.legalNav.map((link) => (
               <Link
                 key={link.path}
@@ -141,7 +144,7 @@ export function Footer() {
                 {link.name}
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
     </footer>

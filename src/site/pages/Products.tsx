@@ -440,7 +440,10 @@ function ProductCard({
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
-        <span className="text-xs tracking-[0.2em] text-accent uppercase mb-2">
+        <span
+          aria-hidden="true"
+          className="text-xs tracking-[0.2em] text-accent uppercase mb-2"
+        >
           {String(index + 1).padStart(2, "0")}
         </span>
         <h3 className="text-2xl md:text-3xl text-white mb-2">
