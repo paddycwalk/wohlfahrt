@@ -100,6 +100,42 @@ export function Imprint({
 
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">
+                    Berufsrechtliche Angaben
+                  </h2>
+                  {/*
+                    Pflichtangabe nach § 5 Abs. 1 Nr. 5 DDG: Das Fliesenleger-
+                    handwerk ist seit 2020 wieder zulassungspflichtig (Anlage A
+                    HwO), deshalb sind Kammer, Berufsbezeichnung, verleihender
+                    Staat und die berufsrechtliche Regelung anzugeben.
+                    Die Zustaendigkeit der Handwerkskammer Reutlingen ist ueber
+                    den Sitz in Pfullingen abgeleitet – vor dem Live-Gang beim
+                    Kunden gegen den Handwerksrollen-Eintrag gegenpruefen.
+                  */}
+                  <p>
+                    Berufsbezeichnung: Fliesen-, Platten- und Mosaikleger
+                    <br />
+                    Verliehen in: Bundesrepublik Deutschland
+                    <br />
+                    Zuständige Kammer: Handwerkskammer Reutlingen
+                  </p>
+                  <p>
+                    Es gelten die Handwerksordnung (HwO) und die
+                    Berufsbildungsvorschriften des Fliesen-, Platten- und
+                    Mosaiklegerhandwerks, einsehbar unter{" "}
+                    <a
+                      href="https://www.gesetze-im-internet.de/hwo/"
+                      className="text-accent hover:opacity-80 transition-opacity"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      gesetze-im-internet.de/hwo
+                    </a>
+                    .
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl text-foreground mb-4">
                     Redaktionell verantwortlich
                   </h2>
                   <p>
