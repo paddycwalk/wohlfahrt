@@ -22,6 +22,44 @@ export const runtime = "nodejs";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** Obergrenzen je Feld – schuetzen Postfach und Mail-Client vor Muell. */
+const MAX = { name: 120, email: 160, phone: 60, message: 5000 } as const;
+
+/**
+ * Einfache Drosselung pro IP.
+ *
+ * Bewusst im Prozessspeicher statt mit externem Store: auf Vercel hat jede
+ * Lambda-Instanz ihren eigenen Zaehler, das Limit greift also nicht global –
+ * gegen das realistische Szenario (ein Bot, der dieselbe Instanz mit
+ * Anfragen flutet) reicht es aber und kostet keine Infrastruktur. Reicht das
+ * nicht mehr, ist Upstash/Vercel KV der naechste Schritt.
+ */
+const RATE_LIMIT = { max: 5, windowMs: 10 * 60 * 1000 } as const;
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT.windowMs,
+  );
+  // Aufraeumen, damit die Map in einer lang laufenden Instanz nicht waechst.
+  if (hits.size > 5000) hits.clear();
+  if (recent.length >= RATE_LIMIT.max) {
+    hits.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  hits.set(ip, recent);
+  return false;
+}
+
+/** Client-IP aus den Proxy-Headern (Vercel setzt beide). */
+function clientIp(req: NextRequest): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  return req.headers.get("x-real-ip") ?? "unknown";
+}
+
 /** HTML-Sonderzeichen maskieren, damit Nutzereingaben die Mail nicht brechen. */
 function escapeHtml(s: string): string {
   return s
@@ -37,6 +75,17 @@ function json(body: Record<string, unknown>, status = 200) {
 }
 
 export async function POST(req: NextRequest) {
+  if (isRateLimited(clientIp(req))) {
+    return json(
+      {
+        success: false,
+        error:
+          "Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es später erneut oder rufen Sie uns an.",
+      },
+      429,
+    );
+  }
+
   let data: Record<string, unknown>;
   try {
     data = await req.json();
@@ -70,6 +119,17 @@ export async function POST(req: NextRequest) {
   if (!consent) {
     return json(
       { success: false, error: "Bitte der Datenverarbeitung zustimmen." },
+      400,
+    );
+  }
+  if (
+    name.length > MAX.name ||
+    email.length > MAX.email ||
+    phone.length > MAX.phone ||
+    message.length > MAX.message
+  ) {
+    return json(
+      { success: false, error: "Die Eingaben sind zu lang." },
       400,
     );
   }
@@ -118,8 +178,10 @@ export async function POST(req: NextRequest) {
     await transporter.sendMail({
       from: `"Website Wohlfahrt & Wohlfahrt" <${SMTP_USER}>`,
       to,
-      replyTo: `"${name}" <${email}>`,
-      subject: `Website Kontaktformular – ${name}`,
+      // Zeilenumbrueche aus dem Anzeigenamen entfernen: sonst liesse sich
+      // ueber den Namen ein zusaetzlicher Mail-Header einschleusen.
+      replyTo: `"${name.replace(/[\r\n"]/g, " ")}" <${email}>`,
+      subject: `Website Kontaktformular – ${name.replace(/[\r\n]/g, " ")}`,
       text: lines.join("\n"),
       html,
     });
