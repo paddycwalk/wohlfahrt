@@ -500,16 +500,17 @@ function SeriesCard({
         <Images size={13} />
         {series.images.length}
       </div>
-      <div className="absolute inset-0 p-5 flex flex-col justify-end">
-        <h4 className="text-lg md:text-xl text-white leading-tight">
-          {series.title}
-          {series.articleNumber && (
-            <span className="ml-2 inline-block align-middle bg-black/55 backdrop-blur-sm text-white text-sm md:text-base tracking-wide whitespace-nowrap px-2.5 py-1 rounded-full">
-              Art.-Nr. {series.articleNumber}
-            </span>
-          )}
-        </h4>
-      </div>
+      {/* Der Serientitel wird auf der Kachel bewusst nicht angezeigt - sichtbar
+          bleibt nur die Artikelnummer. Der Titel bleibt in den Daten erhalten
+          (alt-Text, aria-label, Storyblok); die Zuordnung Serie <-> Art.-Nr.
+          steht in docs/produkt-serien-artikelnummern.md. */}
+      {series.articleNumber && (
+        <div className="absolute inset-0 p-5 flex flex-col justify-end items-start">
+          <span className="bg-black/55 backdrop-blur-sm text-white text-sm md:text-base tracking-wide whitespace-nowrap px-2.5 py-1 rounded-full">
+            Art.-Nr. {series.articleNumber}
+          </span>
+        </div>
+      )}
     </motion.button>
   );
 }
