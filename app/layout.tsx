@@ -18,6 +18,8 @@ import {
   OG_IMAGE,
   LOCALE,
 } from "@/site/config/seo";
+import { BUSINESS_ID, graph, websiteJsonLd } from "@/site/config/jsonld";
+import { JsonLd } from "@/site/components/atoms/JsonLd";
 
 // Vercel-Vorschau-Deployments (Branch-/Preview-Builds) NICHT indexieren –
 // nur die Produktions-Domain soll in Google landen. Lokal (kein VERCEL_ENV)
@@ -92,7 +94,7 @@ function buildJsonLd(s: SiteSettings) {
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
-    "@id": `${SITE_URL}/#business`,
+    "@id": BUSINESS_ID,
     name: SITE_NAME,
     alternateName: "W&W Fliesen",
     description: DEFAULT_DESCRIPTION,
@@ -118,6 +120,9 @@ function buildJsonLd(s: SiteSettings) {
     },
     openingHoursSpecification: openingHoursSpecification(s),
     areaServed: ["Pfullingen", "Reutlingen", "Tübingen", "Baden-Württemberg"],
+    // Explizite Fakten, die KI-Suchen sonst aus dem Fliesstext raten muessten.
+    knowsLanguage: "de-DE",
+    slogan: s.tagline,
     sameAs: [s.social.facebook, s.social.instagram].filter(Boolean),
   };
 }
@@ -144,12 +149,10 @@ export default async function RootLayout({
   return (
     <html lang="de">
       <head>
-        {/* Strukturierte Daten (LocalBusiness) fuer Suchmaschinen */}
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {/* Strukturierte Daten: Betrieb + Website als verknuepfter Graph.
+            Unterseiten haengen ihre Knoten per `@id` daran (siehe
+            src/site/config/jsonld.ts). */}
+        <JsonLd data={graph([jsonLd, websiteJsonLd()])} />
         {/* Selbst gehostete @font-face-Regeln (Base-Path-bewusst) */}
         <style
           // eslint-disable-next-line react/no-danger

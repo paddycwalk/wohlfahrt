@@ -179,8 +179,15 @@ Bereits eingerichtet:
 
 - **Per-Page-Metadaten** (Titel, Description, Canonical) – zentral gepflegt in
   [`src/site/config/seo.ts`](src/site/config/seo.ts)
-- **Open Graph** & **Twitter Cards** inkl. Vorschaubild (`public/og-image.jpg`, 1200×630)
-- **JSON-LD** Strukturdaten (`HomeAndConstructionBusiness`) im Root-Layout
+- **Open Graph** & **Twitter Cards** inkl. Vorschaubild (`OG_IMAGE` in `src/site/config/seo.ts`, auf Storyblok gehostet, 1200×630)
+- **JSON-LD** Strukturdaten als verknuepfter `@graph`: `HomeAndConstructionBusiness`
+  + `WebSite` im Root-Layout, je Unterseite `BreadcrumbList` + `WebPage`
+  (bzw. `AboutPage`/`ContactPage`/`CollectionPage`), dazu `ItemList` mit
+  `Service` auf /leistungen und `BlogPosting` auf /aktuelles –
+  zentral in [`src/site/config/jsonld.ts`](src/site/config/jsonld.ts)
+- **Sicherheits-Header** (`nosniff`, `Referrer-Policy`, `Permissions-Policy`,
+  `frame-ancestors`, HSTS) in [`next.config.mjs`](next.config.mjs)
+- **`/llms.txt`** mit Firmen- und Seitenuebersicht fuer KI-Suchen
 - automatisch generierte **`sitemap.xml`**, **`robots.txt`** und **`manifest.webmanifest`**
 - `theme-color`, Favicon und Apple-Touch-Icon
 
