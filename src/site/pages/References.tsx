@@ -29,6 +29,17 @@ function resolveImage(src: string): string {
  */
 const PROJECT_SIZES = "(min-width: 768px) 66vw, 100vw";
 
+/**
+ * Spaltenzahl der zweiten Reihe, abhaengig von der Anzahl der restlichen
+ * Kacheln. Tailwind scannt Klassennamen statisch – daher eine Tabelle statt
+ * einer Interpolation.
+ */
+const ROW_2_COLS: Record<number, string> = {
+  1: "md:grid-cols-1",
+  2: "md:grid-cols-2",
+  3: "md:grid-cols-3",
+};
+
 export function References({
   content = defaultReferencesContent,
 }: {
@@ -38,6 +49,10 @@ export function References({
 
   const projects = content.projects;
   const images = projects.map((p) => resolveImage(p.image));
+  // Bewusst aus der Liste abgeleitet statt fest verdrahtet: eine in Storyblok
+  // geloeschte Referenz darf die Seite nicht mit einem undefined-Zugriff killen.
+  const leadProjects = projects.slice(0, 2);
+  const restProjects = projects.slice(2);
 
   return (
     <div className="overflow-hidden" {...sbEditable(content.editable)}>
@@ -52,7 +67,7 @@ export function References({
           >
             <ImageWithFallback
               src={resolveImage(content.heroImage)}
-              alt="References"
+              alt={`${content.heroTitle} – ${content.heroEyebrow} von Wohlfahrt & Wohlfahrt`}
               className="w-full h-full object-cover"
               priority
               width={1920}
@@ -87,42 +102,40 @@ export function References({
           />
 
           <div className="space-y-4">
-            {/* Row 1: Large + Small */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              <GalleryItem
-                project={projects[0]}
-                index={0}
-                onClick={() => setSelectedImage(0)}
-                className="md:col-span-8 h-[300px] md:h-[500px]"
-              />
-              <GalleryItem
-                project={projects[1]}
-                index={1}
-                onClick={() => setSelectedImage(1)}
-                className="md:col-span-4 h-[300px] md:h-[500px]"
-              />
-            </div>
-            {/* Row 2: Three equal */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <GalleryItem
-                project={projects[2]}
-                index={2}
-                onClick={() => setSelectedImage(2)}
-                className="h-[300px] md:h-[400px]"
-              />
-              <GalleryItem
-                project={projects[3]}
-                index={3}
-                onClick={() => setSelectedImage(3)}
-                className="h-[300px] md:h-[400px]"
-              />
-              <GalleryItem
-                project={projects[4]}
-                index={4}
-                onClick={() => setSelectedImage(4)}
-                className="h-[300px] md:h-[400px]"
-              />
-            </div>
+            {/* Reihe 1: eine grosse + eine schmale Kachel */}
+            {leadProjects.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                {leadProjects.map((project, i) => (
+                  <GalleryItem
+                    key={`${project.title}-${i}`}
+                    project={project}
+                    index={i}
+                    onClick={() => setSelectedImage(i)}
+                    className={`${
+                      leadProjects.length === 1
+                        ? "md:col-span-12"
+                        : i === 0
+                          ? "md:col-span-8"
+                          : "md:col-span-4"
+                    } h-[300px] md:h-[500px]`}
+                  />
+                ))}
+              </div>
+            )}
+            {/* Reihe 2: alle weiteren Kacheln, dreispaltig */}
+            {restProjects.length > 0 && (
+              <div className={`grid grid-cols-1 gap-4 ${ROW_2_COLS[restProjects.length] ?? "md:grid-cols-3"}`}>
+                {restProjects.map((project, i) => (
+                  <GalleryItem
+                    key={`${project.title}-${i + 2}`}
+                    project={project}
+                    index={i + leadProjects.length}
+                    onClick={() => setSelectedImage(i + leadProjects.length)}
+                    className="h-[300px] md:h-[400px]"
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
