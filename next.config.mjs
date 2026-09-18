@@ -3,6 +3,12 @@
 // per Incremental Static Regeneration – dadurch sind der Storyblok Visual
 // Editor (Draft-Vorschau) und "Veroeffentlichen -> kurz danach live" moeglich.
 const nextConfig = {
+  // Eigenstaendiges Server-Bundle nach .next/standalone: Next kopiert dorthin
+  // den Server und nur die tatsaechlich benoetigten node_modules. Damit wird
+  // auf dem Zielserver weder "npm install" noch ein Build gebraucht – wichtig,
+  // weil der Strato-VPS mit 1,8 GB RAM einen Next-Build nicht durchhaelt.
+  // Gebaut wird lokal, hochgeladen wird nur das Ergebnis.
+  output: "standalone",
   // Bilder nicht ueber den Next-Optimierungsserver leiten (u. a. externe
   // Storyblok-Assets werden direkt ausgeliefert).
   images: { unoptimized: true },

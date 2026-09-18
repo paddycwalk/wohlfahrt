@@ -32,5 +32,20 @@ export const isStoryblokEnabled = Boolean(TOKEN);
 
 /** Storyblok-Client (nur initialisiert, wenn ein Token vorhanden ist). */
 export const storyblokClient: StoryblokClient | null = TOKEN
-  ? new StoryblokClient({ accessToken: TOKEN, region: REGION })
+  ? new StoryblokClient({
+      accessToken: TOKEN,
+      region: REGION,
+      // Kein Zwischenspeicher.
+      //
+      // Der Client legt sonst alle Antworten im Arbeitsspeicher ab und leert
+      // sie per Voreinstellung nur manuell (`cache: { clear: "manual" }`).
+      // Auf Vercel faellt das nicht auf, weil dort staendig neue Instanzen
+      // starten. Auf einem eigenen Server laeuft aber ein einziger Prozess
+      // dauerhaft – dort blieben veroeffentlichte Aenderungen bis zum
+      // naechsten Neustart unsichtbar.
+      //
+      // Die Seiten werden ohnehin pro Anfrage gerendert, ein Storyblok-Abruf
+      // je Seitenaufruf ist also der beabsichtigte Weg.
+      cache: { type: "none" },
+    })
   : null;
