@@ -47,5 +47,10 @@ export const storyblokClient: StoryblokClient | null = TOKEN
       // Die Seiten werden ohnehin pro Anfrage gerendert, ein Storyblok-Abruf
       // je Seitenaufruf ist also der beabsichtigte Weg.
       cache: { type: "none" },
+      // Zweite Cache-Ebene: Next.js ersetzt das globale `fetch` durch eine
+      // eigene Fassung, die Antworten im Arbeitsspeicher behaelt. Das wirkt
+      // zusaetzlich zum Client-Cache oben – ohne `no-store` blieb eine frisch
+      // veroeffentlichte Aenderung bis zum naechsten Neustart unsichtbar.
+      fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
     })
   : null;
