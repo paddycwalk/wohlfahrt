@@ -34,10 +34,14 @@ const nextConfig = {
   // Dauerhafte Weiterleitungen der alten WordPress-Seite.
   //
   // Beim Domain-Umzug wuerden diese URLs sonst auf 404 laufen und ihre bei
-  // Google aufgebaute Bewertung verlieren. Quelle: die noch aktive
-  // sitemap-1.xml der Altseite. Alle uebrigen Alt-URLs (/ueber-uns/,
-  // /aktuelles/, /impressum/, /datenschutz/, /kontakt/, /karriere/,
-  // /ausstellung/, /produkte/, /referenzen/) sind identisch geblieben.
+  // Google aufgebaute Bewertung verlieren. Die Altseite betreibt zwei
+  // Sitemaps parallel: die von Jetpack (sitemap-1.xml, Seiten und Beitraege)
+  // und die von Yoast (sitemap_index.xml, zusaetzlich Kategorie-, Autoren-,
+  // Ticker- und Anhangseiten). Beide sind hier ausgewertet.
+  //
+  // Alle uebrigen Alt-URLs (/ueber-uns/, /aktuelles/, /impressum/,
+  // /datenschutz/, /kontakt/, /karriere/, /ausstellung/, /produkte/,
+  // /referenzen/) sind identisch geblieben und brauchen keinen Eintrag.
   async redirects() {
     const map = {
       "/disclaimer": "/haftungsausschluss/",
@@ -48,6 +52,27 @@ const nextConfig = {
       "/sonderangebote_feinsteinzeugfliesen_2": "/produkte/",
       "/sonderangebote_terassenplatten": "/produkte/",
       "/feinsteinzeug-30x60-2": "/produkte/",
+      // Archivseiten von WordPress (Kategorie, Autor, Ditty-News-Ticker). Auf
+      // der neuen Seite gibt es dafuer keine Entsprechung. Erst die konkret
+      // indexierten URLs – die treffen exakt und landen ohne angehaengten
+      // Query-Parameter am Ziel –, danach ein Platzhalter, der auch die
+      // paginierten Archive (/category/allgemein/page/2/) einsammelt.
+      "/category/allgemein": "/aktuelles/",
+      "/category/sonderangebote": "/aktuelles/",
+      "/author/uwuvowo2015": "/ueber-uns/",
+      "/ticker/546": "/aktuelles/",
+      "/ticker/626": "/aktuelles/",
+      "/ticker/angebote": "/aktuelles/",
+      "/ticker/testticker": "/aktuelles/",
+      "/category/:path*": "/aktuelles/",
+      "/author/:path*": "/ueber-uns/",
+      "/ticker/:path*": "/aktuelles/",
+      // WordPress legte fuer jedes hochgeladene Bild eine eigene Anhangseite
+      // an. Vier davon stehen in der Yoast-Sitemap und sind damit indexiert.
+      "/aktuelles/dscf0079-2": "/aktuelles/",
+      "/ausstellung/dscf0085": "/ausstellung/",
+      "/sonderangebote_terassenplatten/img_4122": "/produkte/",
+      "/feinsteinzeug-30x60-2/image001": "/produkte/",
     };
     return Object.entries(map).map(([source, destination]) => ({
       source,
