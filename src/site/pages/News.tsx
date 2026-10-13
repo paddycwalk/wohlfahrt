@@ -5,6 +5,7 @@ import { RevealText } from "../components/molecules/RevealText";
 import { defaultNewsContent, type NewsContent } from "../content/pages/news";
 import { sbEditable } from "../lib/editable";
 import { storyblokImgProps } from "@/site/lib/image";
+import { germanDateToIso } from "@/site/config/jsonld";
 
 export function News({
   content = defaultNewsContent,
@@ -19,7 +20,7 @@ export function News({
       <section className="bg-primary text-white py-24 md:py-40">
         <div className="container mx-auto px-4">
           <RevealText>
-            <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4">
+            <p className="text-xs tracking-[0.4em] text-accent-on-dark uppercase mb-4">
               {content.heroEyebrow}
             </p>
           </RevealText>
@@ -54,7 +55,10 @@ export function News({
                           // Feste Spalte ab md, darunter volle Breite.
                           "(min-width: 768px) 224px, 92vw",
                         )}
-                        alt={item.title}
+                        // Rein illustrierend: die Ueberschrift daneben nennt
+                        // bereits den Titel, ein gleichlautender Alt-Text
+                        // wuerde ihn doppelt vorlesen.
+                        alt=""
                         loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
                       />
@@ -65,9 +69,14 @@ export function News({
                       <span className="text-xs tracking-[0.15em] text-accent uppercase px-3 py-1 border border-accent/30">
                         {item.category}
                       </span>
-                      <p className="text-xs text-muted-foreground tracking-[0.1em]">
+                      <time
+                        // Maschinenlesbares Datum fuer Suchmaschinen; faellt
+                        // weg, wenn sich der CMS-Text nicht sicher lesen laesst.
+                        dateTime={germanDateToIso(item.date)}
+                        className="text-xs text-muted-foreground tracking-[0.1em]"
+                      >
                         {item.date}
-                      </p>
+                      </time>
                     </div>
                     <h2 className="text-2xl md:text-3xl mb-3">{item.title}</h2>
                     <p className="text-muted-foreground text-sm">

@@ -3,6 +3,7 @@ import { Services } from "@/site/pages/Services";
 import { buildMetadata } from "@/site/config/seo";
 import { getServicesContent } from "@/site/content";
 import {
+  AREA_SERVED,
   BUSINESS_ID,
   breadcrumbJsonLd,
   graph,
@@ -35,12 +36,7 @@ export default async function Page() {
         image: stripFocus(service.image),
         serviceType: service.title,
         provider: { "@id": BUSINESS_ID },
-        areaServed: [
-          "Pfullingen",
-          "Reutlingen",
-          "Tübingen",
-          "Baden-Württemberg",
-        ],
+        areaServed: AREA_SERVED,
       },
     })),
   };

@@ -17,8 +17,16 @@ import {
   DEFAULT_DESCRIPTION,
   OG_IMAGE,
   LOCALE,
+  INDEXABLE_ROBOTS,
 } from "@/site/config/seo";
-import { BUSINESS_ID, graph, websiteJsonLd } from "@/site/config/jsonld";
+import {
+  AREA_SERVED,
+  BUSINESS_ID,
+  KNOWS_ABOUT,
+  graph,
+  mapsSearchUrl,
+  websiteJsonLd,
+} from "@/site/config/jsonld";
 import { JsonLd } from "@/site/components/atoms/JsonLd";
 
 // Vercel-Vorschau-Deployments (Branch-/Preview-Builds) NICHT indexieren –
@@ -53,19 +61,7 @@ export const metadata: Metadata = {
     "Ausstellung Fliesen",
   ],
   alternates: { canonical: "/" },
-  robots: IS_PREVIEW
-    ? { index: false, follow: false }
-    : {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-          "max-video-preview": -1,
-        },
-      },
+  robots: IS_PREVIEW ? { index: false, follow: false } : INDEXABLE_ROBOTS,
   openGraph: {
     type: "website",
     url: SITE_URL,
@@ -96,6 +92,7 @@ function buildJsonLd(s: SiteSettings) {
     "@type": "HomeAndConstructionBusiness",
     "@id": BUSINESS_ID,
     name: SITE_NAME,
+    legalName: s.legalName,
     alternateName: "W&W Fliesen",
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
@@ -118,9 +115,21 @@ function buildJsonLd(s: SiteSettings) {
       latitude: s.geo.latitude,
       longitude: s.geo.longitude,
     },
+    hasMap: mapsSearchUrl(`${s.street}, ${s.zip} ${s.city}`),
     openingHoursSpecification: openingHoursSpecification(s),
-    areaServed: ["Pfullingen", "Reutlingen", "Tübingen", "Baden-Württemberg"],
+    // Am Betrieb selbst statt nur auf der Kontaktseite: Google wertet
+    // Strukturdaten je Seite aus, der Kontaktweg soll ueberall gelten.
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: s.phoneHref,
+      email: s.email,
+      availableLanguage: ["de"],
+      areaServed: "DE",
+    },
+    areaServed: AREA_SERVED,
     // Explizite Fakten, die KI-Suchen sonst aus dem Fliesstext raten muessten.
+    knowsAbout: KNOWS_ABOUT,
     knowsLanguage: "de-DE",
     slogan: s.tagline,
     sameAs: [s.social.facebook, s.social.instagram].filter(Boolean),

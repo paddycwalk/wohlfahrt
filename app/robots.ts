@@ -24,21 +24,24 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
       // KI-Crawler explizit erlauben (bessere Auffindbarkeit in ChatGPT,
-      // Claude, Perplexity, Google Gemini)
+      // Claude, Perplexity, Google Gemini, Apple Intelligence). Je Anbieter
+      // getrennt: Training, Suchindex und Abruf im Auftrag eines Nutzers.
       {
         userAgent: [
           "GPTBot",
           "OAI-SearchBot",
           "ChatGPT-User",
           "ClaudeBot",
-          "Claude-Web",
+          "Claude-SearchBot",
+          "Claude-User",
           "PerplexityBot",
+          "Perplexity-User",
           "Google-Extended",
+          "Applebot-Extended",
         ],
         allow: "/",
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
   };
 }

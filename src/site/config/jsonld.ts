@@ -22,6 +22,41 @@ import { SITE_NAME, SITE_URL, pageSeo, type PageKey } from "./seo";
 export const BUSINESS_ID = `${SITE_URL}/#business`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
+/**
+ * Einzugsgebiet als benannte Orte statt loser Zeichenketten – so ordnen
+ * Suchmaschinen und KI-Suchen die Namen eindeutig als Staedte bzw. Bundesland
+ * ein. Wird vom Betrieb und von jeder Leistung referenziert.
+ */
+export const AREA_SERVED = [
+  { "@type": "City", name: "Pfullingen" },
+  { "@type": "City", name: "Reutlingen" },
+  { "@type": "City", name: "Tübingen" },
+  { "@type": "State", name: "Baden-Württemberg" },
+];
+
+/**
+ * Fachgebiete des Betriebs (schema.org `knowsAbout`). Beantwortet Fragen wie
+ * "Wer verlegt Grossformatfliesen bei Reutlingen?" ohne dass eine KI-Suche den
+ * Fliesstext auswerten muss.
+ */
+export const KNOWS_ABOUT = [
+  "Fliesenverlegung",
+  "Naturstein",
+  "Mosaik",
+  "Badsanierung",
+  "Barrierefreie Bäder",
+  "Balkon- und Terrassensanierung",
+  "Fliesenheizung",
+  "Silikonverfugung",
+  "Wasserschadensanierung",
+  "Abdichtung",
+];
+
+/** Google-Maps-Suchlink zu einer Adresse (ohne API-Schluessel, ohne Einbettung). */
+export function mapsSearchUrl(address: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
 /** Vollstaendige URL einer Seite (mit abschliessendem Slash, wie die Sitemap). */
 export function pageUrl(key: PageKey): string {
   return `${SITE_URL}${pageSeo[key].path}`;

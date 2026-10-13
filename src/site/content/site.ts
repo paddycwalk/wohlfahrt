@@ -94,9 +94,13 @@ export const defaultSiteSettings: SiteSettings = {
     facebook: "https://www.facebook.com/FliesenWohlfahrt/",
     instagram: "https://www.instagram.com/fliesen_wohlfahrt/",
   },
-  geo: { latitude: 48.4658, longitude: 9.2256 },
+  // Gebaeude Hinterer Spielbach 4 laut OpenStreetMap. Fuer JSON-LD und lokale
+  // Suche zaehlt die Hausposition, nicht die Ortsmitte.
+  geo: { latitude: 48.47235, longitude: 9.23452 },
+  // Adress-Suche (`!2m1!1s<Adresse>`, Zoom `!6i16`) statt fester Koordinaten:
+  // Google setzt die Nadel selbst auf die Adresse, ohne API-Schluessel.
   mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2637.5!2d9.2252!3d48.4525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799ed6e5e6b1b1d%3A0x0!2sHinterer%20Spielbach%204%2C%2072793%20Pfullingen!5e0!3m2!1sde!2sde!4v1234567890",
+    "https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1sHinterer+Spielbach+4,+72793+Pfullingen!6i16",
 
   mainNav: [
     { name: "Startseite", path: "/" },
@@ -109,11 +113,18 @@ export const defaultSiteSettings: SiteSettings = {
     { name: "Karriere", path: "/karriere" },
     { name: "Kontakt", path: "/kontakt" },
   ],
+  // Alle Hauptseiten: das Menue-Overlay existiert erst nach dem Klick im DOM,
+  // fuer Suchmaschinen ist der Footer daher die einzige seitenweite
+  // Verlinkung. Fehlte eine Seite hier, war sie praktisch verwaist.
   footerQuickLinks: [
     { name: "Über uns", path: "/ueber-uns" },
     { name: "Leistungen", path: "/leistungen" },
+    { name: "Ausstellung", path: "/ausstellung" },
+    { name: "Referenzen", path: "/referenzen" },
     { name: "Produkte", path: "/produkte" },
+    { name: "Aktuelles", path: "/aktuelles" },
     { name: "Karriere", path: "/karriere" },
+    { name: "Kontakt", path: "/kontakt" },
   ],
   legalNav: [
     { name: "Impressum", path: "/impressum" },

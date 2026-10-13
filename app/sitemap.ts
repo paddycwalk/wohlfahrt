@@ -1,11 +1,29 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, pageSeo, type PageKey } from "@/site/config/seo";
+import { getStoryPublishedDates } from "@/site/content";
 
-// Statischer Export benoetigt diese Angabe fuer Routen-Handler.
-export const dynamic = "force-static";
+// Kein `force-static` mehr: die Sitemap wird pro Abruf erzeugt (der
+// Storyblok-Client fragt ohne Cache), ein in Storyblok veroeffentlichtes
+// Aenderungsdatum steht also ohne neues Deployment darin.
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+/** Storyblok-Story je Seite – Quelle fuer das Aenderungsdatum. */
+const STORY_SLUG: Record<PageKey, string> = {
+  home: "home",
+  about: "ueber-uns",
+  services: "leistungen",
+  showroom: "ausstellung",
+  references: "referenzen",
+  products: "produkte",
+  news: "aktuelles",
+  career: "karriere",
+  contact: "kontakt",
+  privacy: "datenschutz",
+  disclaimer: "haftungsausschluss",
+  imprint: "impressum",
+};
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const published = await getStoryPublishedDates();
 
   // Prioritaeten je nach Wichtigkeit der Seite
   const priorities: Partial<Record<PageKey, number>> = {
@@ -25,10 +43,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return (Object.keys(pageSeo) as PageKey[])
     .filter((key) => !pageSeo[key].noindex)
-    .map((key) => ({
-      url: `${SITE_URL}${pageSeo[key].path}`,
-      lastModified: now,
-      changeFrequency: key === "home" || key === "news" ? "weekly" : "monthly",
-      priority: priorities[key] ?? 0.5,
-    }));
+    .map((key) => {
+      // Google wertet `lastmod` nur, solange es verlaesslich ist. Das echte
+      // Veroeffentlichungsdatum der Story statt der Build-Zeit – und lieber
+      // keine Angabe als eine, die bei jedem Deployment "heute" meldet.
+      const lastModified = published.get(STORY_SLUG[key]);
+      return {
+        url: `${SITE_URL}${pageSeo[key].path}`,
+        ...(lastModified ? { lastModified } : {}),
+        changeFrequency:
+          key === "home" || key === "news" ? "weekly" : "monthly",
+        priority: priorities[key] ?? 0.5,
+      };
+    });
 }

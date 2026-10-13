@@ -1038,6 +1038,34 @@ async function loadDisclaimerContent(): Promise<LegalContent> {
   );
 }
 
+/**
+ * Veroeffentlichungsdatum je Story (`full_slug` -> ISO-Zeitpunkt) fuer die
+ * Sitemap. Immer die veroeffentlichte Fassung – Entwuerfe aendern fuer
+ * Suchmaschinen nichts. Ohne Storyblok oder bei Fehlern eine leere Map; die
+ * Sitemap laesst `lastModified` dann weg statt ein falsches Datum zu melden.
+ */
+export async function getStoryPublishedDates(): Promise<Map<string, string>> {
+  const dates = new Map<string, string>();
+  if (!isStoryblokEnabled || !storyblokClient) return dates;
+
+  try {
+    const { data } = await storyblokClient.get("cdn/stories", {
+      version: "published",
+      per_page: 100,
+      // Nur die Metadaten werden gebraucht, nicht die Inhalte.
+      excluding_fields: "body,services,team,collections,categories,items",
+    });
+    for (const story of data?.stories ?? []) {
+      if (story.full_slug && story.published_at) {
+        dates.set(story.full_slug, story.published_at);
+      }
+    }
+  } catch (err) {
+    console.warn("[storyblok] getStoryPublishedDates fehlgeschlagen:", err);
+  }
+  return dates;
+}
+
 /* -------------------------------------------------------------------------
  * Oeffentliche Getter
  * ---------------------------------------------------------------------- */
