@@ -108,29 +108,57 @@ export function Privacy({
                 <section>
                   <h2 className="text-2xl text-foreground mb-4">3. Hosting</h2>
                   <p>
-                    Wir hosten die Inhalte unserer Website bei folgendem
-                    Anbieter:
+                    Wir hosten unsere Website auf einem eigenen virtuellen
+                    Server bei folgendem Anbieter:
                   </p>
                   <p>
-                    ALL-INKL.COM – Neue Medien Münnich, Inhaber: René Münnich,
-                    Hauptstraße 68, 02742 Friedersdorf (nachfolgend „All-Inkl").
+                    STRATO GmbH, Otto-Ostrowski-Straße 7, 10249 Berlin
+                    (nachfolgend „Strato").
                   </p>
                   <p>
-                    Wenn Sie unsere Website besuchen, erfasst All-Inkl
-                    verschiedene Logfiles inklusive Ihrer IP-Adressen. Die
-                    Erfassung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f
-                    DSGVO. Wir haben ein berechtigtes Interesse an einer
-                    möglichst zuverlässigen Darstellung unserer Website. Die
-                    Verwendung von All-Inkl erfolgt zum Zweck einer sicheren,
-                    schnellen und effizienten Bereitstellung unseres
-                    Online-Angebots durch einen professionellen Anbieter.
+                    Der Server steht in einem Rechenzentrum in Deutschland. Wenn
+                    Sie unsere Website besuchen, werden dort Ihre IP-Adresse und
+                    die in Abschnitt 6 genannten Server-Log-Files verarbeitet.
+                    Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1
+                    lit. f DSGVO. Wir haben ein berechtigtes Interesse an einer
+                    sicheren, schnellen und zuverlässigen Bereitstellung unseres
+                    Online-Angebots.
                   </p>
                   <p>
-                    Mit All-Inkl haben wir einen Vertrag über
-                    Auftragsverarbeitung (AVV) gemäß Art. 28 DSGVO geschlossen.
-                    Dieser stellt sicher, dass die personenbezogenen Daten
-                    unserer Websitebesucher nur nach unseren Weisungen und unter
-                    Einhaltung der DSGVO verarbeitet werden.
+                    Mit Strato haben wir einen Vertrag über Auftragsverarbeitung
+                    (AVV) gemäß Art. 28 DSGVO geschlossen. Dieser stellt sicher,
+                    dass die personenbezogenen Daten unserer Websitebesucher nur
+                    nach unseren Weisungen und unter Einhaltung der DSGVO
+                    verarbeitet werden.
+                  </p>
+                  <h3 className="text-xl text-foreground mb-2 mt-4">
+                    Inhaltsverwaltung und Bildauslieferung (Storyblok)
+                  </h3>
+                  <p>
+                    Die Inhalte dieser Website pflegen wir mit dem
+                    Content-Management-System Storyblok. Anbieter ist die
+                    Storyblok GmbH, Peter-Behrens-Platz 2, 4020 Linz, Österreich
+                    (nachfolgend „Storyblok").
+                  </p>
+                  <p>
+                    Die Bilder unserer Seiten lädt Ihr Browser direkt von den
+                    Servern von Storyblok (a.storyblok.com). Dabei werden Ihre
+                    IP-Adresse sowie technische Angaben wie Browsertyp,
+                    aufgerufene Datei und Zeitpunkt des Abrufs an Storyblok
+                    übermittelt. Die Verarbeitung erfolgt auf Grundlage von Art.
+                    6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse
+                    an einer einfachen Pflege unserer Inhalte und einer
+                    schnellen Auslieferung der Bilder.
+                  </p>
+                  <p>
+                    Für die Auslieferung setzt Storyblok das Content Delivery
+                    Network von Amazon Web Services ein. Dabei kann eine
+                    Verarbeitung in Drittländern wie den USA nicht ausgeschlossen
+                    werden. Sie wird auf die Standardvertragsklauseln der
+                    EU-Kommission gestützt; Amazon Web Services ist zudem unter
+                    dem EU-US Data Privacy Framework (DPF) zertifiziert. Mit
+                    Storyblok besteht ein Vertrag über Auftragsverarbeitung gemäß
+                    Art. 28 DSGVO.
                   </p>
                 </section>
 
@@ -223,9 +251,10 @@ export function Privacy({
                     6. Server-Log-Files
                   </h2>
                   <p>
-                    Der Provider dieser Seiten erhebt und speichert automatisch
-                    Informationen in so genannten Server-Log-Files, die Ihr
-                    Browser automatisch an uns übermittelt. Dies sind:
+                    Beim Aufruf dieser Website werden auf unserem Server
+                    automatisch Informationen in so genannten Server-Log-Files
+                    erhoben und gespeichert, die Ihr Browser automatisch
+                    übermittelt. Dies sind:
                   </p>
                   <ul className="list-disc pl-6 space-y-1">
                     <li>Browsertyp und Browserversion</li>
@@ -257,8 +286,10 @@ export function Privacy({
                     Nachricht) inklusive der von Ihnen dort angegebenen
                     Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall
                     von Anschlussfragen bei uns gespeichert. Für den Versand
-                    nutzen wir den E-Mail-Dienst unseres Providers All-Inkl.
-                    Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.
+                    nutzen wir den E-Mail-Dienst unseres E-Mail-Providers
+                    ALL-INKL.COM – Neue Medien Münnich, Hauptstraße 68, 02742
+                    Friedersdorf. Diese Daten geben wir nicht ohne Ihre
+                    Einwilligung weiter.
                   </p>
                   <p>
                     Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art.
@@ -385,7 +416,7 @@ export function Privacy({
                 </section>
 
                 <section className="mt-8 pt-8 border-t border-border">
-                  <p className="text-sm">Stand: Juli 2026</p>
+                  <p className="text-sm">Stand: Oktober 2026</p>
                 </section>
               </div>
             )}
