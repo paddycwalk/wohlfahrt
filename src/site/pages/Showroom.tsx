@@ -232,6 +232,7 @@ export function Showroom({
             label={content.featuresLabel}
             title={content.featuresTitle}
             centered
+            onDark
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 mt-16">
             {content.features.map((feature, index) => (

@@ -7,6 +7,11 @@ interface SectionHeaderProps {
   centered?: boolean;
   children?: ReactNode;
   label?: string;
+  /**
+   * Sektion mit dunklem Hintergrund: das Label nutzt dann das aufgehellte
+   * Akzentrot – das normale erreicht auf Schwarz nur 3,35:1 (WCAG AA: 4,5:1).
+   */
+  onDark?: boolean;
 }
 
 export function SectionHeader({
@@ -15,6 +20,7 @@ export function SectionHeader({
   centered = false,
   children,
   label,
+  onDark = false,
 }: SectionHeaderProps) {
   return (
     <motion.div
@@ -33,7 +39,9 @@ export function SectionHeader({
           className={`flex items-center gap-4 mb-6 ${centered ? "justify-center" : ""}`}
         >
           <div className="w-8 h-px bg-accent" />
-          <span className="text-xs tracking-[0.3em] text-accent uppercase">
+          <span
+            className={`text-xs tracking-[0.3em] uppercase ${onDark ? "text-accent-on-dark" : "text-accent"}`}
+          >
             {label}
           </span>
           <div className="w-8 h-px bg-accent" />

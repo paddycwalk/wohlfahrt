@@ -228,7 +228,7 @@ function GalleryItem({
       />
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500" />
       <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-        <span className="text-xs tracking-[0.2em] text-accent uppercase mb-2">
+        <span className="text-xs tracking-[0.2em] text-accent-on-dark uppercase mb-2">
           {project.category}
         </span>
         <h3 className="text-xl md:text-2xl text-white">{project.title}</h3>

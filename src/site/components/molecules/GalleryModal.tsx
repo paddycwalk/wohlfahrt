@@ -44,6 +44,14 @@ export function GalleryModal({
     };
   }, []);
 
+  // Fokus beim Schliessen dorthin zurueckgeben, wo er vorher war (die
+  // angeklickte Kachel). Sonst landen Tastatur- und Screenreader-Nutzer nach
+  // dem Schliessen am Seitenanfang (WCAG 2.4.3).
+  useEffect(() => {
+    const trigger = document.activeElement as HTMLElement | null;
+    return () => trigger?.focus({ preventScroll: true });
+  }, []);
+
   // Tastatursteuerung: Escape schliesst, Pfeiltasten navigieren, Tab bleibt im Dialog
   useEffect(() => {
     closeButtonRef.current?.focus();

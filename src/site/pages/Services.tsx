@@ -291,7 +291,7 @@ export function Services({
                 className="flex items-center gap-4 mb-6"
               >
                 <div className="w-8 h-px bg-accent" />
-                <span className="text-xs tracking-[0.3em] text-accent uppercase">
+                <span className="text-xs tracking-[0.3em] text-accent-on-dark uppercase">
                   {content.processEyebrow}
                 </span>
               </motion.div>

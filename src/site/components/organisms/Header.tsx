@@ -143,6 +143,10 @@ export function Header() {
             {/* Logo */}
             <Link
               to="/"
+              // Ein klarer Linkname statt "Logo" plus Firmenname: Screenreader
+              // lesen sonst "Wohlfahrt & Wohlfahrt Logo Wohlfahrt & Wohlfahrt
+              // Fliesen GmbH" vor, ohne das Ziel zu nennen.
+              aria-label={`${s.companyName} – zur Startseite`}
               className="relative z-[60] min-w-0"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
@@ -280,7 +284,10 @@ export function Header() {
                 <div className="container mx-auto px-4 md:px-8 w-full my-auto">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0">
                     {/* Main Nav Links */}
-                    <nav className="lg:col-span-8 xl:col-span-7">
+                    <nav
+                      aria-label="Hauptnavigation"
+                      className="lg:col-span-8 xl:col-span-7"
+                    >
                       {s.mainNav.map((item, index) => (
                         <motion.div
                           key={item.path}
@@ -296,6 +303,9 @@ export function Header() {
                         >
                           <Link
                             to={item.path}
+                            aria-current={
+                              currentPath === item.path ? "page" : undefined
+                            }
                             onClick={(e) => {
                               // Auf der aktuellen Seite navigiert der Link nicht –
                               // ein erneuter Klick schliesst stattdessen das Flyout.
@@ -327,6 +337,7 @@ export function Header() {
 
                             {/* Hover arrow */}
                             <svg
+                              aria-hidden="true"
                               className="w-5 h-5 text-white/0 group-hover:text-accent transition-all duration-300 group-hover:translate-x-1 ml-auto md:ml-0 shrink-0"
                               viewBox="0 0 24 24"
                               fill="none"
@@ -349,7 +360,7 @@ export function Header() {
                         className="space-y-8"
                       >
                         <div>
-                          <p className="text-[10px] tracking-[0.3em] text-accent uppercase mb-3">
+                          <p className="text-[10px] tracking-[0.3em] text-accent-on-dark uppercase mb-3">
                             Kontakt
                           </p>
                           <a
@@ -367,7 +378,7 @@ export function Header() {
                         </div>
 
                         <div>
-                          <p className="text-[10px] tracking-[0.3em] text-accent uppercase mb-3">
+                          <p className="text-[10px] tracking-[0.3em] text-accent-on-dark uppercase mb-3">
                             Adresse
                           </p>
                           <a
@@ -385,7 +396,7 @@ export function Header() {
                         </div>
 
                         <div>
-                          <p className="text-[10px] tracking-[0.3em] text-accent uppercase mb-3">
+                          <p className="text-[10px] tracking-[0.3em] text-accent-on-dark uppercase mb-3">
                             Social
                           </p>
                           <div className="flex gap-4">
@@ -395,7 +406,7 @@ export function Header() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Facebook"
-                                className="text-white/60 hover:text-accent transition-colors"
+                                className="text-white/60 hover:text-accent-on-dark transition-colors"
                               >
                                 <FacebookIcon size={20} />
                               </a>
@@ -406,7 +417,7 @@ export function Header() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"
-                                className="text-white/60 hover:text-accent transition-colors"
+                                className="text-white/60 hover:text-accent-on-dark transition-colors"
                               >
                                 <InstagramIcon size={20} />
                               </a>
@@ -470,7 +481,10 @@ export function Header() {
                       <Link
                         key={link.path}
                         to={link.path}
-                        className="text-white/60 text-[10px] tracking-[0.2em] uppercase hover:text-accent transition-colors"
+                        aria-current={
+                          currentPath === link.path ? "page" : undefined
+                        }
+                        className="text-white/60 text-[10px] tracking-[0.2em] uppercase hover:text-accent-on-dark transition-colors"
                       >
                         {link.name}
                       </Link>

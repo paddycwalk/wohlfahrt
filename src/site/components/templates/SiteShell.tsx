@@ -25,7 +25,9 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           Zum Inhalt springen
         </a>
         <Header />
-        <main id="hauptinhalt" tabIndex={-1} className="flex-1">
+        {/* `outline-none`: der Fokus landet hier nur als Sprungziel – ein
+            Rahmen um den gesamten Inhalt wuerde nichts anzeigen, nur stoeren. */}
+        <main id="hauptinhalt" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <Footer />

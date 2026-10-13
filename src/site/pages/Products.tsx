@@ -77,7 +77,7 @@ export function Products({
       <section className="bg-primary text-white py-24 md:py-40">
         <div className="container mx-auto px-4">
           <RevealText>
-            <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4">
+            <p className="text-xs tracking-[0.4em] text-accent-on-dark uppercase mb-4">
               {content.heroEyebrow}
             </p>
           </RevealText>
@@ -427,7 +427,9 @@ function ProductCard({
         duration: 0.6,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className={`group relative overflow-hidden cursor-pointer ${className}`}
+      // Kein `cursor-pointer`: die Kachel ist kein Link, der Hand-Cursor
+      // versprach einen Klick, der nichts tut.
+      className={`group relative overflow-hidden ${className}`}
       {...sbEditable(category.editable)}
     >
       <ImageWithFallback
@@ -449,7 +451,9 @@ function ProductCard({
         <h3 className="text-2xl md:text-3xl text-white mb-2">
           {category.title}
         </h3>
-        <p className="text-white/60 text-sm max-w-md opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+        {/* Auf Touch-Geraeten gibt es kein Hover – dort steht die
+            Beschreibung immer da. Nur mit Maus blendet sie beim Ueberfahren ein. */}
+        <p className="text-white/70 text-sm max-w-md transition-all duration-500 pointer-fine:opacity-0 pointer-fine:translate-y-2 pointer-fine:group-hover:opacity-100 pointer-fine:group-hover:translate-y-0">
           {category.description}
         </p>
       </div>

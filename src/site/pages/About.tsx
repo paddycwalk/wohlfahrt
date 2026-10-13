@@ -221,6 +221,7 @@ export function About({
           <SectionHeader
             label={content.timelineLabel}
             title={content.timelineTitle}
+            onDark
           />
           <div className="mt-16 max-w-3xl">
             {timeline.map((item, i) => (

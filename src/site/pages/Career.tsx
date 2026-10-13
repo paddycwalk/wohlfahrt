@@ -41,7 +41,7 @@ export function Career({
       <section className="bg-primary text-white py-24 md:py-40">
         <div className="container mx-auto px-4">
           <RevealText>
-            <p className="text-xs tracking-[0.4em] text-accent uppercase mb-4">
+            <p className="text-xs tracking-[0.4em] text-accent-on-dark uppercase mb-4">
               {content.heroEyebrow}
             </p>
           </RevealText>
@@ -177,7 +177,7 @@ export function Career({
           >
             <div className="flex items-center gap-4 mb-6">
               <div className="w-8 h-px bg-accent" />
-              <span className="text-xs tracking-[0.3em] text-accent uppercase">
+              <span className="text-xs tracking-[0.3em] text-accent-on-dark uppercase">
                 {content.trainingEyebrow}
               </span>
             </div>

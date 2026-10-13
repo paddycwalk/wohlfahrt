@@ -120,7 +120,8 @@ export function ImageWithFallback({
       <div className="flex items-center justify-center w-full h-full">
         <img
           src={ERROR_IMG_SRC}
-          alt="Error loading image"
+          // Die Bildbeschreibung bleibt gueltig, auch wenn die Datei fehlt.
+          alt={alt ?? ""}
           {...rest}
           data-original-url={src}
         />

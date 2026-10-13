@@ -68,9 +68,11 @@ export function SplitImageCard({
                 Wohlfahrt & Wohlfahrt
               </span>
             </div>
-            <h3 className="text-3xl md:text-5xl mb-8 tracking-tight">
+            {/* h2: jede Split-Karte ist ein eigener Abschnitt der Seite und
+                gehoert nicht unter die Ueberschrift der Sektion davor. */}
+            <h2 className="text-3xl md:text-5xl mb-8 tracking-tight">
               {title}
-            </h3>
+            </h2>
             {children}
           </motion.div>
         </div>

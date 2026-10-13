@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { FacebookIcon, InstagramIcon } from "../atoms/BrandIcons";
 import { Logo } from "../atoms/Logo";
@@ -11,6 +11,12 @@ export function Footer() {
   const s = useSiteSettings();
   const openingHours = openingHoursRows(s);
   const year = new Date().getFullYear();
+  // Wie im Header ohne abschliessenden Slash vergleichen (trailingSlash: true).
+  const { pathname } = useLocation();
+  const currentPath =
+    pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+  const current = (path: string) =>
+    currentPath === path ? ("page" as const) : undefined;
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -29,7 +35,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${s.companyName} auf Facebook`}
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent-on-dark transition-colors"
                 >
                   <FacebookIcon size={24} />
                 </a>
@@ -40,7 +46,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${s.companyName} auf Instagram`}
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent-on-dark transition-colors"
                 >
                   <InstagramIcon size={24} />
                 </a>
@@ -50,13 +56,16 @@ export function Footer() {
 
           {/* Quick Links */}
           <nav aria-label="Schnelllinks">
-            <h3 className="text-lg mb-4">Schnelllinks</h3>
+            {/* h2 statt h3: der Footer ist ein eigener Bereich neben <main>,
+                ein h3 ohne vorangehendes h2 waere ein Sprung in der Gliederung. */}
+            <h2 className="text-lg mb-4">Schnelllinks</h2>
             <ul className="space-y-2 text-sm">
               {s.footerQuickLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="hover:text-accent transition-colors"
+                    aria-current={current(link.path)}
+                    className="hover:text-accent-on-dark transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -67,7 +76,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg mb-4">Kontakt</h3>
+            <h2 className="text-lg mb-4">Kontakt</h2>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin size={18} className="mt-1 flex-shrink-0" />
@@ -77,7 +86,7 @@ export function Footer() {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent-on-dark transition-colors"
                 >
                   {s.street}
                   <br />
@@ -88,7 +97,7 @@ export function Footer() {
                 <Phone size={18} className="flex-shrink-0" />
                 <a
                   href={`tel:${s.phoneHref}`}
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent-on-dark transition-colors"
                 >
                   {s.phone}
                 </a>
@@ -97,7 +106,7 @@ export function Footer() {
                 <Mail size={18} className="flex-shrink-0" />
                 <a
                   href={`mailto:${s.email}`}
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent-on-dark transition-colors"
                 >
                   {s.email}
                 </a>
@@ -107,9 +116,11 @@ export function Footer() {
 
           {/* Opening Hours */}
           <div>
-            <h3 className="text-lg mb-4">Öffnungszeiten</h3>
+            <h2 className="text-lg mb-4">Öffnungszeiten</h2>
             {s.openingHoursNote && (
-              <p className="text-base text-accent mb-4">{s.openingHoursNote}</p>
+              <p className="text-base text-accent-on-dark mb-4">
+                {s.openingHoursNote}
+              </p>
             )}
             <ul className="space-y-1.5 text-sm">
               {openingHours.map((row) => (
@@ -139,7 +150,8 @@ export function Footer() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="hover:text-accent transition-colors"
+                aria-current={current(link.path)}
+                className="hover:text-accent-on-dark transition-colors"
               >
                 {link.name}
               </Link>

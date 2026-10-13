@@ -62,7 +62,9 @@ export function Home({
       {/* Hero — Cinematic Full-Screen */}
       <section
         ref={heroRef}
-        className="relative h-screen flex items-end overflow-hidden"
+        // `svh` statt `vh`: auf Mobilgeraeten ist 100vh hoeher als der sichtbare
+        // Bereich, die Buttons am unteren Rand lagen unter der Browserleiste.
+        className="relative h-svh flex items-end overflow-hidden"
       >
         <motion.div className="absolute inset-0" style={{ scale: heroScale }}>
           <ImageWithFallback
