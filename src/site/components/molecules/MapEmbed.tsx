@@ -171,7 +171,7 @@ export function MapEmbed({
                     href={derivedMapsLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex items-center gap-1.5 text-xs text-foreground transition-colors hover:text-accent"
+                    className="mt-3 inline-flex min-h-6 items-center gap-1.5 text-xs text-foreground transition-colors hover:text-accent"
                   >
                     Stattdessen in Google Maps öffnen
                     <ArrowUpRight className="h-3.5 w-3.5" />

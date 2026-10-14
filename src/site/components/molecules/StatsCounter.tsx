@@ -56,7 +56,10 @@ export function StatsCounter({
       {/* Die laufende Zahl ist reine Optik; vorgelesen wird nur der Endwert. */}
       <div
         aria-hidden="true"
-        className="text-6xl md:text-7xl lg:text-8xl font-[Bebas_Neue] leading-none tracking-tight"
+        // Fluessig skaliert: auf schmalen Handys stehen drei Spalten mit je
+        // knapp 100px nebeneinander, ein festes text-6xl ("1000+") lief dort
+        // in die Nachbarspalte.
+        className="text-[clamp(2rem,10.5vw,3.75rem)] md:text-7xl lg:text-8xl font-[Bebas_Neue] leading-none tracking-tight whitespace-nowrap"
       >
         {count}
         {suffix}
@@ -65,7 +68,10 @@ export function StatsCounter({
         {end}
         {suffix}
       </span>
-      <div className="mt-2 text-xs tracking-[0.2em] uppercase text-white/60">
+      {/* Lange Einzelwoerter ("Fliesenmuster") trennt der Browser auf dem
+          Handy (lang="de") nur als Notloesung unter ~360px; darueber passen sie
+          dank enger Laufweite in die Spalte. */}
+      <div className="mt-2 text-[10px] sm:text-xs tracking-[0.02em] sm:tracking-[0.2em] uppercase text-white/60 hyphens-auto break-words">
         {label}
       </div>
     </div>

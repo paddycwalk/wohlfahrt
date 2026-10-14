@@ -430,53 +430,57 @@ export function Header() {
                 </div>
               </div>
 
-              {/* Scroll-Hinweis */}
-              <AnimatePresence>
-                {canScrollMore && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="pointer-events-none absolute inset-x-0 bottom-16 z-20 flex justify-center"
-                    aria-hidden="true"
-                  >
-                    <motion.span
-                      animate={{ y: [0, 6, 0] }}
-                      transition={{
-                        duration: 1.6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="flex items-center gap-2 text-[9px] tracking-[0.3em] uppercase text-white/30"
-                    >
-                      Scrollen
-                      <svg
-                        className="w-3 h-3"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </motion.span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
               {/* Bottom Bar */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="shrink-0 border-t border-white/[0.07] py-4"
+                className="relative shrink-0 border-t border-white/[0.07] py-4"
               >
+                {/* Scroll-Hinweis: haengt an der Oberkante der Leiste, damit er auch
+                    ueber einer umgebrochenen (hoeheren) Leiste nichts verdeckt. */}
+                <AnimatePresence>
+                  {canScrollMore && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="pointer-events-none absolute inset-x-0 bottom-full mb-3 z-20 flex justify-center"
+                      aria-hidden="true"
+                    >
+                      <motion.span
+                        animate={{ y: [0, 6, 0] }}
+                        transition={{
+                          duration: 1.6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                        className="flex items-center gap-2 text-[9px] tracking-[0.3em] uppercase text-white/30"
+                      >
+                        Scrollen
+                        <svg
+                          className="w-3 h-3"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        >
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      </motion.span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Auf dem Handy umbrechen statt ueberlaufen: die drei Rechtslinks
+                    passten mit der breiten Laufweite nicht in eine Zeile und
+                    wurden links und rechts abgeschnitten. */}
                 <div className="container mx-auto px-4 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
-                  <span className="text-white/60 text-[10px] tracking-[0.2em] uppercase">
+                  <span className="text-center text-white/60 text-[10px] tracking-[0.1em] sm:tracking-[0.2em] uppercase">
                     {new Date().getFullYear()} {s.companyName}
                   </span>
-                  <div className="flex gap-6">
+                  <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 sm:gap-x-6">
                     {s.legalNav.map((link) => (
                       <Link
                         key={link.path}
@@ -484,7 +488,7 @@ export function Header() {
                         aria-current={
                           currentPath === link.path ? "page" : undefined
                         }
-                        className="text-white/60 text-[10px] tracking-[0.2em] uppercase hover:text-accent-on-dark transition-colors"
+                        className="py-1 text-white/60 text-[10px] tracking-[0.1em] sm:tracking-[0.2em] uppercase hover:text-accent-on-dark transition-colors"
                       >
                         {link.name}
                       </Link>

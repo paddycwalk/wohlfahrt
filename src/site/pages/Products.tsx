@@ -330,18 +330,8 @@ function BannerItem({
           </motion.div>
         )}
 
-        <div className="overflow-hidden">
-          <motion.h2
-            initial={{ y: "100%" }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: base + 0.5,
-            }}
-            className="text-3xl md:text-5xl tracking-tight leading-[0.95]"
-          >
+        <RevealText delay={base + 0.5}>
+          <h2 className="text-3xl md:text-5xl tracking-tight leading-[0.95]">
             {item.headlinePre}
             {item.headlineItalic && (
               <>
@@ -351,8 +341,8 @@ function BannerItem({
                 </span>
               </>
             )}
-          </motion.h2>
-        </div>
+          </h2>
+        </RevealText>
 
         {item.features.length > 0 && (
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-4 text-sm text-white/85">
@@ -365,7 +355,9 @@ function BannerItem({
                 transition={{ delay: base + 0.9 + i * 0.12 }}
                 className="flex items-center gap-2"
               >
-                {i > 0 && <span className="w-1 h-1 bg-white/60 rounded-full" />}
+                {/* Punkt vor jedem Eintrag: bricht die Liste auf dem Handy um,
+                    beginnt sonst nur die zweite Zeile mit einem Punkt. */}
+                <span className="w-1 h-1 bg-white/60 rounded-full shrink-0" />
                 {t}
               </motion.span>
             ))}
@@ -444,7 +436,7 @@ function ProductCard({
       <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
         <span
           aria-hidden="true"
-          className="text-xs tracking-[0.2em] text-accent uppercase mb-2"
+          className="text-xs tracking-[0.2em] text-accent-on-dark uppercase mb-2"
         >
           {String(index + 1).padStart(2, "0")}
         </span>
@@ -500,7 +492,7 @@ function SeriesCard({
         aspect={4 / 5}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-      <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full transition-opacity duration-300 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100">
         <Images size={13} />
         {series.images.length}
       </div>
@@ -509,9 +501,16 @@ function SeriesCard({
           (alt-Text, aria-label, Storyblok); die Zuordnung Serie <-> Art.-Nr.
           steht in docs/produkt-serien-artikelnummern.md. */}
       {series.articleNumber && (
-        <div className="absolute inset-0 p-5 flex flex-col justify-end items-start">
-          <span className="bg-black/55 backdrop-blur-sm text-white text-sm md:text-base tracking-wide whitespace-nowrap px-2.5 py-1 rounded-full">
-            Art.-Nr. {series.articleNumber}
+        // Auf dem Handy sind die Kacheln (2 Spalten) nur 136-190px breit – die
+        // einzeilige Pille ("Art.-Nr. W1001110 ff") passte dort nicht. Unter
+        // `sm` steht "Art.-Nr." daher klein ueber der Nummer, ab `sm` wie
+        // gehabt in einer Zeile. `truncate` nur als Sicherung fuer Ausreisser.
+        <div className="absolute inset-0 p-3 sm:p-5 flex flex-col justify-end items-start">
+          <span className="max-w-full flex flex-col sm:flex-row sm:gap-[0.3em] bg-black/55 backdrop-blur-sm text-white text-xs sm:text-sm md:text-base leading-tight sm:leading-normal sm:tracking-wide px-2 sm:px-2.5 py-1 rounded-md sm:rounded-full">
+            <span className="text-[9px] sm:text-[1em] uppercase sm:normal-case tracking-[0.15em] sm:tracking-[inherit] text-white/60 sm:text-white">
+              Art.-Nr.
+            </span>
+            <span className="truncate">{series.articleNumber}</span>
           </span>
         </div>
       )}

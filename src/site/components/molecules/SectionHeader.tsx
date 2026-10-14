@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { RevealText } from "./RevealText";
 import { ReactNode } from "react";
 
 interface SectionHeaderProps {
@@ -38,26 +39,22 @@ export function SectionHeader({
           transition={{ delay: 0.1, duration: 0.6 }}
           className={`flex items-center gap-4 mb-6 ${centered ? "justify-center" : ""}`}
         >
-          <div className="w-8 h-px bg-accent" />
+          <div className="w-8 h-px bg-accent shrink-0" />
+          {/* Auf dem Handy etwas engere Laufweite: mit 0.3em brachen schon
+              zweiwortige Labels ("Die Geschaeftsfuehrung") in zwei Zeilen um. */}
           <span
-            className={`text-xs tracking-[0.3em] uppercase ${onDark ? "text-accent-on-dark" : "text-accent"}`}
+            className={`text-xs tracking-[0.2em] sm:tracking-[0.3em] uppercase ${onDark ? "text-accent-on-dark" : "text-accent"}`}
           >
             {label}
           </span>
-          <div className="w-8 h-px bg-accent" />
+          <div className="w-8 h-px bg-accent shrink-0" />
         </motion.div>
       )}
-      <div className="overflow-hidden">
-        <motion.h2
-          initial={{ y: "100%" }}
-          whileInView={{ y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-6xl lg:text-7xl mb-4 tracking-tight"
-        >
+      <RevealText>
+        <h2 className="text-4xl md:text-6xl lg:text-7xl mb-4 tracking-tight">
           {title}
-        </motion.h2>
-      </div>
+        </h2>
+      </RevealText>
       {subtitle && (
         <motion.p
           initial={{ opacity: 0, y: 10 }}

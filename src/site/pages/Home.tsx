@@ -158,7 +158,7 @@ export function Home({
             {content.stats.map((stat, i) => (
               <div
                 key={stat.label}
-                className={`py-12 md:py-20 px-6 md:px-10 ${i < content.stats.length - 1 ? "border-r border-white/10" : ""}`}
+                className={`min-w-0 py-12 md:py-20 px-2 sm:px-6 md:px-10 ${i < content.stats.length - 1 ? "border-r border-white/10" : ""}`}
                 {...sbEditable(stat.editable)}
               >
                 <StatsCounter

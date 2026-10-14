@@ -235,13 +235,15 @@ export function About({
                   duration: 0.6,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex gap-8 md:gap-16 items-baseline border-b border-white/10 py-8 group hover:border-accent/50 transition-colors"
+                className="flex gap-4 sm:gap-8 md:gap-16 items-baseline border-b border-white/10 py-8 group hover:border-accent/50 transition-colors"
                 {...sbEditable(item.editable)}
               >
-                <span className="text-4xl md:text-6xl font-[Bebas_Neue] text-accent shrink-0 w-24 md:w-32">
+                <span className="text-4xl md:text-6xl font-[Bebas_Neue] text-accent shrink-0 w-16 sm:w-24 md:w-32">
                   {item.year}
                 </span>
-                <p className="text-white/70 text-lg group-hover:text-white transition-colors">
+                {/* `min-w-0` + Trennung: lange Woerter ("Fliesenmeisterbetriebs")
+                    liefen auf schmalen Handys sonst rechts aus dem Bild. */}
+                <p className="min-w-0 hyphens-auto break-words text-white/70 text-base sm:text-lg group-hover:text-white transition-colors">
                   {item.text}
                 </p>
               </motion.div>

@@ -226,8 +226,10 @@ function GalleryItem({
         height={720}
         sizes={PROJECT_SIZES}
       />
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500" />
-      <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+      {/* Ohne Hover (Touch) stehen Kategorie und Titel dauerhaft auf einem
+          Verlauf; nur mit Maus blenden sie beim Ueberfahren ein. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-fine:bg-none pointer-fine:bg-black/0 pointer-fine:group-hover:bg-black/50 transition-all duration-500" />
+      <div className="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col justify-end transition-all duration-500 pointer-fine:opacity-0 pointer-fine:translate-y-4 pointer-fine:group-hover:opacity-100 pointer-fine:group-hover:translate-y-0">
         <span className="text-xs tracking-[0.2em] text-accent-on-dark uppercase mb-2">
           {project.category}
         </span>

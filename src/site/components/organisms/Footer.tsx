@@ -97,7 +97,8 @@ export function Footer() {
                 <Phone size={18} className="flex-shrink-0" />
                 <a
                   href={`tel:${s.phoneHref}`}
-                  className="hover:text-accent-on-dark transition-colors"
+                  // `py-1 -my-1`: groessere Tippflaeche (>= 24px) ohne Layoutaenderung.
+                  className="py-1 -my-1 hover:text-accent-on-dark transition-colors"
                 >
                   {s.phone}
                 </a>
@@ -106,7 +107,8 @@ export function Footer() {
                 <Mail size={18} className="flex-shrink-0" />
                 <a
                   href={`mailto:${s.email}`}
-                  className="hover:text-accent-on-dark transition-colors"
+                  // `py-1 -my-1`: groessere Tippflaeche (>= 24px) ohne Layoutaenderung.
+                  className="py-1 -my-1 hover:text-accent-on-dark transition-colors"
                 >
                   {s.email}
                 </a>
@@ -151,7 +153,7 @@ export function Footer() {
                 key={link.path}
                 to={link.path}
                 aria-current={current(link.path)}
-                className="hover:text-accent-on-dark transition-colors"
+                className="py-1 -my-1 hover:text-accent-on-dark transition-colors"
               >
                 {link.name}
               </Link>
